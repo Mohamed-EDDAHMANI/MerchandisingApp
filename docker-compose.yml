@@ -1,0 +1,25 @@
+services:
+  db:
+    container_name: mysql_container
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: airbnb_db
+      MYSQL_USER: mysql_user
+      MYSQL_PASSWORD: mysql_password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  
+    ports:
+      - "3306:3306"
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: project
+    restart: always
+    volumes:
+      - ./project:/var/www/html
+    ports:
+      - "82:80"

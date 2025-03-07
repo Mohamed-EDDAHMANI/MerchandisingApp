@@ -1,57 +1,48 @@
 <?php
 
-$router->get('/','UserController@gethomePage');
-// ---- on the get home page (Page with Auth)
-// $router->get('/home/listAnnonce','UserController@getAllAnnonce');
-$router->get('/detailsAnnonce','UserController@detailsAnnonce');
-$router->get('/reservation','UserController@getReservationPage');
-$router->get('/reservation/reserver','UserController@reserver');
-$router->get('/myReservations','UserController@myReservations');
-$router->get('/myReservations/delete/{id}','UserController@reservationsDelete');
-$router->get('/checkout','UserController@getpayementPage');
-$router->get('/success','UserController@getSuccessPage');
-$router->get('/cancel','UserController@getCancelPage');
-$router->get('/pageAnnonces','UserController@getAllAnnoncePage');
-$router->get('/conversation','UserController@getConversationPage');
-$router->get('/myHistoriques','UserController@getHistoriquePage');
-$router->get('/payementPage/payer','UserController@effectuerPayement');
+// Routes principales de l'application Merchandising
+$router->post('/admin/points-de-vente/update/{id}', 'AdminController@updatePointDeVente'); // Modifier un point de vente
 
-//sans auth
-$router->get('/index','UserController@getIndexPage');
-// ---- on the get index page (Page without Auth)
-// $router->get('/index/listAnnonce','UserController@listAnnonce');
-$router->get('/index/getAllAnnonce','UserController@getAllAnnonce');
-$router->get('/index/getTopAnnonce','UserController@getTopAnnonce');
-$router->post('/index/getTopCommentaire','UserController@getTopCommentaire');
+// Page d'accueil
+$router->get('/', 'HomeController@index');
 
-$router->get('/admin', 'AdminController@Dashboard');
-$router->get('/admin/proprelated/users', 'AdminController@getAllUsers');
-$router->post('/admin/toggleUserStatus', 'AdminController@toggleUserStatus');
-$router->post('/admin/deleteUser', 'AdminController@DeleteUser');
-$router->post('/admin/restoreUser', 'AdminController@restoreUser');
-$router->post('/admin/permanentDeleteUser', 'AdminController@permanentDeleteUser');
-$router->get('/admin/proprelated/annonces', 'AdminController@getAllAnnonces');
-$router->post('/admin/toggleAnnoncesStatus', 'AdminController@toggleUserStatus');
-$router->post('/admin/deleteAnnonces', 'AdminController@deleteAnnonce');
-$router->post('/admin/restoreAnnonces', 'AdminController@restoreUser');
-$router->post('/admin/permanentDeleteAnnonces', 'AdminController@permanentDeleteUser');
-$router->get('/admin/proprelated/populaire_propritaire', 'AdminController@getPopulairePropritaire');
-$router->get('/admin/proprelated/revenus', 'AdminController@getRevenux');
-$router->post('/admin/deleteCommentaires/{id}', 'AdminController@deleteCommentaires');
-$router->post('/admin/gestionLitige', 'AdminController@gestionLitige');
+// Authentification
+$router->get('/login', 'AuthController@getLoginPage'); // Afficher la page de connexion
+$router->post('/login', 'AuthController@login'); // Traiter la connexion
+$router->get('/signup', 'AuthController@getSignupPage'); // Afficher la page d'inscription
+$router->post('/signup', 'AuthController@signup'); // Traiter l'inscription
+$router->get('/logout', 'AuthController@logout'); // Déconnexion
 
-$router->get('/proprietaire','proprietaireController@proprietaireDashboard');
-$router->get('/myAnnonces','proprietaireController@getMyAnnonces');
-$router->get('/getAnnonceByid/{id}','proprietaireController@getAnnonceByid');
-$router->get('/getReservations','proprietaireController@getReservations');
-$router->post('/createAnnonce', 'proprietaireController@createAnnonce');
-$router->post('/deleteAnnonce/{id}', 'proprietaireController@deleteAnnonce');
-$router->post('/UpdateAnnonce/{id}', 'proprietaireController@UpdateAnnonce');
+// Tableau de bord de l'administrateur
+$router->get('/admin/dashboard', 'AdminController@dashboard'); // Vue principale du tableau de bord
+$router->get('/admin/points-de-vente', 'AdminController@getPointsDeVente'); // Lister les points de vente
+$router->post('/admin/points-de-vente/create', 'AdminController@createPointDeVente'); // Ajouter un point de vente
+$router->post('/admin/points-de-vente/update/{id}', 'AdminController@updatePointDeVente'); // Modifier un point de vente
+$router->post('/admin/points-de-vente/delete/{id}', 'AdminController@deletePointDeVente'); // Supprimer un point de vente
 
-$router->get('/login', 'AuthController@getLoginPage');
-$router->post('/login', 'AuthController@login');
+// Gestion des responsables de points de vente
+$router->get('/admin/responsables', 'AdminController@getResponsables'); // Lister les responsables
+$router->post('/admin/responsables/assigner', 'AdminController@assignerResponsable'); // Assigner un responsable à un point de vente
+$router->post('/admin/responsables/revoquer/{id}', 'AdminController@revoquerResponsable'); // Révoquer un responsable
 
-$router->get('/singUp', 'AuthController@getSingUpPage');
-$router->post('/singUp', 'AuthController@singUp');
-$router->get('/login/google', 'AuthController@authGoogle');
-$router->post('/singUp/google/form', 'AuthController@singUpGoogle');
+// Calculs Merchandising
+$router->get('/merchandising/analyse-demographique', 'MerchandisingController@analyseDemographique'); // Analyser le potentiel d'un point de vente
+$router->get('/merchandising/analyse-concurrence', 'MerchandisingController@analyseConcurrence'); // Étudier la concurrence
+$router->get('/merchandising/calcul-rentabilite', 'MerchandisingController@calculRentabilite'); // Calculer la rentabilité
+$router->get('/merchandising/estimation-marge', 'MerchandisingController@estimationMarge'); // Estimer les marges bénéficiaires
+
+// Tableau de bord et rapports
+$router->get('/dashboard', 'DashboardController@index'); // Tableau de bord principal
+$router->get('/dashboard/rapports', 'DashboardController@getRapports'); // Générer des rapports
+$router->get('/dashboard/comparaison', 'DashboardController@comparaisonVilles'); // Comparer les performances des points de vente
+
+// Sécurité et gestion des utilisateurs
+$router->get('/admin/utilisateurs', 'AdminController@getUtilisateurs'); // Lister les utilisateurs
+$router->post('/admin/utilisateurs/toggle/{id}', 'AdminController@toggleUserStatus'); // Activer/Désactiver un utilisateur
+$router->post('/admin/utilisateurs/delete/{id}', 'AdminController@deleteUser'); // Supprimer un utilisateur définitivement
+
+// API pour l'export des rapports
+$router->get('/api/export/pdf', 'ExportController@exportPDF'); // Exporter les données au format PDF
+$router->get('/api/export/excel', 'ExportController@exportExcel'); // Exporter les données au format Excel
+
+?>

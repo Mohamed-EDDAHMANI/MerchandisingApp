@@ -3,7 +3,7 @@
 namespace App\Config;
 // require '../../vendor/autoload.php';
 
-use Dotenv\Dotenv;
+use Dotenv;
 use PDO;
 use PDOException;
 

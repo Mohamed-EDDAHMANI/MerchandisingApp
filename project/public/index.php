@@ -13,11 +13,12 @@ $uri = $_SERVER['REQUEST_URI'];
 foreach ($protectedRoutes as $route => $roles) {
     $pattern = Router::convertRouteToPattern($route);
     if (preg_match($pattern, $uri)) {
-        AuthMiddleware::handleAuth($roles);
+        AuthMiddleware::handleAuthentification();
+        AuthMiddleware::handleAuthorisation($roles);
         break;
     }
 }
-var_dump($uri);
+
 $router = new Router();
 require_once "../config/routes.php";
 $router->dispatch($_SERVER['REQUEST_METHOD'], $uri);

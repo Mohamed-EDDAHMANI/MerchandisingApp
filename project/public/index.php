@@ -9,15 +9,11 @@ $protectedRoutes = require "../config/protected_routes.php";
 
 $uri = $_SERVER['REQUEST_URI'];
 
-// Check if the URI matches any protected route
-foreach ($protectedRoutes as $route => $roles) {
-    $pattern = Router::convertRouteToPattern($route);
-    if (preg_match($pattern, $uri)) {
-        AuthMiddleware::handleAuthentification();
-        AuthMiddleware::handleAuthorisation($roles);
-        break;
-    }
-}
+// Check if the URI matches any protected routes without a session
+AuthMiddleware::handleAuthentification();
+
+AuthMiddleware::handleAuthorisation($protectedRoutes , $uri);
+
 
 $router = new Router();
 require_once "../config/routes.php";

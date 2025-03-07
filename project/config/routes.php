@@ -1,8 +1,6 @@
 <?php
 
 // Routes principales de l'application Merchandising
-$router->post('/admin/points-de-vente/update/{id}', 'AdminController@updatePointDeVente'); // Modifier un point de vente
-
 // Page d'accueil
 $router->get('/', 'HomeController@index');
 

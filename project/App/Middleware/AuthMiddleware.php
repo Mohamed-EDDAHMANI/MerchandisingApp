@@ -4,9 +4,9 @@ namespace App\Middleware;
 
 class AuthMiddleware
 {
-    public static function handleAuthentification()
+    public static function handleAuthentification($protectedRoutes , $uri)
     {
-        if (!isset($_SESSION['user'])) {
+        if (in_array($uri, array_keys($protectedRoutes)) && !isset($_SESSION['user'])) {
             header("Location: /auth/login");
             exit();
         }

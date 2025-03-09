@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+
 class Router
 {
     private $routes = [];
@@ -62,7 +63,7 @@ class Router
     private function callAction($controllerAction, $parameters = [])
     {
         list($controller, $action) = explode('@', $controllerAction);
-
+        $controller = 'App\\Controllers\\' . $controller;
         $controllerInstance = new $controller();
 
         // Call the action with parameters

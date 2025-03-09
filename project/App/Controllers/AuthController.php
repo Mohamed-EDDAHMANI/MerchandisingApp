@@ -1,14 +1,18 @@
 <?php 
 
-class AuthController {
+namespace App\Controllers;
+
+use App\Services\AuthService;
+
+class AuthController extends BaseController{
     private $authService;
 
-    public function __construct(AuthService $authService) {
-        $this->authService = $authService;
+    public function __construct() {
+        $this->authService = new AuthService();
     }
 
     public function getLoginPage() {
-        require 'views/auth/login.php';
+        $this->view('auth/login');
     }
 
     public function login() {

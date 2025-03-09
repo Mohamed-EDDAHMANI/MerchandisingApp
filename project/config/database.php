@@ -1,32 +1,44 @@
 <?php
+namespace Config;
 
-namespace App\Config;
-// require '../../vendor/autoload.php';
-
-use Dotenv;
+require_once("../vendor/autoload.php");
+use Dotenv\Dotenv;
 use PDO;
 use PDOException;
 
 class Database
 {
-    
 
-    private $conn;
+    private static $pdoSinglton;
 
-    public function connect()
+    public static function getConnection()
     {
-        $dotenv = Dotenv::createImmutable(__DIR__);
-        $dotenv->load();
-        // Connect to the database 
-        try {
-            $this->conn = new PDO("mysql:host=".$_ENV['DB_HOST'].";dbname=".$_ENV['DB_NAME'],$_ENV['DB_USERNAME'],$_ENV['DB_PASSWORD']);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            // echo 'seccess';
-            return $this->conn;
-        } catch (PDOException $e) {
-            die("Failed to connect with MySQL: " . $e->getMessage());
+
+        if (self::$pdoSinglton != null) {
+            return self::$pdoSinglton;
+        } else {
+
+
+            try {
+
+                $dotenv = Dotenv::createImmutable(__DIR__.'../../');
+                $dotenv->load();
+
+                $dsn = "mysql:host=".$_ENV['DB_HOST'].";dbname=".$_ENV['DB_NAME'].";charset=utf8mb4";
+                $pdo_instance = new PDO($dsn, $_ENV['DB_USER'],$_ENV['DB_PASSWORD']);
+
+                self::$pdoSinglton =  $pdo_instance ;
+                return self::$pdoSinglton;
+
+
+            } catch (PDOException $e) {
+                print_r($_ENV);
+                echo "Connection error:".$e->getMessage();
+            }
+
+
         }
+
+
     }
 }
-
-?>

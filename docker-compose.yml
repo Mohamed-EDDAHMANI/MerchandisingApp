@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: airbnb_db
+      MYSQL_DATABASE: merchandisingDB
       MYSQL_USER: mysql_user
       MYSQL_PASSWORD: mysql_password
     volumes:
@@ -23,3 +23,16 @@ services:
       - ./project:/var/www/html
     ports:
       - "82:80"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_container
+    restart: always
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "8080:80"
+    depends_on:
+      - db

@@ -1,14 +1,28 @@
 FROM php:8.4-apache
 
+# Installer les dépendances système
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    git \
+    unzip \
+    zip \
+    nano \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Installer les dépendances nécessaires pour PostgreSQL
-RUN apt-get update && apt-get install -y libpq-dev
+# Installer les extensions PHP nécessaires
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Install PgSQL PDO extension
-RUN docker-php-ext-install pdo pdo_pgsql
-
-# Install Composer globally
+# Installer Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Enable Apache mod_rewrite
+# Activer mod_rewrite pour Apache
 RUN a2enmod rewrite
+
+# Définir les permissions correctes
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html
+
+# Définir le répertoire de travail
+WORKDIR /var/www/html
+
+

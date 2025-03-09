@@ -11,9 +11,9 @@
 <body class="bg-gradient-to-br from-blue-50 to-gray-100 min-h-screen flex items-center justify-center p-4">
     <div class="flex w-full max-w-4xl rounded-xl shadow-2xl overflow-hidden bg-white">
         <!-- Left side banner with image and headline -->
-        <div class="hidden md:block md:w-1/2 bg-gradient-to-br from-blue-600 to-blue-800 p-12 text-white relative">
-            <div class="absolute inset-0 opacity-20">
-                <img src="/api/placeholder/600/900" alt="Merchandising background" class="w-full h-full object-cover" />
+        <div class="hidden md:block md:w-1/2 bg-gradient-to-br from-transparent to-blue-800 p-12 text-white relative">
+            <div class="absolute inset-0 opacity-40">
+                <img src="https://i.pinimg.com/736x/cd/31/44/cd314421329d3e78cd67d8abae40b7da.jpg" alt="Merchandising background" class="w-full h-full object-cover" />
             </div>
             <div class="relative z-10">
                 <h1 class="text-3xl font-bold mb-6">MerchCalc Pro</h1>
@@ -96,28 +96,6 @@
                 </div>
             </form>
 
-            <div class="relative my-6">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-gray-300"></div>
-                </div>
-                <div class="relative flex justify-center text-sm">
-                    <span class="px-2 bg-white text-gray-500">Ou connectez-vous avec</span>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <button type="button"
-                    class="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">
-                    <i class="fab fa-google text-red-500 mr-2"></i>
-                    Google
-                </button>
-                <button type="button"
-                    class="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">
-                    <i class="fab fa-microsoft text-blue-500 mr-2"></i>
-                    Microsoft
-                </button>
-            </div>
-
             <div class="mt-6 text-center text-sm text-gray-600">
                 Vous n'avez pas de compte? 
                 <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
@@ -186,24 +164,6 @@
                 // Show spinner
                 loginButton.disabled = true;
                 spinnerIcon.classList.remove('hidden');
-                
-                // Simulate API call with setTimeout
-                setTimeout(() => {
-                    // Reset button
-                    loginButton.disabled = false;
-                    spinnerIcon.classList.add('hidden');
-                    
-                    // Simple validation (in a real app, this would be server-side)
-                    if (email === 'admin@example.com' && password === 'password') {
-                        showAlert('Connexion réussie! Redirection...', 'success');
-                        // Redirect after successful login (would be handled differently in production)
-                        setTimeout(() => {
-                            window.location.href = 'dashboard.html';
-                        }, 1500);
-                    } else {
-                        showAlert('Email ou mot de passe incorrect.', 'error');
-                    }
-                }, 1500);
             });
         });
     </script>

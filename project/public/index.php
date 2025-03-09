@@ -6,9 +6,7 @@ use App\Middleware\AuthMiddleware;
 
 // use Config\Database;
 
-// $db = new Database();
-
-// $db::getConnection();
+// $db = Database::getConnection();
 
 
 // Load protected routes from the config file

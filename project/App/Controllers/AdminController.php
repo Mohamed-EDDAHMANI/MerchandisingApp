@@ -1,14 +1,16 @@
 <?php 
 
-class AdminController {
+namespace App\Controllers;
+
+class AdminController extends BaseController{
     private $adminService;
 
-    public function __construct(AdminService $adminService) {
-        $this->adminService = $adminService;
+    public function __construct() {
+        // $this->adminService = $adminService;
     }
 
     public function dashboard() {
-        require 'views/admin/dashboard.php';
+        $this->view('admin/dashboard');
     }
 
     public function getPointsDeVente() {

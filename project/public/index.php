@@ -14,11 +14,11 @@ $protectedRoutes = require "../config/protected_routes.php";
 
 $uri = $_SERVER['REQUEST_URI'];
 
-// Check if the URI matches any protected routes without a session
-AuthMiddleware::handleAuthentification($protectedRoutes , $uri);
+// // Check if the URI matches any protected routes without a session
+// AuthMiddleware::handleAuthentification($protectedRoutes , $uri);
 
-// Check if the URI matches the role of the user
-AuthMiddleware::handleAuthorisation($protectedRoutes , $uri);
+// // Check if the URI matches the role of the user
+// AuthMiddleware::handleAuthorisation($protectedRoutes , $uri);
 
 $router = new Router();
 require_once "../config/routes.php";

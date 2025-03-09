@@ -5,6 +5,9 @@ namespace App\Repositories;
 use PDO;
 use Config\Database;
 use App\Core\Repository;
+use App\Models\User;
+use App\Models\Manager;
+use App\Models\Employee;
 
 
 class AuthRepository extends Repository
@@ -20,14 +23,17 @@ class AuthRepository extends Repository
     {
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(['email' => $email, 'password' => $password]);
+        $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $user_instance = new User($user['id'], $user['name'], $user['email'], $user['role_id']);
-
+        
         if ($user) {
-            if (password_verify($password, $user['password'])) {
-                $table = $this->getUserRole($user['role_id']);
-                $data = $this->getUserData($table, $user['id']);
+            $user = new User($user);
+            if (password_verify($password, $user->getPassword())) {
+                $table = $this->getUserRole($user->getRoleId());
+                if ($table == 'admin') {
+                    return $user;
+                }
+                $data = $this->getUserData($table, $user->getId());
                 return [$user, $data, $table];
             } else {
                 return "Invalid password";
@@ -48,10 +54,13 @@ class AuthRepository extends Repository
 
     public function getUserData($table, $id)
     {
+        $class = ucfirst($table);
         $sql = "SELECT * FROM $table.s WHERE user_id = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $data = new $class($data);
         return $data;
     }
 

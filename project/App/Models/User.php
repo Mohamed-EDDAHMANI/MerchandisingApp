@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 class User
 {
     private $id;
@@ -13,18 +15,18 @@ class User
     private $updatedAt;
 
     // Constructor
-    public function __construct($id, $password, $email, $firstName = null, $lastName = null, $storeId, $roleId, $createdAt = null, $updatedAt = null)
-    {
-        $this->id = $id;
-        $this->password = $password;
-        $this->email = $email;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->storeId = $storeId;
-        $this->roleId = $roleId;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+    public function __construct($user){
+        $this->id = $user['id'];
+        $this->password = $user['password'];
+        $this->email = $user['email'];
+        $this->firstName = $user['first_name'] ?? null;
+        $this->lastName = $user['last_name'] ?? null;
+        $this->storeId = $user['store_id'] ?? null;
+        $this->roleId = $user['role_id'] ?? null;
+        $this->createdAt = $user['created_at'] ?? null;
+        $this->updatedAt = $user['updated_at'] ?? null;
     }
+    
 
     // Getters
     public function getId()

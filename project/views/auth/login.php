@@ -46,7 +46,7 @@
                 <p class="text-gray-600">Connectez-vous à votre compte</p>
             </div>
 
-            <form id="loginForm" class="space-y-6">
+            <form id="loginForm" class="space-y-6" action="/login" method="POST">
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                     <div class="relative">
@@ -164,6 +164,7 @@
                 // Show spinner
                 loginButton.disabled = true;
                 spinnerIcon.classList.remove('hidden');
+                loginForm.submit();
             });
         });
     </script>

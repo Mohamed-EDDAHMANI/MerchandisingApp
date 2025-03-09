@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 class Manager
 {
     private $id;
@@ -8,13 +10,13 @@ class Manager
     private $userId;
 
     // Constructor
-    public function __construct($id, $isValid, $salary, $userId)
-    {
-        $this->id = $id;
-        $this->isValid = $isValid;
-        $this->salary = $salary;
-        $this->userId = $userId;
+    public function __construct($manager){
+        $this->id = $manager['id'];
+        $this->isValid = $manager['is_valid'];
+        $this->salary = $manager['salary'];
+        $this->userId = $manager['user_id'];
     }
+    
 
     // Getters
     public function getId()

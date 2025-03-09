@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 class Employee
 {
     private $id;
@@ -9,14 +11,14 @@ class Employee
     private $userId;
 
     // Constructor
-    public function __construct($id, $isValid, $salary, $performance, $userId)
-    {
-        $this->id = $id;
-        $this->isValid = $isValid;
-        $this->salary = $salary;
-        $this->performance = $performance;
-        $this->userId = $userId;
+    public function __construct($employee){
+        $this->id = $employee['id'];
+        $this->isValid = $employee['is_valid'];
+        $this->salary = $employee['salary'];
+        $this->performance = $employee['performance'];
+        $this->userId = $employee['user_id'];
     }
+
 
     // Getters
     public function getId()

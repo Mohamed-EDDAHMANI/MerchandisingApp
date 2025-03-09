@@ -177,7 +177,7 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL UNIQUE,     -- Email address, must be unique
     first_name VARCHAR(50),                 -- User's first name
     last_name VARCHAR(50),                  -- User's last name
-    store_id INT NOT NULL,                        -- Foreign key to the store table
+    store_id INT NULL,                        -- Foreign key to the store table
     role_id INT NOT NULL,                         -- Foreign key to the roles table
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp when the user was created
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Timestamp when the user was last updated

@@ -199,7 +199,7 @@ CREATE TABLE employees (
     id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each employee
     is_valid BOOLEAN NOT NULL DEFAULT TRUE,  -- Boolean field to indicate if the employee is valid
     salary INT NOT NULL,  -- Salary of the employee
-    performance DECIMAL(5, 2) NOT NULL,  -- Performance percentage (e.g., 95.50 for 95.5%)
+    performance DECIMAL(5, 2) NULL,  -- Performance percentage (e.g., 95.50 for 95.5%)
     user_id INT NOT NULL,  -- Foreign key referencing the users table
     CONSTRAINT fk_user_employee FOREIGN KEY (user_id) REFERENCES users(id)  -- Foreign key constraint
 );

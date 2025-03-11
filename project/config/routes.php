@@ -35,7 +35,8 @@ $router->get('/dashboard/rapports', 'DashboardController@getRapports'); // Gén�
 $router->get('/dashboard/comparaison', 'DashboardController@comparaisonVilles'); // Comparer les performances des points de vente
 
 // Sécurité et gestion des utilisateurs
-$router->get('/admin/utilisateurs', 'AdminController@getUtilisateurs'); // Lister les utilisateurs
+$router->get('/admin/utilisateurs', 'AdminController@getUsers'); // Lister les utilisateurs
+$router->post('/admin/utilisateurs/create', 'AdminController@createUser'); // Create user
 $router->post('/admin/utilisateurs/toggle/{id}', 'AdminController@toggleUserStatus'); // Activer/Désactiver un utilisateur
 $router->post('/admin/utilisateurs/delete/{id}', 'AdminController@deleteUser'); // Supprimer un utilisateur définitivement
 

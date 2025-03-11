@@ -2,15 +2,29 @@
 
 namespace App\Controllers;
 
+use App\Services\AdminService;
+
 class AdminController extends BaseController{
     private $adminService;
 
     public function __construct() {
-        // $this->adminService = $adminService;
+        $this->adminService = new AdminService();
     }
 
     public function dashboard() {
         $this->view('admin/dashboard');
+    }
+
+    public function getUsers() {
+        //i have to get users from the database
+        // $users = $this->adminService->getAllUsers();
+        // $pointsDeVente = $this->adminService->getAllPointsDeVente();
+        $this->view('admin/users');
+    }
+
+    public function createUser() {
+        $data = $_POST;
+        $this->adminService->createUser($data);
     }
 
     public function getPointsDeVente() {

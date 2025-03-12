@@ -2,10 +2,19 @@
 
 namespace App\Core;
 
+use App\Middleware\Validation\ValidationMiddleware;
+
 
 class Router
 {
+
     private $routes = [];
+    private $ValidationMiddleware;
+
+    public function __construct()
+    {
+        $this->ValidationMiddleware = new ValidationMiddleware();
+    }
 
     public function get($uri, $controllerAction)
     {
@@ -23,6 +32,13 @@ class Router
 
     public function dispatch($method, $uri)
     {
+        //validate the request
+        $endPoint = explode('@', $this->routes[$method][$uri]);
+        $validationMethod = $endPoint[2] ?? null;
+        if($validationMethod){
+            $this->ValidationMiddleware->$validationMethod($_POST);
+        }
+
         // Check if the route exists directly (without parameters) 
         if (isset($this->routes[$method][$uri])) {
             $this->callAction($this->routes[$method][$uri]);
@@ -62,11 +78,11 @@ class Router
 
     private function callAction($controllerAction, $parameters = [])
     {
-        list($controller, $action) = explode('@', $controllerAction);
-        $controller = 'App\\Controllers\\' . $controller;
+        $endPoint = explode('@', $controllerAction);
+        $controller = 'App\\Controllers\\' . $endPoint[0];
         $controllerInstance = new $controller();
 
         // Call the action with parameters
-        call_user_func_array([$controllerInstance, $action], $parameters);
+        call_user_func_array([$controllerInstance, $endPoint[1]], $parameters);
     }
 }

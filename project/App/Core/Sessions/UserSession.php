@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Core\Sessions;
+
 class UserSession extends Session {
 
     public function setUser($user) {
@@ -19,4 +21,13 @@ class UserSession extends Session {
     }
 }
 
-?>
+
+
+
+
+
+
+
+
+
+

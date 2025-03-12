@@ -278,9 +278,9 @@
                             <label for="store" class="block text-sm font-medium text-gray-700 mb-1">Magasin</label>
                             <select id="store" name="store_id" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Sélectionner un magasin</option>
-                                <option value="Store A">Magasin A</option>
-                                <option value="Store B">Magasin B</option>
-                                <option value="Store C">Magasin C</option>
+                                <option value="1">Magasin A</option>
+                                <option value="2">Magasin B</option>
+                                <option value="3">Magasin C</option>
                             </select>
                         </div>
                         <div>

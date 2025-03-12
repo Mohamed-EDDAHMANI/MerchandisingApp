@@ -2,7 +2,7 @@
 require "../vendor/autoload.php";
 session_start();
 use App\Core\Router;
-use App\Middleware\AuthMiddleware;
+use App\Middleware\Auth\AuthMiddleware;
 
 // use Config\Database;
 

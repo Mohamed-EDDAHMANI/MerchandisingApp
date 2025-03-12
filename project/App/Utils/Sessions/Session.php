@@ -9,6 +9,13 @@ class Session {
         }
     }
 
+    public function setError($key, $message) {
+        $_SESSION['error'] = [
+            'type' => $key,  
+            'message' => $message 
+        ];
+    }
+
     public function set($key, $value) {
         $_SESSION[$key] = $value;
     }

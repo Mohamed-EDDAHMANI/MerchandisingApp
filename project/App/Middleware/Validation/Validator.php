@@ -50,6 +50,16 @@ class Validator
             $this->addError($field, $rule);
           }
           break;
+        case 'min:3':
+          if (explode(':', $rule)[1] > strlen($value)) {
+            $this->addError($field, explode(':', $rule)[0], explode(':', $rule)[1]);
+          }
+          break;
+        case 'min:4':
+          if (explode(':', $rule)[1] > strlen($value)) {
+            $this->addError($field, explode(':', $rule)[0], explode(':', $rule)[1]);
+          }
+          break;
         case 'min:6':
           if (explode(':', $rule)[1] > strlen($value)) {
             $this->addError($field, explode(':', $rule)[0], explode(':', $rule)[1]);
@@ -68,8 +78,6 @@ class Validator
           break;
       }
     }
-
-
   }
 
 

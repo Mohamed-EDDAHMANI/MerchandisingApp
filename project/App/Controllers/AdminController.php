@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\AdminService;
+use App\Utils\Redirects\Redirect;
 
 class AdminController extends BaseController{
     private $adminService;
@@ -17,7 +18,7 @@ class AdminController extends BaseController{
 
     public function getUsers() {
         //i have to get users from the database
-        // $users = $this->adminService->getAllUsers();
+        $users = $this->adminService->getAllUsers();
         // $pointsDeVente = $this->adminService->getAllPointsDeVente();
         $this->view('admin/users');
     }

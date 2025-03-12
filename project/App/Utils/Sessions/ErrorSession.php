@@ -3,9 +3,6 @@
 namespace App\Utils\Sessions;
 
 class ErrorSession extends Session{
-    public function setError($key, $message) {
-        $this->set($key, $message);
-    }
 
     public function getError($key) {
         if ($this->has($key)) {

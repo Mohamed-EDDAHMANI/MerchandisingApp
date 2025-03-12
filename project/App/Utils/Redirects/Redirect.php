@@ -2,12 +2,14 @@
 
 namespace App\Utils\Redirects;
 
+
 class Redirect
 {
+
     // Method for redirection with an optional status code
-    public static function to($url, $statusCode = 302)
+    public static function to($url)
     {
-        header("Location: " . $url, true, $statusCode);
+        header("Location: " . $url);
         exit(); // Always call exit after header redirection to ensure the script stops executing.
     }
 

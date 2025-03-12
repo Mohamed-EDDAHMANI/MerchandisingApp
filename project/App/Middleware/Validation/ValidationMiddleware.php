@@ -24,7 +24,7 @@ class ValidationMiddleware
         $result = $this->validator->validate($request);
         if ($result) {
             $errorMessage = reset($result);
-            $this->session->set('error', $errorMessage);
+            $this->session->setError('error', $errorMessage);
             Redirect::back();
             return ;
         }

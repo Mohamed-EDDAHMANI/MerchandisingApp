@@ -2,7 +2,8 @@
 
 namespace App\Middleware\Validation;
 
-use App\Core\Sessions\Session;
+use App\Utils\Sessions\Session;
+use App\Utils\Redirects\Redirect;
 
 
 class ValidationMiddleware
@@ -24,6 +25,7 @@ class ValidationMiddleware
         if ($result) {
             $errorMessage = reset($result);
             $this->session->set('error', $errorMessage);
+            Redirect::back();
             return ;
         }
         return ;

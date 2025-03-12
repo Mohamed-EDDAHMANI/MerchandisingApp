@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Sessions;
+namespace App\Utils\Sessions;
 
 class UserSession extends Session {
 

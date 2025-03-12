@@ -1,5 +1,6 @@
 <?php 
 
+namespace App\Utils\Sessions;
 
 class ErrorSession extends Session{
     public function setError($key, $message) {

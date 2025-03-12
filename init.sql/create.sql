@@ -157,10 +157,11 @@ CREATE TABLE suppliers (
 
 -- جدول stores
 CREATE TABLE stores (
-    id INT PRIMARY KEY,               -- Unique identifier for the store
+    id INT PRIMARY KEY,            -- Unique identifier for the store
+    name VARCHAR(255) NOT NULL      --  for the store name
     address VARCHAR(255) NOT NULL,    -- Address of the store
     city VARCHAR(100) NOT NULL,       -- City where the store is located
-    state VARCHAR(100),               -- State or region (optional)
+    state BOOLEAN,               -- if the store work or not
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp when the store was created
 );
 

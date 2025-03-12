@@ -29,9 +29,11 @@ class AdminService
         Redirect::to('/admin/utilisateurs');//i want redirect to this rout 
     }
 
-    public function getAllUsers()
+    public function getData()
     {
-        return $this->adminRepository->getAllUsers();
+        $users = $this->adminRepository->getAllUsers();
+        $stors = $this->adminRepository->getAllStores();
+        return ['users' => $users , 'stores' => $stors];
     }
     public function sortUsers()
     {

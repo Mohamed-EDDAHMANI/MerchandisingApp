@@ -18,12 +18,13 @@ class AdminController extends BaseController{
 
     public function getUsers() {
         //i have to get users from the database
-        $users = $this->adminService->getAllUsers();
-        // $pointsDeVente = $this->adminService->getAllPointsDeVente();
-        $this->view('admin/users',$users);
+        $data = $this->adminService->getData();
+        $this->view('admin/users',$data);
     }
     public function sortUsers() {
         $users = $this->adminService->sortUsers();
+        var_dump($_POST);
+        exit;
         // $pointsDeVente = $this->adminService->getAllPointsDeVente();
         $this->view('admin/users',$users);
     }

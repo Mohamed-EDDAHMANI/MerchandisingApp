@@ -108,10 +108,82 @@ class adminRepository extends Repository
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function sortUsers($role = null, $store = null, $is_valid  = null)
+    public function getAllStores()
     {
-        return 1;
+        $sql = 'SELECT * FROM stores;';
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function sortUsers($role = null, $store = null, $is_valid = null)
+{
+    // Base SQL query
+    $sql = "
+        SELECT 
+            users.id AS user_id,
+            users.email,
+            users.first_name,
+            users.last_name,
+            roles.role AS role_name,
+            stores.name AS store_name,
+            managers.is_valid AS manager_valid,
+            managers.salary AS manager_salary,
+            employees.id AS employee_id,
+            employees.is_valid AS employee_valid,
+            employees.salary AS employee_salary,
+            employees.performance AS employee_performance
+        FROM users
+        LEFT JOIN roles ON users.role_id = roles.id
+        LEFT JOIN stores ON users.store_id = stores.id
+        LEFT JOIN managers ON users.id = managers.user_id
+        LEFT JOIN employees ON users.id = employees.user_id
+        WHERE roles.role != 'admin'
+    ";
+
+    // Conditions array to store WHERE clauses
+    $conditions = [];
+    $params = [];
+
+    // Add role filter if it exists
+    if ($role) {
+        $conditions[] = "roles.role = :role";
+        $params[':role'] = $role;
+    }
+
+    // Add store filter if it exists
+    if ($store) {
+        $conditions[] = "stores.name = :store";
+        $params[':store'] = $store;
+    }
+
+    // Add is_valid filter if it exists (for both managers and employees)
+    if ($is_valid !== null) {
+        $conditions[] = "(managers.is_valid = :is_valid OR employees.is_valid = :is_valid)";
+        $params[':is_valid'] = $is_valid;
+    }
+
+    // If there are any conditions, append them to the query
+    if (count($conditions) > 0) {
+        $sql .= " AND " . implode(" AND ", $conditions);
+    }
+
+    // Prepare and execute the query
+    try {
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+
+        // Fetch the results
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Return the users as an array
+        return $users;
+    } catch (PDOException $e) {
+        // Handle any errors
+        return ["error" => "Error fetching users: " . $e->getMessage()];
+    }
+}
+
 }
 
 

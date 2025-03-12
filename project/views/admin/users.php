@@ -100,21 +100,23 @@
                         <select id="roleFilter"
                             class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Tous les rôles</option>
-                            <option value="Manager">Manager</option>
-                            <option value="Employee">Employé</option>
+                            <option value="manager">Manager</option>
+                            <option value="employee">Employé</option>
                         </select>
                         <select id="storeFilter"
                             class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Tous les magasins</option>
-                            <option value="Store A">Magasin A</option>
-                            <option value="Store B">Magasin B</option>
-                            <option value="Store C">Magasin C</option>
+                            <?php if (isset($data['stores'])): ?>
+                                <?php foreach ($data['stores'] as $value): ?>
+                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['name'] ?></option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </select>
                         <select id="statusFilter"
                             class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Tous les statuts</option>
-                            <option value="true">Actif</option>
-                            <option value="false">Inactif</option>
+                            <option value="1">Actif</option>
+                            <option value="0">Inactif</option>
                         </select>
                     </div>
                 </div>
@@ -148,8 +150,8 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" id="usersTableBody">
-                            <?php if (isset($data)): ?>
-                                <?php foreach ($data as $value): ?>
+                            <?php if (isset($data['users'])): ?>
+                                <?php foreach ($data['users'] as $value): ?>
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">

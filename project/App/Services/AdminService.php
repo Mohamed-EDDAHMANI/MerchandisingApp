@@ -38,7 +38,7 @@ class AdminService
         $role = $_POST['role'] ?? null;
         $store = $_POST['store'] ?? null;
         $isValid = $_POST['is_valid'] ?? null;
-        return $this->adminRepository->getAllUsers($role, $store, $isValid);
+        return $this->adminRepository->sortUsers($role, $store, $isValid);
     }
 }
 

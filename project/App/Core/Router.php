@@ -32,6 +32,9 @@ class Router
 
     public function dispatch($method, $uri)
     {
+        // var_dump($method);
+        // var_dump($uri);
+        // exit;
         //validate the request
         $endPoint = explode('@', $this->routes[$method][$uri]);
         $validationMethod = $endPoint[2] ?? null;

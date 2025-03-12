@@ -148,38 +148,70 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" id="usersTableBody">
-                            <!-- User rows will be inserted here dynamically -->
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">Jean Dupont</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">jean.dupont@example.com</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Manager</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Magasin A</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42,000 €</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Actif</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button class="text-indigo-600 hover:text-indigo-900 mr-3 viewBtn" data-id="1"><i
-                                            class="fas fa-eye"></i></button>
-                                    <button class="text-yellow-600 hover:text-yellow-900 mr-3 editBtn" data-id="1"><i
-                                            class="fas fa-edit"></i></button>
-                                    <button class="text-red-600 hover:text-red-900 toggleStatusBtn" data-id="1"
-                                        data-status="true"><i class="fas fa-user-times"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
+                            <?php if (isset($data)): ?>
+                                <?php foreach ($data as $value): ?>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="ml-1">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                        <?php echo htmlspecialchars($value['first_name'] . ' ' . $value['last_name']) ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900"><?php echo htmlspecialchars($value['email']) ?>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <?php if ($value['role_name'] == 'manager'): ?>
+                                                <span
+                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800"><?php echo htmlspecialchars($value['role_name']) ?></span>
+                                            <?php else: ?>
+                                                <span
+                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"><?php echo htmlspecialchars($value['role_name']) ?></span>
+                                            <?php endif ?>
+
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <?= htmlspecialchars($value['store_name'] ? $value['store_name'] : 'Not assigned') ?>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <?= htmlspecialchars($value['role_name'] == 'manager' ? $value['manager_salary'] : $value['employee_salary']) ?>
+                                            DH
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <?php if ($value['role_name'] == 'manager'): ?>
+                                                <?php if ($value['manager_valid']): ?>
+                                                    <span
+                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Actif</span>
+                                                <?php else: ?>
+                                                    <span
+                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Inactif</span>
+                                                <?php endif ?>
+                                            <?php else: ?>
+                                                <?php if ($value['employee_valid']): ?>
+                                                    <span
+                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Actif</span>
+                                                <?php else: ?>
+                                                    <span
+                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Inactif</span>
+                                                <?php endif ?>
+                                            <?php endif ?>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button class="text-indigo-600 hover:text-indigo-900 mr-3 viewBtn" data-id="1"><i
+                                                    class="fas fa-eye"></i></button>
+                                            <button class="text-yellow-600 hover:text-yellow-900 mr-3 editBtn" data-id="1"><i
+                                                    class="fas fa-edit"></i></button>
+                                            <button class="text-red-600 hover:text-red-900 toggleStatusBtn" data-id="1"
+                                                data-status="true"><i class="fas fa-user-times"></i></button>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            <!-- <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="ml-4">
@@ -238,7 +270,7 @@
                                     <button class="text-green-600 hover:text-green-900 toggleStatusBtn" data-id="3"
                                         data-status="false"><i class="fas fa-user-check"></i></button>
                                 </td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -602,49 +634,42 @@
             });
         });
 
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     const roleFilter = document.getElementById("roleFilter");
-        //     const storeFilter = document.getElementById("storeFilter");
-        //     const statusFilter = document.getElementById("statusFilter");
+        document.addEventListener("DOMContentLoaded", function () {
+            const roleFilter = document.getElementById("roleFilter");
+            const storeFilter = document.getElementById("storeFilter");
+            const statusFilter = document.getElementById("statusFilter");
 
-        //     // Function to fetch users based on filters
-        //     async function fetchUsers() {
-        //         const role = roleFilter.value;
-        //         const store = storeFilter.value;
-        //         const status = statusFilter.value;
+            // Function to fetch users based on filters
+            async function fetchUsers() {
+                const filters = {};
 
-        //         const queryParams = new URLSearchParams();
-        //         const filters = {
-        //             role: roleFilter.value || null,
-        //             store: storeFilter.value || null,
-        //             is_valid: statusFilter.value || null
-        //         };
+                if (roleFilter.value) filters.role = roleFilter.value;
+                if (storeFilter.value) filters.store = storeFilter.value;
+                if (statusFilter.value) filters.is_valid = statusFilter.value;
 
-        //         try {
-        //             const response = await fetch("/admin/utilisateurs", {
-        //                 method: "POST",
-        //                 headers: {
-        //                     "Content-Type": "application/json"
-        //                 },
-        //                 body: JSON.stringify(filters)
-        //             });
-        //             if (!response.ok) throw new Error("Failed to fetch users");
+                try {
+                    const response = await fetch("/admin/utilisateurs", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(filters)
+                    });
+                    if (!response.ok) throw new Error("Failed to fetch users");
 
-        //             const users = await response.json();
-        //             console.log(users);
-        //         } catch (error) {
-        //             console.error("Error fetching users:", error);
-        //         }
-        //     }
+                    const users = await response.json();
+                    console.log(users);
+                } catch (error) {
+                    console.error("Error fetching users:", error);
+                }
+            }
 
-        //     // Listen for changes in filters
-        //     document.querySelectorAll(".sortInputs").forEach((input) => {
-        //         input.addEventListener("change", fetchUsers);
-        //     });
+            // Listen for changes in filters
+            [roleFilter, storeFilter, statusFilter].forEach((input) => {
+                input.addEventListener("change", fetchUsers);
+            });
 
-        //     // Initial fetch
-        //     fetchUsers();
-        // });
+        });
 
 
     </script>

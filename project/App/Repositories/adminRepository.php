@@ -85,7 +85,7 @@ class adminRepository extends Repository
 
     public function getAllUsers()
     {
-        $sql = 'SELECT 
+        $sql = 'SELECT
         users.id AS user_id,
         users.email,
         users.first_name,
@@ -102,45 +102,15 @@ class adminRepository extends Repository
         LEFT JOIN roles ON users.role_id = roles.id
         LEFT JOIN stores ON users.store_id = stores.id
         LEFT JOIN managers ON users.id = managers.user_id
-        LEFT JOIN employees ON users.id = employees.user_id;';
+        LEFT JOIN employees ON users.id = employees.user_id
+        WHERE roles.role != "admin";';
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function sortUsers($role = null, $store = null, $isValid = null)
+    public function sortUsers($role = null, $store = null, $is_valid  = null)
     {
-        $query = "
-            SELECT users.id, users.email, users.first_name, users.last_name, 
-                   roles.role,
-                   COALESCE(managers.is_valid, employees.is_valid) AS is_valid, 
-                   users.store_id 
-            FROM users
-            LEFT JOIN roles ON users.role_id = roles.id
-            LEFT JOIN managers ON users.id = managers.user_id
-            LEFT JOIN employees ON users.id = employees.user_id
-            WHERE 1 = 1
-        ";
-
-        $params = [];
-
-        if ($role) {
-            $query .= " AND roles.role = :role";
-            $params[':role'] = $role;
-        }
-
-        if ($store) {
-            $query .= " AND users.store_id = :store";
-            $params[':store'] = $store;
-        }
-
-        if (!is_null($isValid)) {
-            $query .= " AND (COALESCE(managers.is_valid, employees.is_valid) = :is_valid)";
-            $params[':is_valid'] = filter_var($isValid, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        }
-
-        $stmt = $this->db->prepare($query);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return 1;
     }
 }
 

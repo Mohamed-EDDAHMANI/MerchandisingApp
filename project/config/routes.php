@@ -36,6 +36,7 @@ $router->get('/dashboard/comparaison', 'DashboardController@comparaisonVilles');
 
 // Sécurité et gestion des utilisateurs
 $router->get('/admin/utilisateurs', 'AdminController@getUsers'); // Lister les utilisateurs
+$router->post('/admin/utilisateurs', 'AdminController@sortUsers'); // Lister les utilisateurs sort
 $router->post('/admin/utilisateurs/create', 'AdminController@createUser@userValidation'); // Create user
 $router->post('/admin/utilisateurs/toggle/{id}', 'AdminController@toggleUserStatus'); // Activer/Désactiver un utilisateur
 $router->post('/admin/utilisateurs/delete/{id}', 'AdminController@deleteUser'); // Supprimer un utilisateur définitivement

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Manager;
 use App\Models\Employee;
 use Exception;
+use PDOException;
 
 
 class adminRepository extends Repository
@@ -117,10 +118,9 @@ class adminRepository extends Repository
     }
 
     public function sortUsers($role = null, $store = null, $is_valid = null)
-{
-    // Base SQL query
-    $sql = "
-        SELECT 
+    {
+        // Base SQL query
+        $sql = "SELECT 
             users.id AS user_id,
             users.email,
             users.first_name,
@@ -141,48 +141,148 @@ class adminRepository extends Repository
         WHERE roles.role != 'admin'
     ";
 
-    // Conditions array to store WHERE clauses
-    $conditions = [];
-    $params = [];
+        if ($is_valid == 'true') {
+            $if_exist = true;
+            $is_valid = 1;
+        } elseif ($is_valid == 'false' && $is_valid !== null) {
+            $if_exist = true;
+            $is_valid = 0;
+        } else {
+            $if_exist = false;
+        }
 
-    // Add role filter if it exists
-    if ($role) {
-        $conditions[] = "roles.role = :role";
-        $params[':role'] = $role;
+        $conditions = [];
+        $params = [];
+
+        if ($role) {
+            $conditions[] = "roles.role = :role";
+            $params[':role'] = $role;
+        }
+
+        if ($store) {
+            $conditions[] = "stores.name = :store";
+            $params[':store'] = $store;
+        }
+
+        if ($if_exist) {
+            $conditions[] = "(managers.is_valid = :is_valid OR employees.is_valid = :is_valid)";
+            $params[':is_valid'] = $is_valid;
+        }
+
+        if (count($conditions) > 0) {
+            $sql .= " AND " . implode(" AND ", $conditions);
+        }
+
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+
+            // Fetch the results
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Return the users as an array
+            return $users;
+        } catch (PDOException $e) {
+            // Handle any errors
+            return ["error" => "Error fetching users: " . $e->getMessage()];
+        }
     }
 
-    // Add store filter if it exists
-    if ($store) {
-        $conditions[] = "stores.name = :store";
-        $params[':store'] = $store;
+    public function getUserById($id)
+    {
+        $sql = 'SELECT
+        users.id AS user_id,
+        users.email,
+        users.password,
+        users.first_name,
+        users.last_name,
+        roles.role AS role_name,
+        stores.name AS store_name,
+        managers.is_valid AS manager_valid,
+        managers.salary AS manager_salary,
+        employees.id AS employee_id,
+        employees.is_valid AS employee_valid,
+        employees.salary AS employee_salary,
+        employees.performance AS employee_performance
+    FROM users
+    LEFT JOIN roles ON users.role_id = roles.id
+    LEFT JOIN stores ON users.store_id = stores.id
+    LEFT JOIN managers ON users.id = managers.user_id
+    LEFT JOIN employees ON users.id = employees.user_id
+    WHERE users.id = :id
+    LIMIT 1;';
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            return null;
+        }
+
+        $userData = [
+            'id' => $user['user_id'],
+            'email' => $user['email'],
+            'first_name' => $user['first_name'],
+            'last_name' => $user['last_name'],
+            'role_name' => $user['role_name'],
+            'store_name' => $user['store_name'] ?? 'Not assigned',
+            'salary' => ($user['role_name'] === 'manager') ? $user['manager_salary'] : $user['employee_salary'],
+            'is_valid' => ($user['role_name'] === 'manager') ? $user['manager_valid'] : $user['employee_valid']
+        ];
+
+        return $userData;
     }
 
-    // Add is_valid filter if it exists (for both managers and employees)
-    if ($is_valid !== null) {
-        $conditions[] = "(managers.is_valid = :is_valid OR employees.is_valid = :is_valid)";
-        $params[':is_valid'] = $is_valid;
+    public function updateUser($data, $id)
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $sql = "UPDATE users 
+                SET first_name = :first_name, 
+                    last_name = :last_name, 
+                    email = :email 
+                WHERE id = :id";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':first_name', $data['firstName']);
+            $stmt->bindParam(':last_name', $data['lastName']);
+            $stmt->bindParam(':email', $data['email']);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            if (!empty($data['password'])) {
+                $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
+                $sql = "UPDATE users SET password = :password WHERE id = :id";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(':password', $hashedPassword);
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+
+            $role = $data['role'];
+            $table = $role . 's';
+
+            $sql = "UPDATE $table SET is_valid = :is_valid,salary = :salary 
+                    WHERE user_id = :id";
+
+            $stmt = $this->db->prepare($sql);
+            $is_valid = isset($data['is_valid']) ? 1 : 0;
+            $stmt->bindParam(':is_valid', $is_valid, PDO::PARAM_INT);
+            $stmt->bindParam(':salary', $data['salary']);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            echo "خطأ: " . $e->getMessage();
+        }
+
     }
-
-    // If there are any conditions, append them to the query
-    if (count($conditions) > 0) {
-        $sql .= " AND " . implode(" AND ", $conditions);
-    }
-
-    // Prepare and execute the query
-    try {
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
-
-        // Fetch the results
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Return the users as an array
-        return $users;
-    } catch (PDOException $e) {
-        // Handle any errors
-        return ["error" => "Error fetching users: " . $e->getMessage()];
-    }
-}
 
 }
 

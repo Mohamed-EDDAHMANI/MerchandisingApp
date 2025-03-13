@@ -19,7 +19,7 @@ class ValidationMiddleware
     }
 
 
-    public function userValidation($request)
+    public function validate($request)
     {
         $result = $this->validator->validate($request);
         if ($result) {

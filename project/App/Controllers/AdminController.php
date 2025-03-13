@@ -23,10 +23,11 @@ class AdminController extends BaseController{
     }
     public function sortUsers() {
         $users = $this->adminService->sortUsers();
-        var_dump($_POST);
-        exit;
-        // $pointsDeVente = $this->adminService->getAllPointsDeVente();
         $this->view('admin/users',$users);
+    }
+
+    public function getUserById($id) {
+        return $this->adminService->getUserById($id);
     }
 
     public function createUser() {
@@ -34,24 +35,29 @@ class AdminController extends BaseController{
         $this->adminService->createUser($data);
     }
 
-    public function getPointsDeVente() {
-        $pointsDeVente = $this->adminService->getAllPointsDeVente();
-        require 'views/admin/points-de-vente.php';
-    }
-
-    public function createPointDeVente() {
+    public function updateUser($id) {
         $data = $_POST;
-        $this->adminService->createPointDeVente($data);
+        $this->adminService->updateUser($data, $id);
     }
 
-    public function updatePointDeVente($id) {
-        $data = $_POST;
-        $this->adminService->updatePointDeVente($id, $data);
-    }
+    // public function getPointsDeVente() {
+    //     $pointsDeVente = $this->adminService->getAllPointsDeVente();
+    //     require 'views/admin/points-de-vente.php';
+    // }
 
-    public function deletePointDeVente($id) {
-        $this->adminService->deletePointDeVente($id);
-    }
+    // public function createPointDeVente() {
+    //     $data = $_POST;
+    //     $this->adminService->createPointDeVente($data);
+    // }
+
+    // public function updatePointDeVente($id) {
+    //     $data = $_POST;
+    //     $this->adminService->updatePointDeVente($id, $data);
+    // }
+
+    // public function deletePointDeVente($id) {
+    //     $this->adminService->deletePointDeVente($id);
+    // }
 }
 
 ?>

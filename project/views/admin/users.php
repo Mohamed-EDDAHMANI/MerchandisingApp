@@ -97,13 +97,13 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap items-center space-x-2">
-                        <select id="roleFilter"
+                        <select id="roleFilter" name="role"
                             class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Tous les rôles</option>
                             <option value="manager">Manager</option>
                             <option value="employee">Employé</option>
                         </select>
-                        <select id="storeFilter"
+                        <select id="storeFilter" name="store"
                             class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Tous les magasins</option>
                             <?php if (isset($data['stores'])): ?>
@@ -112,11 +112,11 @@
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </select>
-                        <select id="statusFilter"
+                        <select id="statusFilter" name="is_valid"
                             class="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Tous les statuts</option>
-                            <option value="1">Actif</option>
-                            <option value="0">Inactif</option>
+                            <option value="true">Actif</option>
+                            <option value="false">Inactif</option>
                         </select>
                     </div>
                 </div>
@@ -150,6 +150,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" id="usersTableBody">
+                            <!-- <?php var_dump($data['users']) ?> -->
                             <?php if (isset($data['users'])): ?>
                                 <?php foreach ($data['users'] as $value): ?>
                                     <tr>
@@ -203,9 +204,12 @@
                                             <?php endif ?>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <button class="text-indigo-600 hover:text-indigo-900 mr-3 viewBtn" data-id="1"><i
+                                            <button class="text-indigo-600 hover:text-indigo-900 mr-3 viewBtn"
+                                                data-id="<?php echo $value['user_id'] ?>"
+                                                onclick="showDetailsModal(<?php echo $value['user_id'] ?>)"><i
                                                     class="fas fa-eye"></i></button>
-                                            <button class="text-yellow-600 hover:text-yellow-900 mr-3 editBtn" data-id="1"><i
+                                            <button class="text-yellow-600 hover:text-yellow-900 mr-3 editBtn"
+                                                onclick="showModifyModal(<?php echo $value['user_id'] ?>)"><i
                                                     class="fas fa-edit"></i></button>
                                             <button class="text-red-600 hover:text-red-900 toggleStatusBtn" data-id="1"
                                                 data-status="true"><i class="fas fa-user-times"></i></button>
@@ -213,66 +217,6 @@
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
-                            <!-- <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">Marie Lefebvre</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">marie.lefebvre@example.com</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Employé</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Magasin B</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">38,000 €</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Actif</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button class="text-indigo-600 hover:text-indigo-900 mr-3 viewBtn" data-id="2"><i
-                                            class="fas fa-eye"></i></button>
-                                    <button class="text-yellow-600 hover:text-yellow-900 mr-3 editBtn" data-id="2"><i
-                                            class="fas fa-edit"></i></button>
-                                    <button class="text-red-600 hover:text-red-900 toggleStatusBtn" data-id="2"
-                                        data-status="true"><i class="fas fa-user-times"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">Pierre Martin</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">pierre.martin@example.com</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Employé</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Magasin A</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">36,500 €</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Inactif</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button class="text-indigo-600 hover:text-indigo-900 mr-3 viewBtn" data-id="3"><i
-                                            class="fas fa-eye"></i></button>
-                                    <button class="text-yellow-600 hover:text-yellow-900 mr-3 editBtn" data-id="3"><i
-                                            class="fas fa-edit"></i></button>
-                                    <button class="text-green-600 hover:text-green-900 toggleStatusBtn" data-id="3"
-                                        data-status="false"><i class="fas fa-user-check"></i></button>
-                                </td>
-                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -352,9 +296,15 @@
                             class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div class="mb-4">
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
-                        <input type="password" id="password" name="password"
-                            class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Assigner un nouveau mot de passe !</label>
+                        <div class="relative">
+                            <input type="password" id="password" name="password"
+                                class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="button" id="togglePassword"
+                                class="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
@@ -404,47 +354,94 @@
     </div>
 
 
+
     <!-- User Details Modal -->
-    <div id="userDetailsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-        <div class="bg-white rounded-lg w-full max-w-2xl mx-4 overflow-hidden">
-            <div class="px-6 py-4 bg-blue-700 text-white flex justify-between items-center">
-                <h3 class="text-xl font-bold">Détails de l'utilisateur</h3>
-                <button id="closeDetailsBtn" class="text-white hover:text-gray-200">
-                    <i class="fas fa-times"></i>
+    <div id="userDetailsModal"
+        class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-xl w-full max-w-2xl mx-4 overflow-hidden shadow-xl">
+            <!-- Header -->
+            <div
+                class="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white flex justify-between items-center">
+                <h3 class="text-xl font-bold flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Détails de l'utilisateur
+                </h3>
+                <button id="closeDetailsBtn"
+                    class="text-white hover:text-gray-200 hover:bg-blue-700/50 p-1 rounded-full transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
+                    </svg>
                 </button>
             </div>
+
+            <!-- Content -->
             <div class="p-6">
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-gray-50 p-5 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- User information fields -->
                         <div>
-                            <p class="text-sm text-gray-500">Nom complet</p>
-                            <p class="text-lg font-semibold" id="detailName">Jean Dupont</p>
+                            <p class="text-sm font-medium text-gray-500">Nom complet</p>
+                            <p class="text-lg font-semibold text-gray-800" id="detailName">Jean Dupont</p>
                         </div>
+
                         <div>
-                            <p class="text-sm text-gray-500">Email</p>
-                            <p class="text-lg" id="detailEmail">jean.dupont@example.com</p>
+                            <p class="text-sm font-medium text-gray-500">Email</p>
+                            <p class="text-lg text-gray-800 break-all" id="detailEmail">jean.dupont@example.com</p>
                         </div>
+
                         <div>
-                            <p class="text-sm text-gray-500">Rôle</p>
-                            <p class="text-lg" id="detailRole">Manager</p>
+                            <p class="text-sm font-medium text-gray-500">Rôle</p>
+                            <p class="text-lg text-gray-800" id="detailRole">Manager</p>
                         </div>
+
                         <div>
-                            <p class="text-sm text-gray-500">Magasin</p>
-                            <p class="text-lg" id="detailStore">Magasin A</p>
+                            <p class="text-sm font-medium text-gray-500">Magasin</p>
+                            <p class="text-lg text-gray-800" id="detailStore">Magasin A</p>
                         </div>
+
                         <div>
-                            <p class="text-sm text-gray-500">Salaire</p>
-                            <p class="text-lg" id="detailSalary">42,000 €</p>
+                            <p class="text-sm font-medium text-gray-500">Salaire</p>
+                            <p class="text-lg text-gray-800" id="detailSalary">42,000 €</p>
                         </div>
+
                         <div>
-                            <p class="text-sm text-gray-500">Statut</p>
-                            <p class="text-lg" id="detailStatus">Actif</p>
+                            <p class="text-sm font-medium text-gray-500">Statut</p>
+                            <div class="flex items-center">
+                                <span class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></span>
+                                <p class="text-lg text-gray-800" id="detailStatus">Actif</p>
+                            </div>
+                        </div>
+
+                        <!-- Password field (new) -->
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Mot de passe</p>
+                            <div class="flex items-center">
+                                <p class="text-lg text-gray-800">••••••••</p>
+                                <button class="ml-2 text-gray-400 hover:text-gray-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                        <path fill-rule="evenodd"
+                                            d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-end mt-6">
+
+                <!-- Actions -->
+                <div class="flex justify-end gap-3 mt-6">
                     <button type="button" id="closeDetailsBtnBottom"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Fermer</button>
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
+                        Fermer
+                    </button>
                 </div>
             </div>
         </div>
@@ -503,178 +500,7 @@
         </div>
     <?php endif; ?>
 
-    <script>
-        // Hide the message after 5 seconds
-        setTimeout(() => {
-            const alertMessage = document.getElementById('alert-message');
-            if (alertMessage) {
-                alertMessage.classList.add('opacity-0');
-                setTimeout(() => alertMessage.remove(), 300);
-            }
-        }, 5000);
-
-        // DOM Elements
-        const userFormModal = document.getElementById('userFormModal');
-        const userDetailsModal = document.getElementById('userDetailsModal');
-        const openFormBtn = document.getElementById('openFormBtn');
-        const closeFormBtn = document.getElementById('closeFormBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const closeDetailsBtn = document.getElementById('closeDetailsBtn');
-        const closeDetailsBtnBottom = document.getElementById('closeDetailsBtnBottom');
-        const userForm = document.getElementById('userForm');
-        const modalTitle = document.getElementById('modalTitle');
-        const viewBtns = document.querySelectorAll('.viewBtn');
-        const editBtns = document.querySelectorAll('.editBtn');
-        const toggleStatusBtns = document.querySelectorAll('.toggleStatusBtn');
-
-        // Sample user data
-        const users = [
-            { id: 1, firstName: 'Jean', lastName: 'Dupont', email: 'jean.dupont@example.com', password: 'password', store: 'Magasin A', role: 'Manager', isValid: true, salary: 42000 },
-            { id: 2, firstName: 'Marie', lastName: 'Lefebvre', email: 'marie.lefebvre@example.com', password: 'password', store: 'Magasin B', role: 'Employé', isValid: true, salary: 38000 },
-            { id: 3, firstName: 'Pierre', lastName: 'Martin', email: 'pierre.martin@example.com', password: 'password', store: 'Magasin A', role: 'Employé', isValid: false, salary: 36500 }
-        ];
-
-        // Open form modal for new user
-        openFormBtn.addEventListener('click', () => {
-            modalTitle.textContent = 'Ajouter un utilisateur';
-            document.getElementById('userId').value = '';
-            userForm.reset();
-            document.getElementById('isValid').checked = true;
-            userFormModal.classList.remove('hidden');
-        });
-
-        // Close form modal
-        closeFormBtn.addEventListener('click', () => {
-            userFormModal.classList.add('hidden');
-        });
-
-        cancelBtn.addEventListener('click', () => {
-            userFormModal.classList.add('hidden');
-        });
-
-        // Close details modal
-        closeDetailsBtn.addEventListener('click', () => {
-            userDetailsModal.classList.add('hidden');
-        });
-
-        closeDetailsBtnBottom.addEventListener('click', () => {
-            userDetailsModal.classList.add('hidden');
-        });
-
-        // View user details
-        viewBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const userId = parseInt(btn.getAttribute('data-id'));
-                const user = users.find(u => u.id === userId);
-
-                if (user) {
-                    document.getElementById('detailName').textContent = `${user.firstName} ${user.lastName}`;
-                    document.getElementById('detailEmail').textContent = user.email;
-                    document.getElementById('detailRole').textContent = user.role;
-                    document.getElementById('detailStore').textContent = user.store;
-                    document.getElementById('detailSalary').textContent = `${user.salary.toLocaleString()} €`;
-                    document.getElementById('detailStatus').textContent = user.isValid ? 'Actif' : 'Inactif';
-
-                    userDetailsModal.classList.remove('hidden');
-                }
-            });
-        });
-
-        // Edit user
-        editBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const userId = parseInt(btn.getAttribute('data-id'));
-                const user = users.find(u => u.id === userId);
-
-                if (user) {
-                    modalTitle.textContent = 'Modifier un utilisateur';
-                    document.getElementById('userId').value = user.id;
-                    document.getElementById('firstName').value = user.firstName;
-                    document.getElementById('lastName').value = user.lastName;
-                    document.getElementById('email').value = user.email;
-                    document.getElementById('password').value = user.password;
-                    document.getElementById('store').value = user.store;
-                    document.getElementById('role').value = user.role;
-                    document.getElementById('salary').value = user.salary;
-                    document.getElementById('isValid').checked = user.isValid;
-
-                    userFormModal.classList.remove('hidden');
-                }
-            });
-        });
-
-        // Toggle user status
-        toggleStatusBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const userId = parseInt(btn.getAttribute('data-id'));
-                const currentStatus = btn.getAttribute('data-status') === 'true';
-                const user = users.find(u => u.id === userId);
-
-                if (user) {
-                    user.isValid = !currentStatus;
-
-                    // Update button and UI
-                    btn.setAttribute('data-status', (!currentStatus).toString());
-
-                    if (!currentStatus) {
-                        btn.innerHTML = '<i class="fas fa-user-times"></i>';
-                        btn.classList.remove('text-green-600', 'hover:text-green-900');
-                        btn.classList.add('text-red-600', 'hover:text-red-900');
-                    } else {
-                        btn.innerHTML = '<i class="fas fa-user-check"></i>';
-                        btn.classList.remove('text-red-600', 'hover:text-red-900');
-                        btn.classList.add('text-green-600', 'hover:text-green-900');
-                    }
-
-                    // Update status in the table
-                    const row = btn.closest('tr');
-                    const statusCell = row.querySelector('td:nth-child(6)');
-                    if (statusCell) {
-                        statusCell.innerHTML = `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.isValid ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${user.isValid ? 'Actif' : 'Inactif'}</span>`;
-                    }
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const roleFilter = document.getElementById("roleFilter");
-            const storeFilter = document.getElementById("storeFilter");
-            const statusFilter = document.getElementById("statusFilter");
-
-            // Function to fetch users based on filters
-            async function fetchUsers() {
-                const filters = {};
-
-                if (roleFilter.value) filters.role = roleFilter.value;
-                if (storeFilter.value) filters.store = storeFilter.value;
-                if (statusFilter.value) filters.is_valid = statusFilter.value;
-
-                try {
-                    const response = await fetch("/admin/utilisateurs", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(filters)
-                    });
-                    if (!response.ok) throw new Error("Failed to fetch users");
-
-                    const users = await response.json();
-                    console.log(users);
-                } catch (error) {
-                    console.error("Error fetching users:", error);
-                }
-            }
-
-            // Listen for changes in filters
-            [roleFilter, storeFilter, statusFilter].forEach((input) => {
-                input.addEventListener("change", fetchUsers);
-            });
-
-        });
-
-
-    </script>
+    <script src="../../public/assets/js/user.js"></script>
 </body>
 
 </html>

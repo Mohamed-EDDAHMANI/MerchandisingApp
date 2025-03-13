@@ -10,8 +10,9 @@ class Rules
     'firstName' => 'required|min:3|max:20',
     'lastName' => 'required|min:4|max:20',
     'email'    => 'required|email',
-    'password' => 'required|min:6',
+    'password' => 'required|min:6|max:20',
     'store_id'  => 'required|integer',
+    'passwordUpdate'  => 'nullabel',
   ];
 
 

@@ -33,14 +33,40 @@ class AdminService
     {
         $users = $this->adminRepository->getAllUsers();
         $stors = $this->adminRepository->getAllStores();
-        return ['users' => $users , 'stores' => $stors];
+        return ['users' => $users, 'stores' => $stors];
     }
+
+    public function getUserById($id)
+    {
+        $json = file_get_contents("php://input");
+        $filters = json_decode($json, true);
+
+        $user = $this->adminRepository->getUserById($id);
+        echo json_encode($user);
+        exit;
+    }
+
     public function sortUsers()
     {
-        $role = $_POST['role'] ?? null;
-        $store = $_POST['store'] ?? null;
-        $isValid = $_POST['is_valid'] ?? null;
-        return $this->adminRepository->sortUsers($role, $store, $isValid);
+        $json = file_get_contents("php://input");
+        $filters = json_decode($json, true);
+
+        $role = $filters['role'] ?? null;
+        $store = $filters['store'] ?? null;
+        $isValid = $filters['is_valid'] ?? null;
+
+        $users = $this->adminRepository->sortUsers($role, $store, $isValid);
+
+
+        echo json_encode($users);
+        exit;
+    }
+
+    public function updateUser($data, $id)
+    {
+        $response = $this->adminRepository->updateUser($data, $id);
+        $this->session->setError('success', 'User updated successfully');
+        Redirect::to('/admin/utilisateurs'); 
     }
 }
 

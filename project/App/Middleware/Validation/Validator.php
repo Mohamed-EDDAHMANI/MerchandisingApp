@@ -72,8 +72,15 @@ class Validator
           break;
 
         case 'email':
-          if ($rule === 'email' && !empty($value) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+          if (!empty($value) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
             $this->addError($field, $rule);
+          }
+          break;
+        case 'nullabel':
+          if (!empty($value)) {
+            if(6 > strlen($value) || 20 < strlen($value)){
+              $this->addError($field, $rule);
+            }
           }
           break;
       }

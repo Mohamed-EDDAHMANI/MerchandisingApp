@@ -36,10 +36,8 @@ class Router
         // var_dump($uri);
         // exit;
         //validate the request
-        $endPoint = explode('@', $this->routes[$method][$uri]);
-        $validationMethod = $endPoint[2] ?? null;
-        if($validationMethod){
-            $this->ValidationMiddleware->$validationMethod($_POST);
+        if ($method == 'POST') {
+            $this->ValidationMiddleware->validate($_POST);
         }
 
         // Check if the route exists directly (without parameters) 
@@ -50,16 +48,15 @@ class Router
 
         foreach ($this->routes[$method] as $route => $controllerAction) {
             // Convert route to a regex pattern to match dynamic parameters
+
             $pattern = self::convertRouteToPattern($route);
 
             // Check if the URI matches the route pattern
             if (preg_match($pattern, $uri, $matches)) {
-
-                // Remove the full match (first element)
+          
                 array_shift($matches);
 
-                // Call the controller action with parameters
-                $this->callAction($controllerAction, $matches);
+                $this->callAction($controllerAction, ['id' => $matches['id']]);
                 return;
             }
         }
@@ -81,11 +78,11 @@ class Router
 
     private function callAction($controllerAction, $parameters = [])
     {
-        $endPoint = explode('@', $controllerAction);
-        $controller = 'App\\Controllers\\' . $endPoint[0];
+        list($controller, $action) = explode('@', $controllerAction);
+        $controller = 'App\\Controllers\\' . $controller;
         $controllerInstance = new $controller();
-
+        
         // Call the action with parameters
-        call_user_func_array([$controllerInstance, $endPoint[1]], $parameters);
+        call_user_func_array([$controllerInstance, $action], $parameters);
     }
 }

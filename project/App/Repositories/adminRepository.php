@@ -240,16 +240,24 @@ class adminRepository extends Repository
         try {
             $this->db->beginTransaction();
 
+            $roleId = $this->getRoleId($data['role']);
+            if (!$roleId) {
+                throw new Exception("Invalid role provided.");
+            }
+
+
             $sql = "UPDATE users 
                 SET first_name = :first_name, 
                     last_name = :last_name, 
-                    email = :email 
+                    email = :email,
+                    role_id = :role_id 
                 WHERE id = :id";
 
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':first_name', $data['firstName']);
             $stmt->bindParam(':last_name', $data['lastName']);
             $stmt->bindParam(':email', $data['email']);
+            $stmt->bindParam(':role_id', $roleId['id']);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
 
@@ -279,9 +287,42 @@ class adminRepository extends Repository
             return true;
         } catch (Exception $e) {
             $this->db->rollBack();
-            echo "خطأ: " . $e->getMessage();
+            echo "Error :" . $e->getMessage();
         }
 
+    }
+    public function toggleUserStatus($id){
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM managers WHERE user_id = :user_id");
+            $stmt->bindParam(':user_id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $manager = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            if ($manager) {
+                $newStatus = $manager['is_valid'] == 1 ? 0 : 1;
+                $updateStmt = $this->db->prepare("UPDATE managers SET is_valid = :is_valid WHERE user_id = :user_id");
+                $updateStmt->bindParam(':is_valid', $newStatus, PDO::PARAM_INT);
+                $updateStmt->bindParam(':user_id', $id, PDO::PARAM_INT);
+                $updateStmt->execute();
+            } else {
+                $stmt = $this->db->prepare("SELECT * FROM employees WHERE user_id = :user_id");
+                $stmt->bindParam(':user_id', $id, PDO::PARAM_INT);
+                $stmt->execute();
+                $employee = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+                if ($employee) {
+                    $newStatus = $employee['is_valid'] == 1 ? 0 : 1;
+                    $updateStmt = $this->db->prepare("UPDATE employees SET is_valid = :is_valid WHERE user_id = :user_id");
+                    $updateStmt->bindParam(':is_valid', $newStatus, PDO::PARAM_INT);
+                    $updateStmt->bindParam(':user_id', $id, PDO::PARAM_INT);
+                    $updateStmt->execute();
+                } else {
+                    throw new Exception("User not found.");
+                }
+            }
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
     }
 
 }

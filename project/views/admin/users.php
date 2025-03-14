@@ -185,35 +185,47 @@
                                             DH
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <?php if ($value['role_name'] == 'manager'): ?>
-                                                <?php if ($value['manager_valid']): ?>
-                                                    <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Actif</span>
-                                                <?php else: ?>
-                                                    <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Inactif</span>
-                                                <?php endif ?>
-                                            <?php else: ?>
-                                                <?php if ($value['employee_valid']): ?>
-                                                    <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Actif</span>
-                                                <?php else: ?>
-                                                    <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Inactif</span>
-                                                <?php endif ?>
-                                            <?php endif ?>
+                                            <?php
+                                            // Determine status based on role
+                                            $isActive = ($value['role_name'] == 'manager') ? $value['manager_valid'] : $value['employee_valid'];
+                                            $statusText = $isActive ? 'Actif' : 'Inactif';
+                                            $statusClass = $isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+                                            ?>
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?= $statusClass ?>">
+                                                <?= $statusText ?>
+                                            </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <button class="text-indigo-600 hover:text-indigo-900 mr-3 viewBtn"
-                                                data-id="<?php echo $value['user_id'] ?>"
-                                                onclick="showDetailsModal(<?php echo $value['user_id'] ?>)"><i
-                                                    class="fas fa-eye"></i></button>
-                                            <button class="text-yellow-600 hover:text-yellow-900 mr-3 editBtn"
-                                                onclick="showModifyModal(<?php echo $value['user_id'] ?>)"><i
-                                                    class="fas fa-edit"></i></button>
-                                            <button class="text-red-600 hover:text-red-900 toggleStatusBtn" data-id="1"
-                                                data-status="true"><i class="fas fa-user-times"></i></button>
+                                            <div class="flex space-x-2">
+                                                <button class="text-indigo-600 hover:text-indigo-900 viewBtn"
+                                                    data-id="<?php echo $value['user_id'] ?>"
+                                                    onclick="showDetailsModal(<?php echo $value['user_id'] ?>)">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+
+                                                <button class="text-yellow-600 hover:text-yellow-900 editBtn"
+                                                    onclick="showModifyModal(<?php echo $value['user_id'] ?>)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+
+                                                <form action="/admin/utilisateurs/toggle/<?php echo $value['user_id'] ?>"
+                                                    method="POST">
+                                                    <button type="submit"
+                                                        class="text-red-600 hover:text-red-900 toggleStatusBtn"
+                                                        data-id="<?php echo $value['user_id'] ?>" data-status="true">
+                                                        <?php if ($value['role_name'] == 'manager'): ?>
+                                                            <i
+                                                                class="fas <?php echo $value['manager_valid'] ? 'fa-user-check text-green-500' : 'fa-user-times'; ?>"></i>
+                                                        <?php elseif ($value['role_name'] != 'manager'): ?>
+                                                            <i
+                                                                class="fas <?php echo $value['employee_valid'] ? 'fa-user-check text-green-500' : 'fa-user-times'; ?>"></i>
+                                                        <?php endif ?>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
+
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -296,7 +308,8 @@
                             class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div class="mb-4">
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Assigner un nouveau mot de passe !</label>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Assigner un nouveau
+                            mot de passe !</label>
                         <div class="relative">
                             <input type="password" id="password" name="password"
                                 class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -317,9 +330,9 @@
                                 <option value="3">Magasin C</option>
                             </select>
                         </div>
-                        <div>
+                        <div id="roleContainer">
                             <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Rôle</label>
-                            <select id="role" name="role"
+                            <select id="role" name="role" 
                                 class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Sélectionner un rôle</option>
                                 <option value="manager">Manager</option>

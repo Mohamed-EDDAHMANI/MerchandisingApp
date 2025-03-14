@@ -64,8 +64,15 @@ class AdminService
 
     public function updateUser($data, $id)
     {
-        $response = $this->adminRepository->updateUser($data, $id);
+        $this->adminRepository->updateUser($data, $id);
         $this->session->setError('success', 'User updated successfully');
+        Redirect::to('/admin/utilisateurs'); 
+    }
+
+    public function toggleUserStatus($id)
+    {
+        $response = $this->adminRepository->toggleUserStatus($id);
+        $this->session->setError('success', 'User status Updated successfully');
         Redirect::to('/admin/utilisateurs'); 
     }
 }

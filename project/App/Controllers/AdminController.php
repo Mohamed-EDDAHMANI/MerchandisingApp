@@ -40,6 +40,10 @@ class AdminController extends BaseController{
         $this->adminService->updateUser($data, $id);
     }
 
+    public function toggleUserStatus($id) {
+        $this->adminService->toggleUserStatus($id);
+    }
+
     // public function getPointsDeVente() {
     //     $pointsDeVente = $this->adminService->getAllPointsDeVente();
     //     require 'views/admin/points-de-vente.php';

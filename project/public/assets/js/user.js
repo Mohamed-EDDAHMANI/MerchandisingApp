@@ -21,15 +21,15 @@ const viewBtns = document.querySelectorAll('.viewBtn');
 const editBtns = document.querySelectorAll('.editBtn');
 const toggleStatusBtns = document.querySelectorAll('.toggleStatusBtn');
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
-    
-    togglePassword.addEventListener('click', function() {
+
+    togglePassword.addEventListener('click', function () {
         // Toggle the type attribute
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
-        
+
         // Toggle the icon
         this.querySelector('i').classList.toggle('fa-eye');
         this.querySelector('i').classList.toggle('fa-eye-slash');
@@ -101,8 +101,8 @@ async function showDetailsModal(userId) {
 async function showModifyModal(userId) {
     document.getElementById('userForm').action = `/admin/utilisateurs/update/${userId}`;
     document.getElementById('password').name = 'passwordUpdate';
+    document.getElementById('role').setAttribute('disabled', 'true');
     const user = await getUserById(userId)
-    console.log(user.password);
     if (user) {
         modalTitle.textContent = 'Modifier un utilisateur';
         document.getElementById('userId').value = user.id;
@@ -112,7 +112,7 @@ async function showModifyModal(userId) {
         document.getElementById('store').value = user.store_name;
         document.getElementById('role').value = user.role_name;
         document.getElementById('salary').value = user.salary;
-        document.getElementById('isValid').checked = user.is_valid ;
+        document.getElementById('isValid').checked = user.is_valid;
 
         userFormModal.classList.remove('hidden');
     }
@@ -240,9 +240,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <button class="text-indigo-600 hover:text-indigo-900 mr-3 viewBtn" onclick="showDetailsModal(${user.user_id})"><i class="fas fa-eye"></i></button>
                             <button class="text-yellow-600 hover:text-yellow-900 mr-3 editBtn" onclick="showModifyModal(${user.user_id})"><i class="fas fa-edit"></i></button>
-                            <button class="text-red-600 hover:text-red-900 toggleStatusBtn" data-status="${user.role_name === 'manager' ? user.manager_valid : user.employee_valid}">
-                                <i class="fas fa-user-times"></i>
-                            </button>
+                            <form action="/admin/utilisateurs/toggle/${user.user_id}"
+                                  method="POST" class="inline-block m-0">
+                                <button type="submit"
+                                        class="text-red-600 hover:text-red-900 toggleStatusBtn"
+                                        data-id="${user.user_id}" 
+                                        data-status="true">
+                                    ${user.role_name === 'manager'
+                                                    ? `<i class="fas ${user.manager_valid ? 'fa-user-check text-green-500' : 'fa-user-times'}"></i>`
+                                                    : `<i class="fas ${user.employee_valid ? 'fa-user-check text-green-500' : 'fa-user-times'}"></i>`
+                                                }
+                                </button>
+                            </form>
                         </td>
                     `;
 

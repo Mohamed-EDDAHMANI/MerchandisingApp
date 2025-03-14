@@ -15,6 +15,9 @@ class AdminController extends BaseController{
     public function dashboard() {
         $this->view('admin/dashboard');
     }
+    public function test() {
+        $this->view('admin/jfj');
+    }
 
     public function getUsers() {
         //i have to get users from the database

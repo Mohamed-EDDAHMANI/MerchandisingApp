@@ -157,12 +157,14 @@ CREATE TABLE suppliers (
 
 -- جدول stores
 CREATE TABLE stores (
-    id INT PRIMARY KEY,            -- Unique identifier for the store
-    name VARCHAR(255) NOT NULL      --  for the store name
-    address VARCHAR(255) NOT NULL,    -- Address of the store
-    city VARCHAR(100) NOT NULL,       -- City where the store is located
-    state BOOLEAN,               -- if the store work or not
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp when the store was created
+    id INT PRIMARY KEY,                                     -- Unique identifier for the store
+    name VARCHAR(255) NOT NULL                               --  for the store name
+    address VARCHAR(255) NOT NULL,                             -- Address of the store
+    city VARCHAR(100) NOT NULL,                                -- City where the store is located
+    status ENUM('active', 'inactive', 'pending') NOT NULL,               -- if the store work or not
+    parking_space BOOLEAN DEFAULT FALSE,     -- If the store has parking space
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Last update timestamp
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                         -- Timestamp when the store was created
 );
 
 -- جدول roles

@@ -11,10 +11,10 @@ class Manager
 
     // Constructor
     public function __construct($manager){
-        $this->id = $manager['id'];
-        $this->isValid = $manager['is_valid'];
-        $this->salary = $manager['salary'];
-        $this->userId = $manager['user_id'];
+        $this->id = $manager['manager_id'] ?? null;
+        $this->isValid = $manager['manager_valid'] ?? null;
+        $this->salary = $manager['manager_salary'] ?? null;
+        $this->userId = $manager['user_id'] ?? null;
     }
     
 

@@ -12,11 +12,11 @@ class Employee
 
     // Constructor
     public function __construct($employee){
-        $this->id = $employee['id'];
-        $this->isValid = $employee['is_valid'];
-        $this->salary = $employee['salary'];
-        $this->performance = $employee['performance'];
-        $this->userId = $employee['user_id'];
+        $this->id = $employee['employee_id'] ?? null;
+        $this->isValid = $employee['employee_valid'] ?? null;
+        $this->salary = $employee['employee_salary'] ?? null;
+        $this->performance = $employee['performance'] ?? null;
+        $this->userId = $employee['user_id'] ?? null;
     }
 
 

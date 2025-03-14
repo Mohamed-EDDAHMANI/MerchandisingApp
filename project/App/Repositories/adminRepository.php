@@ -8,6 +8,7 @@ use App\Core\Repository;
 use App\Models\User;
 use App\Models\Manager;
 use App\Models\Employee;
+use App\Utils\Mappers\dataMapper;
 use Exception;
 use PDOException;
 
@@ -87,14 +88,16 @@ class adminRepository extends Repository
     public function getAllUsers()
     {
         $sql = 'SELECT
-        users.id AS user_id,
+        users.id,
         users.email,
         users.first_name,
         users.last_name,
+        users.role_id,
         roles.role AS role_name,
         stores.name AS store_name,
         managers.is_valid AS manager_valid,
         managers.salary AS manager_salary,
+        managers.id AS manager_id,
         employees.id AS employee_id,
         employees.is_valid AS employee_valid,
         employees.salary AS employee_salary,
@@ -107,7 +110,10 @@ class adminRepository extends Repository
         WHERE roles.role != "admin";';
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $usersInstences = DataMapper::UserMapper($users);
+        return $usersInstences;
+
     }
     public function getAllStores()
     {
@@ -121,7 +127,7 @@ class adminRepository extends Repository
     {
         // Base SQL query
         $sql = "SELECT 
-            users.id AS user_id,
+            users.id,
             users.email,
             users.first_name,
             users.last_name,
@@ -129,6 +135,7 @@ class adminRepository extends Repository
             stores.name AS store_name,
             managers.is_valid AS manager_valid,
             managers.salary AS manager_salary,
+            managers.id AS manager_id,
             employees.id AS employee_id,
             employees.is_valid AS employee_valid,
             employees.salary AS employee_salary,
@@ -179,8 +186,6 @@ class adminRepository extends Repository
 
             // Fetch the results
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // Return the users as an array
             return $users;
         } catch (PDOException $e) {
             // Handle any errors
@@ -291,13 +296,14 @@ class adminRepository extends Repository
         }
 
     }
-    public function toggleUserStatus($id){
+    public function toggleUserStatus($id)
+    {
         try {
             $stmt = $this->db->prepare("SELECT * FROM managers WHERE user_id = :user_id");
             $stmt->bindParam(':user_id', $id, PDO::PARAM_INT);
             $stmt->execute();
             $manager = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
             if ($manager) {
                 $newStatus = $manager['is_valid'] == 1 ? 0 : 1;
                 $updateStmt = $this->db->prepare("UPDATE managers SET is_valid = :is_valid WHERE user_id = :user_id");
@@ -309,7 +315,7 @@ class adminRepository extends Repository
                 $stmt->bindParam(':user_id', $id, PDO::PARAM_INT);
                 $stmt->execute();
                 $employee = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
                 if ($employee) {
                     $newStatus = $employee['is_valid'] == 1 ? 0 : 1;
                     $updateStmt = $this->db->prepare("UPDATE employees SET is_valid = :is_valid WHERE user_id = :user_id");

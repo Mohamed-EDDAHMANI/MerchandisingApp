@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <!-- Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
+
 <body class="bg-gray-50">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
@@ -27,7 +29,7 @@
                         </a>
                     </li>
                     <li class="px-4 py-2 hover:bg-blue-800">
-                        <a href="#" class="flex items-center">
+                        <a href="/admin/points-de-vente" class="flex items-center">
                             <i class="fas fa-store w-5 h-5 mr-3"></i>
                             <span>Points de vente</span>
                         </a>
@@ -69,20 +71,38 @@
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Top Navigation -->
-            <header class="bg-white shadow-sm">
-                <div class="flex items-center justify-between p-4">
-                    <div class="flex items-center">
-                        <button class="text-gray-600 md:hidden" id="sidebar-toggle">
+            <header class="bg-white shadow-sm z-10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+                    <div class="flex items-center md:hidden">
+                        <button type="button"
+                            class="text-gray-800 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                             <i class="fas fa-bars text-xl"></i>
                         </button>
-                        <h1 class="ml-4 text-xl font-semibold text-gray-800">Tableau de bord</h1>
                     </div>
                     <div class="flex items-center">
+                        <h1 class="text-2xl font-bold text-blue-700">Tableau de bord</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative hidden md:block">
+                            <input type="text" placeholder="Recherche rapide..."
+                                class="w-64 pl-10 pr-4 py-2 border-0 rounded-full bg-gray-100 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-300">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                        </div>
+                        <button
+                            class="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <i class="fas fa-bell text-lg"></i>
+                        </button>
                         <div class="relative">
-                            <button class="flex items-center focus:outline-none">
-                                <img class="h-8 w-8 rounded-full object-cover" src="/api/placeholder/32/32" alt="Avatar">
-                                <span class="ml-2 text-gray-700">Admin User</span>
-                                <i class="fas fa-chevron-down ml-2 text-gray-500"></i>
+                            <button type="button"
+                                class="flex items-center text-gray-800 hover:text-gray-600 focus:outline-none">
+                                <div
+                                    class="h-9 w-9 rounded-full bg-blue-600 text-white flex items-center justify-center">
+                                    <span class="font-medium">AU</span>
+                                </div>
+                                <span class="hidden md:block ml-2 font-medium">Admin User</span>
+                                <i class="fas fa-chevron-down ml-2 text-xs"></i>
                             </button>
                         </div>
                     </div>
@@ -91,59 +111,44 @@
 
             <!-- Dashboard Content -->
             <main class="flex-1 overflow-y-auto p-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <!-- Stat Card 1 -->
-                    <div class="bg-white rounded-lg shadow p-4">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-blue-100 text-blue-700">
-                                <i class="fas fa-store text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500">Points de vente</p>
-                                <p class="text-2xl font-semibold text-gray-800">24</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Stat Card 2 -->
-                    <div class="bg-white rounded-lg shadow p-4">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-green-100 text-green-600">
-                                <i class="fas fa-chart-line text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500">Points rentables</p>
-                                <p class="text-2xl font-semibold text-gray-800">18</p>
+
+                <!-- Quick Stats Summary -->
+                <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-md text-white p-6 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div>
+                            <p class="text-blue-100 text-sm">CA Mensuel</p>
+                            <p class="text-2xl font-bold mt-1">€2.4M</p>
+                            <div class="flex items-center mt-1">
+                                <span class="text-green-300 text-xs"><i class="fas fa-arrow-up mr-1"></i>12%</span>
+                                <span class="text-blue-200 text-xs ml-1">vs mois précédent</span>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Stat Card 3 -->
-                    <div class="bg-white rounded-lg shadow p-4">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-red-100 text-red-600">
-                                <i class="fas fa-exclamation-triangle text-xl"></i>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500">Points non rentables</p>
-                                <p class="text-2xl font-semibold text-gray-800">6</p>
+                        <div>
+                            <p class="text-blue-100 text-sm">Fréquentation</p>
+                            <p class="text-2xl font-bold mt-1">45.8K</p>
+                            <div class="flex items-center mt-1">
+                                <span class="text-green-300 text-xs"><i class="fas fa-arrow-up mr-1"></i>7%</span>
+                                <span class="text-blue-200 text-xs ml-1">vs mois précédent</span>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Stat Card 4 -->
-                    <div class="bg-white rounded-lg shadow p-4">
-                        <div class="flex items-center">
-                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
-                                <i class="fas fa-users text-xl"></i>
+                        <div>
+                            <p class="text-blue-100 text-sm">Panier Moyen</p>
+                            <p class="text-2xl font-bold mt-1">€68.50</p>
+                            <div class="flex items-center mt-1">
+                                <span class="text-green-300 text-xs"><i class="fas fa-arrow-up mr-1"></i>3%</span>
+                                <span class="text-blue-200 text-xs ml-1">vs mois précédent</span>
                             </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500">Utilisateurs</p>
-                                <p class="text-2xl font-semibold text-gray-800">42</p>
+                        </div>
+                        <div>
+                            <p class="text-blue-100 text-sm">Magasin le plus performant</p>
+                            <p class="text-xl font-bold mt-1">Paris Centre</p>
+                            <div class="flex items-center mt-1">
+                                <span class="text-blue-200 text-xs">€498K ce mois-ci</span>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <!-- Charts and Reports Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -155,7 +160,7 @@
                             <canvas id="cityChart" height="200"></canvas>
                         </div>
                     </div>
-                    
+
                     <div class="bg-white rounded-lg shadow">
                         <div class="p-4 border-b">
                             <h2 class="text-lg font-semibold text-gray-800">Tendance des marges</h2>
@@ -272,7 +277,7 @@
         });
 
         // Mobile sidebar toggle
-        document.getElementById('sidebar-toggle').addEventListener('click', function() {
+        document.getElementById('sidebar-toggle').addEventListener('click', function () {
             const sidebar = document.querySelector('aside');
             sidebar.classList.toggle('hidden');
             sidebar.classList.toggle('fixed');
@@ -281,4 +286,5 @@
         });
     </script>
 </body>
+
 </html>

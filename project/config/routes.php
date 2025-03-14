@@ -13,15 +13,15 @@ $router->get('/logout', 'AuthController@logout'); // Déconnexion
 
 // Tableau de bord de l'administrateur
 $router->get('/admin/dashboard', 'AdminController@dashboard'); // Vue principale du tableau de bord
-$router->get('/admin/points-de-vente', 'AdminController@getPointsDeVente'); // Lister les points de vente
-$router->post('/admin/points-de-vente/create', 'AdminController@createPointDeVente'); // Ajouter un point de vente
-$router->post('/admin/points-de-vente/update/{id}', 'AdminController@updatePointDeVente'); // Modifier un point de vente
-$router->post('/admin/points-de-vente/delete/{id}', 'AdminController@deletePointDeVente'); // Supprimer un point de vente
 
-// Gestion des responsables de points de vente
-$router->get('/admin/responsables', 'AdminController@getResponsables'); // Lister les responsables
-$router->post('/admin/responsables/assigner', 'AdminController@assignerResponsable'); // Assigner un responsable à un point de vente
-$router->post('/admin/responsables/revoquer/{id}', 'AdminController@revoquerResponsable'); // Révoquer un responsable
+// front test
+$router->get('/test', 'AdminController@test'); // Lister les points de vente
+
+// Gestion des points de vente
+$router->get('/admin/points-de-vente', 'StoreController@getPointsDeVente'); // Lister les points de vente
+$router->post('/admin/points-de-vente/create', 'StoreController@createPointDeVente'); // Ajouter un point de vente
+$router->post('/admin/points-de-vente/update/{id}', 'StoreController@updatePointDeVente'); // Modifier un point de vente
+$router->post('/admin/points-de-vente/delete/{id}', 'StoreController@deletePointDeVente'); // Supprimer un point de vente
 
 // Calculs Merchandising
 $router->get('/merchandising/analyse-demographique', 'MerchandisingController@analyseDemographique'); // Analyser le potentiel d'un point de vente

@@ -13,11 +13,15 @@ class User
     private $roleId;
     private $createdAt;
     private $updatedAt;
+    private $manager;
+    private $employee;
+    private $role;
+    private $store;
 
     // Constructor
     public function __construct($user){
         $this->id = $user['id'];
-        $this->password = $user['password'];
+        $this->password = $user['password'] ?? null;
         $this->email = $user['email'];
         $this->firstName = $user['first_name'] ?? null;
         $this->lastName = $user['last_name'] ?? null;
@@ -27,6 +31,40 @@ class User
         $this->updatedAt = $user['updated_at'] ?? null;
     }
     
+
+    public function setStore(Store $store) {
+        $this->store = $store;
+    }
+
+    public function setManager(Manager $manager) {
+        $this->manager = $manager;
+    }
+
+    public function setRole(Role $role) {
+        $this->role = $role ;
+    }
+
+    public function setEmployee(Employee $employee) {
+        $this->employee = $employee;
+    }
+
+    //get instences
+    public function getManager() {
+        return $this->manager;
+    }
+    public function getEmployee() {
+        return $this->employee;
+    }
+    public function getRole() {
+        return $this->role;
+    }
+    public function getStore() {
+        return $this->store;
+    }
+
+    public function getFullName() {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 
     // Getters
     public function getId()

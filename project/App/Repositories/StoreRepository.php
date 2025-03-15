@@ -55,6 +55,16 @@ class StoreRepository extends Repository
         }
     }
 
+    public function deletePointDeVente($id)
+    {
+        try {
+            $store = $this->deleteById('stores', $id);
+            return $store;
+        } catch (PDOException $e) {
+            return "Error :" . $e->getMessage();
+        }
+    }
+
     public function create($data)
     {
         // Query to create a new point de vente

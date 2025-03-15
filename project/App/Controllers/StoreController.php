@@ -25,9 +25,14 @@ class StoreController extends BaseController{
         $data = $_POST;
         $this->storeService->createPointDeVente($data);
     }
+
     public function updatePointDeVente($id){
         $data = $_POST;
         $this->storeService->updatePointDeVente($data, $id);
+    }
+
+    public function deletePointDeVente($id){
+        $this->storeService->deletePointDeVente( $id);
     }
 
     

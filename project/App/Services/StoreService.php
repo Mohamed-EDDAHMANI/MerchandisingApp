@@ -56,6 +56,17 @@ class StoreService
         Redirect::to('/admin/points-de-vente'); 
     }
 
+    public function deletePointDeVente($id)
+    {
+        $result = $this->storeRepository->deletePointDeVente($id); 
+        if ($result) {
+            $this->session->setError('success', 'Store Deleted successfully');
+        } else {
+            $this->session->setError('error', 'Error Deleting store');
+        }
+        Redirect::to('/admin/points-de-vente'); 
+    }
+
 }
 
 

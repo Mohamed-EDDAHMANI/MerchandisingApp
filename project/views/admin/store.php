@@ -433,7 +433,7 @@
                     Annuler
                 </button>
                 <form action="" method="POST" id="confirm-delete-form">
-                    <button type="button" id="confirm-delete"
+                    <button type="submit" id="confirm-delete"
                         class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
                         Supprimer
                     </button>

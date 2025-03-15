@@ -27,22 +27,16 @@ const deleteButtons = document.querySelectorAll('.delete-store');
 const deleteModal = document.getElementById('delete-modal');
 const cancelDeleteBtn = document.getElementById('cancel-delete');
 const confirmDeleteBtn = document.getElementById('confirm-delete');
+const confirmDeleteForm = document.getElementById('confirm-delete-form');
 
-deleteButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        deleteModal.classList.remove('hidden');
-    });
-});
+function deleteModel(id) {
+    deleteModal.classList.remove('hidden');
+    confirmDeleteForm.action = `/admin/points-de-vente/delete/${id}`;
+}
 
 cancelDeleteBtn.addEventListener('click', () => {
     deleteModal.classList.add('hidden');
 });
-
-confirmDeleteBtn.addEventListener('click', () => {
-    // Here you would typically make an API call to delete the store
-    deleteModal.classList.add('hidden');
-});
-
 // Edit store modal functionality
 const editButtons = document.querySelectorAll('.edit-store');
 const updateModal = document.getElementById('update-modal');

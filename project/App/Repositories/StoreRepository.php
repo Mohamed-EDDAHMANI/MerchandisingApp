@@ -60,18 +60,32 @@ class StoreRepository extends Repository
         // Query to create a new point de vente
     }
 
-    public function updatePointDeVente($id, $data)
+    public function updatePointDeVente($data, $id)
     {
+        
         try {
-            $sql = "UPDATE users 
-        SET first_name = :first_name, 
-            last_name = :last_name, 
-            email = :email,
-            role_id = :role_id 
-        WHERE id = :id";
+            $parkingSpace = ($data['parkingSpace'] ?? 'on' == 'on') ? 1 : 0;
+            $sql = "UPDATE stores 
+                    SET name = :name, 
+                        address = :address, 
+                        city = :city,
+                        status = :status ,
+                        parking_space = :parking_space 
+                    WHERE id = :id";
 
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
+            $stmt->bindParam(':address', $data['address'], PDO::PARAM_STR);
+            $stmt->bindParam(':city', $data['city'], PDO::PARAM_STR);
+            $stmt->bindParam(':status', $data['status'], PDO::PARAM_STR);
+            $stmt->bindParam(':parking_space', $parkingSpace, PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    
+            return $stmt->execute();
+        }catch (PDOException $e) {
+            return "Error :". $e->getMessage();
         }
-
     }
 
     public function delete($id)

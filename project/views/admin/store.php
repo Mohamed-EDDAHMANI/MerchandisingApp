@@ -368,7 +368,7 @@
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button class="p-1.5 rounded-lg text-red-600 hover:bg-red-50 delete-store"
-                                                    data-id="1" title="Supprimer">
+                                                    onclick="deleteModel(<?php echo $value->getId() ?>)" title="Supprimer">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </td>
@@ -432,10 +432,12 @@
                     class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors font-medium">
                     Annuler
                 </button>
-                <button type="button" id="confirm-delete"
-                    class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
-                    Supprimer
-                </button>
+                <form action="" method="POST" id="confirm-delete-form">
+                    <button type="button" id="confirm-delete"
+                        class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
+                        Supprimer
+                    </button>
+                </form>
             </div>
         </div>
     </div>

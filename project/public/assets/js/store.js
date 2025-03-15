@@ -1,3 +1,12 @@
+// Hide the message after 5 seconds
+setTimeout(() => {
+    const alertMessage = document.getElementById('alert-message');
+    if (alertMessage) {
+        alertMessage.classList.add('opacity-0');
+        setTimeout(() => alertMessage.remove(), 300);
+    }
+}, 5000);
+
 // Toggle form visibility and button styles
 const toggleFormBtn = document.getElementById('toggle-form');
 const storeForm = document.getElementById('store-form');

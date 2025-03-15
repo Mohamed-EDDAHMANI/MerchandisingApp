@@ -8,6 +8,7 @@ use App\Core\Repository;
 use App\Models\User;
 use App\Models\Manager;
 use App\Models\Employee;
+use App\Utils\Mappers\dataMapper;
 use Exception;
 use PDOException;
 
@@ -45,8 +46,9 @@ class StoreRepository extends Repository
             $query = "SELECT * FROM stores";
             $stmt = $this->db->prepare($query);
             $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
+            $stors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $storsInstences = DataMapper::StoreMapper($stors);
+            return $storsInstences;
         } catch (PDOException $e) {
             return "Error :". $e->getMessage();
         }

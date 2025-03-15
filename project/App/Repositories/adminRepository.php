@@ -15,17 +15,8 @@ use PDOException;
 
 class adminRepository extends Repository
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = Database::getConnection();
-    }
-
     public function createUser($date)
     {
-        // var_dump($date);
-        // die();
         try {
             if ($this->emailExists($date['email'])) {
                 return false;
@@ -117,10 +108,13 @@ class adminRepository extends Repository
     }
     public function getAllStores()
     {
-        $sql = 'SELECT * FROM stores;';
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $stores = $this->getAll('stores');
+            $storsInstences = DataMapper::StoreMapper($stores);
+            return $storsInstences;
+        } catch (PDOException $e) {
+            return "Error :" . $e->getMessage();
+        }
     }
 
     public function sortUsers($role = null, $store = null, $is_valid = null)

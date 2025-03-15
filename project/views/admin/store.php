@@ -318,44 +318,58 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200" id="stores-table-body">
                                 <!-- Store 1 -->
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
-                                                <i class="fas fa-store"></i>
-                                            </div>
-                                            <div class="text-sm font-medium text-gray-900">Magasin Paris Centre</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">45 Rue de Rivoli, Paris</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center mr-2 text-xs font-medium text-gray-700">
-                                                JD</div>
-                                            <div class="text-sm text-gray-500">Jean Dupont</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span
-                                            class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            <i class="fas fa-circle text-green-500 mr-1 text-xs"></i> Actif
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 mr-2 edit-store"
-                                            data-id="1" title="Modifier">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="p-1.5 rounded-lg text-red-600 hover:bg-red-50 delete-store"
-                                            data-id="1" title="Supprimer">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                <?php if (isset($data['stores'])): ?>
+                                    <?php foreach ($data['stores'] as $value): ?>
+                                        <tr class="hover:bg-gray-50 transition-colors">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div
+                                                        class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+                                                        <i class="fas fa-store"></i>
+                                                    </div>
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                        <?php echo $value->getName() ?>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-500"><?php echo $value->getAddress() ?></div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div
+                                                        class="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center mr-2 text-xs font-medium text-gray-700">
+                                                        <?php echo strtoupper(substr($value->getCity(), 0, 2)); ?>
+                                                    </div>
+                                                    <div class="text-sm text-gray-500"><?php echo $value->getCity() ?></div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <?php if ($value->getStatus()): ?>
+                                                    <span
+                                                        class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                        <i class="fas fa-circle text-green-500 mr-1 text-xs"></i> Actif
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span
+                                                        class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                                        <i class="fas fa-circle text-gray-500 mr-1 text-xs"></i> Inactif
+                                                    </span>
+                                                <?php endif ?>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                <button class="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 mr-2 edit-store"
+                                                    data-id="1" title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="p-1.5 rounded-lg text-red-600 hover:bg-red-50 delete-store"
+                                                    data-id="1" title="Supprimer">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
 
                             </tbody>
                         </table>

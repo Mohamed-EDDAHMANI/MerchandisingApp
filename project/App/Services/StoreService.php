@@ -38,6 +38,24 @@ class StoreService
         // $stors = $this->adminRepository->getAllStores();
     }
 
+    public function getPointsDeVenteById($id)
+    {
+        $store = $this->storeRepository->getPointsDeVenteById($id); 
+        echo json_encode($store);
+        exit;
+    }
+
+    public function updatePointDeVente($data, $id)
+    {
+        $result = $this->storeRepository->updatePointDeVente($data, $id); 
+        if ($result) {
+            $this->session->setError('success', 'Store Updated successfully');
+        } else {
+            $this->session->setError('error', 'Error Updating store');
+        }
+        Redirect::to('/admin/points-de-vente'); 
+    }
+
 }
 
 

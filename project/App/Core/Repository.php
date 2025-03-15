@@ -25,9 +25,20 @@ class Repository {
         if (!empty($where)) {
             $sql .= " WHERE $where";
         }
-
+        // var_dump($sql);
+        // var_dump($params);
+        // exit;
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    protected function getById($table, $id ) {
+        $sql = "SELECT * FROM `$table`
+        WHERE id = :id  LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

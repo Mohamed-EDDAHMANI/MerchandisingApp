@@ -45,9 +45,14 @@ class StoreRepository extends Repository
         }
     }
 
-    public function findById($id)
+    public function getPointsDeVenteById($id)
     {
-        // Query to find a point de vente by ID
+        try {
+            $store = $this->getById('stores', $id);
+            return $store;
+        } catch (PDOException $e) {
+            return "Error :" . $e->getMessage();
+        }
     }
 
     public function create($data)
@@ -55,9 +60,18 @@ class StoreRepository extends Repository
         // Query to create a new point de vente
     }
 
-    public function update($id, $data)
+    public function updatePointDeVente($id, $data)
     {
-        // Query to update a point de vente
+        try {
+            $sql = "UPDATE users 
+        SET first_name = :first_name, 
+            last_name = :last_name, 
+            email = :email,
+            role_id = :role_id 
+        WHERE id = :id";
+
+        }
+
     }
 
     public function delete($id)

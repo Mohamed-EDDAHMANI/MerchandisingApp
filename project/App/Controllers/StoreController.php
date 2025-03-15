@@ -17,9 +17,17 @@ class StoreController extends BaseController{
         $this->view('admin/store', $data);
     }
 
+    public function getPointsDeVenteById($id){
+        $this->storeService->getPointsDeVenteById($id);
+    }
+
     public function createPointDeVente(){
         $data = $_POST;
         $this->storeService->createPointDeVente($data);
+    }
+    public function updatePointDeVente($id){
+        $data = $_POST;
+        $this->storeService->updatePointDeVente($data, $id);
     }
 
     

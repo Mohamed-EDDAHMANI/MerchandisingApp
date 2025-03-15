@@ -345,21 +345,26 @@
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <?php if ($value->getStatus()): ?>
+                                                <?php if ($value->getStatus() == 'active'): ?>
                                                     <span
                                                         class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                         <i class="fas fa-circle text-green-500 mr-1 text-xs"></i> Actif
                                                     </span>
-                                                <?php else: ?>
+                                                <?php elseif ($value->getStatus() == 'inactive'): ?>
                                                     <span
                                                         class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
                                                         <i class="fas fa-circle text-gray-500 mr-1 text-xs"></i> Inactif
                                                     </span>
-                                                <?php endif ?>
+                                                <?php else: ?>
+                                                    <span
+                                                        class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                        <i class="fas fa-circle text-yellow-500 mr-1 text-xs"></i> En attente
+                                                    </span>
+                                                <?php endif; ?>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <button class="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 mr-2 edit-store"
-                                                    data-id="1" title="Modifier">
+                                                    onclick="updateModel(<?php echo $value->getId() ?>)" title="Modifier">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button class="p-1.5 rounded-lg text-red-600 hover:bg-red-50 delete-store"
@@ -444,7 +449,7 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form id="update-store-form">
+            <form id="update-store-form" action="" method="POST">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label for="update-store-name" class="block text-sm font-medium text-gray-700 mb-2">Nom du Point
@@ -453,7 +458,7 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-store text-gray-400"></i>
                             </div>
-                            <input type="text" id="update-store-name"
+                            <input type="text" id="update-store-name" name="name"
                                 class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                     </div>
@@ -464,7 +469,7 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-map-marker-alt text-gray-400"></i>
                             </div>
-                            <input type="text" id="update-store-address"
+                            <input type="text" id="update-store-address" name="address"
                                 class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                     </div>
@@ -475,29 +480,7 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-city text-gray-400"></i>
                             </div>
-                            <input type="text" id="update-store-city"
-                                class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                    </div>
-                    <div>
-                        <label for="update-store-manager"
-                            class="block text-sm font-medium text-gray-700 mb-2">Responsable</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-user text-gray-400"></i>
-                            </div>
-                            <input type="text" id="update-store-manager"
-                                class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                    </div>
-                    <div>
-                        <label for="update-store-phone"
-                            class="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-phone text-gray-400"></i>
-                            </div>
-                            <input type="text" id="update-store-phone"
+                            <input type="text" id="update-store-city" name="city"
                                 class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                     </div>
@@ -508,9 +491,10 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-toggle-on text-gray-400"></i>
                             </div>
-                            <select id="update-store-status"
+                            <select id="update-store-status" name="status"
                                 class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white">
                                 <option value="active">Actif</option>
+                                <option value="pending">Pending</option>
                                 <option value="inactive">Inactif</option>
                             </select>
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -519,15 +503,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-end space-x-3">
-                    <button type="button" id="cancel-update"
-                        class="px-4 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center">
-                        <i class="fas fa-times mr-2"></i>Annuler
-                    </button>
-                    <button type="submit"
-                        class="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm hover:shadow flex items-center">
-                        <i class="fas fa-save mr-2"></i>Enregistrer
-                    </button>
+                <div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Parking</label>
+                        <div class="flex items-center">
+                            <div class="relative flex items-center">
+                                <div class="mr-3 flex items-center">
+                                    <input type="checkbox" id="update-store-parking" name="parkingSpace"
+                                        class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                </div>
+                                <label for="update-store-parking" class="text-sm font-medium text-gray-700">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-parking text-gray-400 mr-2"></i>
+                                        Parking disponible
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" id="cancel-update"
+                            class="px-4 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center">
+                            <i class="fas fa-times mr-2"></i>Annuler
+                        </button>
+                        <button type="submit"
+                            class="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm hover:shadow flex items-center">
+                            <i class="fas fa-save mr-2"></i>Enregistrer
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

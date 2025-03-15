@@ -122,8 +122,6 @@ function updateUser(userId) {
     const user = getUserById(userId)
     editBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            const userId = parseInt(btn.getAttribute('data-id'));
-            const user = users.find(u => u.id === userId);
 
             if (user) {
                 modalTitle.textContent = 'Modifier un utilisateur';

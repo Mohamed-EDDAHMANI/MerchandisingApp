@@ -49,11 +49,36 @@ const updateModal = document.getElementById('update-modal');
 const cancelUpdateBtn = document.getElementById('cancel-update');
 const closeUpdateBtn = document.getElementById('close-update');
 
-editButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        updateModal.classList.remove('hidden');
-    });
-});
+
+async function getStoreById(storeId) {
+    try {
+        const response = await fetch(`/admin/points-de-vente/${storeId}`, {
+            method: 'GET',
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch store data');
+        }
+        const store = await response.json();
+        return store[0];
+    } catch (error) {
+        console.error('Error fetching store data:', error);
+    }
+}
+
+
+async function updateModel(storeId) {
+    const store = await getStoreById(storeId);
+    updateModal.classList.remove('hidden');
+    const action = `/admin/points-de-vente/update/${storeId}`
+    document.getElementById('update-store-form').action = action;
+
+    document.getElementById('update-store-name').value = store.name || '';
+    document.getElementById('update-store-address').value = store.address || '';
+    document.getElementById('update-store-city').value = store.city || '';
+    document.getElementById('update-store-status').value = store.status || 'active';
+    document.getElementById('update-store-parking').checked = store.parking_space || false; 
+}
 
 cancelUpdateBtn.addEventListener('click', () => {
     updateModal.classList.add('hidden');

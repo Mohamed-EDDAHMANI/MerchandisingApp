@@ -32,8 +32,9 @@ class StoreService
 
     public function getPointsDeVente()
     {
+        $statistics = $this->storeRepository->getStoreCountsByStatus();
         $stores = $this->storeRepository->getPointsDeVente();
-        return  ['stores' => $stores];
+        return  ['stores' => $stores, 'statistics' => $statistics];
         // return ['users' => $users, 'stores' => $stors];
         // $stors = $this->adminRepository->getAllStores();
     }

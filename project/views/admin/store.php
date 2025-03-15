@@ -232,7 +232,7 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm font-medium text-gray-500">Total des Points de Vente</p>
-                                <p class="mt-1 text-3xl font-bold text-gray-800" id="total-stores">24</p>
+                                <p class="mt-1 text-3xl font-bold text-gray-800" id="total-stores"><?php echo $data['statistics']['total'] ?></p>
                                 <p class="mt-1 text-xs text-gray-500">
                                     <span class="text-green-500"><i class="fas fa-arrow-up mr-1"></i>8%</span> depuis le
                                     mois dernier
@@ -248,7 +248,7 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm font-medium text-gray-500">Points de Vente Actifs</p>
-                                <p class="mt-1 text-3xl font-bold text-gray-800">20</p>
+                                <p class="mt-1 text-3xl font-bold text-gray-800"><?php echo $data['statistics']['active'] ?></p>
                                 <p class="mt-1 text-xs text-gray-500">
                                     <span class="text-green-500"><i class="fas fa-arrow-up mr-1"></i>5%</span> depuis le
                                     mois dernier
@@ -264,7 +264,7 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm font-medium text-gray-500">Points de Vente Inactifs</p>
-                                <p class="mt-1 text-3xl font-bold text-gray-800">4</p>
+                                <p class="mt-1 text-3xl font-bold text-gray-800"><?php echo $data['statistics']['inactive'] ?></p>
                                 <p class="mt-1 text-xs text-gray-500">
                                     <span class="text-red-500"><i class="fas fa-arrow-up mr-1"></i>2%</span> depuis le
                                     mois dernier
@@ -352,8 +352,8 @@
                                                     </span>
                                                 <?php elseif ($value->getStatus() == 'inactive'): ?>
                                                     <span
-                                                        class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                                        <i class="fas fa-circle text-gray-500 mr-1 text-xs"></i> Inactif
+                                                        class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                        <i class="fas fa-circle text-red-500 mr-1 text-xs"></i> Inactif
                                                     </span>
                                                 <?php else: ?>
                                                     <span

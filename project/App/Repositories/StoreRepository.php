@@ -98,8 +98,34 @@ class StoreRepository extends Repository
         }
     }
 
-    public function delete($id)
-    {
-        // Query to delete a point de vente
+    public function getStoreCountsByStatus() {
+        try {
+            $sql = "SELECT 
+                        status, 
+                        COUNT(*) AS count
+                    FROM stores
+                    WHERE status IN ('active', 'pending', 'inactive')
+                    GROUP BY status";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $storeCounts = [
+                'active' => 0,
+                'total' => 0,
+                'inactive' => 0,
+            ];
+            foreach ($result as $row) {
+                $storeCounts[$row['status']] = $row['count'];
+            }
+            
+            $storeCounts['total'] = array_sum($storeCounts);
+    
+            return $storeCounts;
+        } catch (PDOException $e) {
+            return "Error: " . $e->getMessage();
+        }
     }
+    
 }

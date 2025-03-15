@@ -129,8 +129,8 @@
                     </div>
 
                     <!-- Create New Store Form - Now inside the same card as the header -->
-                    <form action="/admin/points-de-vente/create" method="POST">
-                        <div id="store-form" class="hidden p-6 bg-gray-50 border-b border-gray-100">
+                    <div id="store-form" class="hidden p-6 bg-gray-50 border-b border-gray-100">
+                        <form action="/admin/points-de-vente/create" method="POST">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div>
                                     <label for="store-name" class="block text-sm font-medium text-gray-700 mb-2">Nom du
@@ -221,8 +221,8 @@
                                     <i class="fas fa-save mr-2"></i>Enregistrer
                                 </button>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
 
                 <!-- Stats Overview Cards -->
@@ -307,10 +307,7 @@
                                         Adresse</th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Responsable</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Téléphone</th>
+                                        Ville</th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Statut</th>
@@ -343,9 +340,6 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">+33 1 23 45 67 89</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
                                         <span
                                             class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                             <i class="fas fa-circle text-green-500 mr-1 text-xs"></i> Actif
@@ -362,133 +356,7 @@
                                         </button>
                                     </td>
                                 </tr>
-                                <!-- Store 2 -->
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
-                                                <i class="fas fa-store"></i>
-                                            </div>
-                                            <div class="text-sm font-medium text-gray-900">Magasin Lyon Bellecour</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">12 Place Bellecour, Lyon</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center mr-2 text-xs font-medium text-gray-700">
-                                                SM</div>
-                                            <div class="text-sm text-gray-500">Sophie Martin</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">+33 4 56 78 90 12</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span
-                                            class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            <i class="fas fa-circle text-green-500 mr-1 text-xs"></i> Actif
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 mr-2 edit-store"
-                                            data-id="2" title="Modifier">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="p-1.5 rounded-lg text-red-600 hover:bg-red-50 delete-store"
-                                            data-id="2" title="Supprimer">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Store 3 -->
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
-                                                <i class="fas fa-store"></i>
-                                            </div>
-                                            <div class="text-sm font-medium text-gray-900">Magasin Marseille Vieux Port
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">78 Quai du Port, Marseille</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center mr-2 text-xs font-medium text-gray-700">
-                                                PD</div>
-                                            <div class="text-sm text-gray-500">Pierre Dubois</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">+33 4 91 23 45 67</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span
-                                            class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            <i class="fas fa-circle text-green-500 mr-1 text-xs"></i> Actif
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 mr-2 edit-store"
-                                            data-id="3" title="Modifier">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="p-1.5 rounded-lg text-red-600 hover:bg-red-50 delete-store"
-                                            data-id="3" title="Supprimer">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Store 4 -->
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
-                                                <i class="fas fa-store"></i>
-                                            </div>
-                                            <div class="text-sm font-medium text-gray-900">Magasin Bordeaux Centre</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">23 Cours de l'Intendance, Bordeaux</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center mr-2 text-xs font-medium text-gray-700">
-                                                ML</div>
-                                            <div class="text-sm text-gray-500">Marie Leroy</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">+33 5 56 78 90 12</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span
-                                            class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                            <i class="fas fa-circle text-red-500 mr-1 text-xs"></i> Inactif
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 mr-2 edit-store"
-                                            data-id="4" title="Modifier">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="p-1.5 rounded-lg text-red-600 hover:bg-red-50 delete-store"
-                                            data-id="4" title="Supprimer">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -650,6 +518,58 @@
             </form>
         </div>
     </div>
+
+
+    <!-- error modal -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <?php
+        $isSuccess = $_SESSION['error']['type'] === 'success';
+        $bgColor = $isSuccess ? 'bg-emerald-50' : 'bg-rose-50';
+        $textColor = $isSuccess ? 'text-emerald-800' : 'text-rose-800';
+        $borderColor = $isSuccess ? 'border-emerald-200' : 'border-rose-200';
+        $iconBgColor = $isSuccess ? 'bg-emerald-100' : 'bg-rose-100';
+        ?>
+        <div id="alert-message" class="message fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fadeIn
+                flex items-center gap-3 w-auto max-w-md
+                <?php echo "$bgColor $textColor $borderColor"; ?> 
+                px-4 py-3 rounded-lg shadow-lg border">
+
+            <!-- Icon container with circular background -->
+            <div class="<?php echo $iconBgColor; ?> p-2 rounded-full flex-shrink-0">
+                <?php if ($isSuccess): ?>
+                    <!-- Success icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd" />
+                    </svg>
+                <?php else: ?>
+                    <!-- Error icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                            clip-rule="evenodd" />
+                    </svg>
+                <?php endif; ?>
+            </div>
+
+            <!-- Message content -->
+            <div class="flex-1">
+                <p class="font-medium"><?php echo htmlspecialchars($_SESSION['error']['message']); ?></p>
+            </div>
+
+            <!-- Close button -->
+            <button onclick="this.parentElement.remove()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <?php unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
 
     <script src="../../public/assets/js/store.js"></script>
 </body>

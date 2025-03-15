@@ -2,17 +2,25 @@
 
 namespace App\Controllers;
 
-use App\Services\AdminService;
+use App\Services\StoreService;
 use App\Utils\Redirects\Redirect;
 
 class StoreController extends BaseController{
-    private $adminService;
+    private $storeService;
 
     public function __construct() {
-        $this->adminService = new AdminService();
+        $this->storeService = new StoreService();
     }
 
     public function getPointsDeVente(){
-        $this->view('admin/store');
+        $data = $this->storeService->getPointsDeVente();
+        $this->view('admin/store', $data);
     }
+
+    public function createPointDeVente(){
+        $data = $_POST;
+        $this->storeService->createPointDeVente($data);
+    }
+
+    
 }

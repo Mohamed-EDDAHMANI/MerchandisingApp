@@ -1,4 +1,6 @@
 <?php
+
+
 class UserRepository extends Repository {
     public function findByEmail($email) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");

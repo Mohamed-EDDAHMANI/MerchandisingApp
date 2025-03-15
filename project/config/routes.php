@@ -15,7 +15,7 @@ $router->get('/logout', 'AuthController@logout'); // Déconnexion
 $router->get('/admin/dashboard', 'AdminController@dashboard'); // Vue principale du tableau de bord
 
 // front test
-$router->get('/test', 'AdminController@test'); // Lister les points de vente
+$router->get('/test', 'AdminController@test'); // front test
 
 // Gestion des points de vente
 $router->get('/admin/points-de-vente', 'StoreController@getPointsDeVente'); // Lister les points de vente

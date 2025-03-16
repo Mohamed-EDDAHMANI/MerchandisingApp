@@ -71,7 +71,7 @@ class AdminService
 
     public function toggleUserStatus($id)
     {
-        $response = $this->adminRepository->toggleUserStatus($id);
+        $this->adminRepository->toggleUserStatus($id);
         $this->session->setError('success', 'User status Updated successfully');
         Redirect::to('/admin/utilisateurs'); 
     }

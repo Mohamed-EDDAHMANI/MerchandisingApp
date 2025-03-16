@@ -13,6 +13,26 @@ class Redirect
         exit(); // Always call exit after header redirection to ensure the script stops executing.
     }
 
+    public static function roleRedirect($role)
+    {
+        switch ($role) {
+            case "admin":
+                self::to("/admin/dashboard");
+                break;
+            case "manager":
+                var_dump('seccses');
+                exit;
+                self::to("/manager/dashboard");
+                break;
+            case "employee":
+                self::to("/employee/platform");
+                break;
+            default:
+                self::to("/notFound");
+                break;
+        }
+    }
+
     // Method for redirecting back to the previous page
     public static function back($statusCode = 302)
     {
@@ -31,6 +51,6 @@ class Redirect
         // For example, using a URL structure like "/controller/method"
         // Here it's just an example.
         $url = '/' . $routeName . '/' . implode('/', $params);
-        self::to($url, $statusCode);
+        self::to($url);
     }
 }

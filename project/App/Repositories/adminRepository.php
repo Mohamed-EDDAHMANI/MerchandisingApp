@@ -15,24 +15,24 @@ use PDOException;
 
 class adminRepository extends Repository
 {
-    public function createUser($date)
+    public function createUser($data)
     {
         try {
-            if ($this->emailExists($date['email'])) {
+            if ($this->emailExists($data['email'])) {
                 return false;
             }
-            $passwordHashed = password_hash($date['password'], PASSWORD_BCRYPT);
-            $roleId = $this->getRoleId($date['role']);
+            $passwordHashed = password_hash($data['password'], PASSWORD_BCRYPT);
+            $roleId = $this->getRoleId($data['role']);
             $sql = "INSERT INTO users (first_name, last_name, email, password, role_id) VALUES (:first_name, :last_name, :email, :password, :role_id)";
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':first_name', $date['firstName']);
-            $stmt->bindParam(':last_name', $date['lastName']);
-            $stmt->bindParam(':email', $date['email']);
+            $stmt->bindParam(':first_name', $data['firstName']);
+            $stmt->bindParam(':last_name', $data['lastName']);
+            $stmt->bindParam(':email', $data['email']);
             $stmt->bindParam(':password', $passwordHashed);
-            $stmt->bindParam(':role_id', $roleId['id']);
+            $stmt->bindParam(':role_id', $roleId['role_id']);
             if ($stmt->execute()) {
                 $userId = $this->db->lastInsertId();
-                $result = $this->insertUserTable($date, $userId);
+                $result = $this->insertUserTable($data, $userId);
                 if ($result) {
                     return $result;
                 }
@@ -44,9 +44,9 @@ class adminRepository extends Repository
 
     public function getRoleId($role)
     {
-        $sql = "SELECT id FROM roles WHERE role = :role";
+        $sql = "SELECT role_id FROM roles WHERE role_name = :role_name";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(['role' => $role]);
+        $stmt->execute(['role_name' => $role]);
         $role = $stmt->fetch(PDO::FETCH_ASSOC);
         return $role;
     }
@@ -84,21 +84,21 @@ class adminRepository extends Repository
         users.first_name,
         users.last_name,
         users.role_id,
-        roles.role AS role_name,
+        roles.role_name,
         stores.name AS store_name,
         managers.is_valid AS manager_valid,
         managers.salary AS manager_salary,
-        managers.id AS manager_id,
-        employees.id AS employee_id,
+        managers.manager_id,
+        employees.employee_id,
         employees.is_valid AS employee_valid,
         employees.salary AS employee_salary,
         employees.performance AS employee_performance
         FROM users
-        LEFT JOIN roles ON users.role_id = roles.id
-        LEFT JOIN stores ON users.store_id = stores.id
+        LEFT JOIN roles ON users.role_id = roles.role_id
+        LEFT JOIN stores ON users.store_id = stores.store_id
         LEFT JOIN managers ON users.id = managers.user_id
         LEFT JOIN employees ON users.id = employees.user_id
-        WHERE roles.role != "admin";';
+        WHERE roles.role_name != "admin";';
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);

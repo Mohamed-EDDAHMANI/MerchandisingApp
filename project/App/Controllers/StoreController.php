@@ -16,7 +16,7 @@ class StoreController extends BaseController{
         $data = $this->storeService->getPointsDeVente();
         $this->view('admin/store', $data);
     }
-
+    
     public function getPointsDeVenteById($id){
         $this->storeService->getPointsDeVenteById($id);
     }
@@ -30,9 +30,13 @@ class StoreController extends BaseController{
         $data = $_POST;
         $this->storeService->updatePointDeVente($data, $id);
     }
-
+    
     public function deletePointDeVente($id){
         $this->storeService->deletePointDeVente( $id);
+    }
+    public function getMerchandising(){
+        $data = $this->storeService->getPointsDeVentePanding();
+        $this->view('admin/merchandising');
     }
 
     

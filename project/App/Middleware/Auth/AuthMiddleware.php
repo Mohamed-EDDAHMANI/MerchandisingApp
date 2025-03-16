@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Auth\Middleware;
+namespace App\Middleware\Auth;
 
 class AuthMiddleware
 {
@@ -11,18 +11,5 @@ class AuthMiddleware
             exit();
         }
         
-    }
-    public static function handleAuthorisation($protectedRoutes , $uri)
-    {
-        foreach ($protectedRoutes as $route => $roles) {
-            $pattern = '@^' . preg_replace('/\{([a-z]+)\}/', '(?P<\1>[^\/]+)', $route) . '$@';
-            if (preg_match($pattern, $uri)) {
-                if (!in_array($_SESSION['user']['role'], $roles)) {
-                    header("Location: /notFound");
-                    exit();
-                }
-                break;
-            }
-        }
     }
 }

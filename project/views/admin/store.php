@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li class="px-4 py-2 hover:bg-blue-800">
-                    <a href="#" class="flex items-center">
+                    <a href="/admin/merchandising" class="flex items-center">
                         <i class="fas fa-calculator w-5 h-5 mr-3"></i>
                         <span>Calculs Merchandising</span>
                     </a>
@@ -287,7 +287,7 @@
                             <p class="mt-1 text-sm text-gray-500">Vue d'ensemble de tous vos points de vente</p>
                         </div>
                         <div class="mt-4 md:mt-0 relative">
-                            <input type="text" placeholder="Rechercher..."
+                            <input type="text" placeholder="Rechercher..." id="recherch-input"
                                 class="w-full md:w-64 pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-search text-gray-400"></i>

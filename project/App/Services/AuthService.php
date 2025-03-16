@@ -3,29 +3,36 @@
 namespace App\Services;
 
 use App\Repositories\AuthRepository;
+use App\Utils\Sessions\Session;
+use App\Utils\Redirects\Redirect;
 
-class AuthService {
+class AuthService
+{
 
     private $authRepository;
+    private $session;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->authRepository = new AuthRepository();
+        $this->session = new Session();
     }
 
-    public function login($email, $password) {
+    public function login($email, $password)
+    {
         $result = $this->authRepository->login($email, $password);
-        $table = ucfirst($result[2]);
         //create user session manager / employee
-        if (is_array($result) && $result[0] instanceof User && $result[1] instanceof $table) {
-            var_dump($result);
-            exit;
-            $_SESSION['user'] = $result[0];
-            $_SESSION['data'] = $result[1];
-            $_SESSION['table'] = $result[2];
-            header('Location: /');
+        if (is_array($result)) {
+            $this->session->set("user", $result[0]);
+            $this->session->set("data", $result[1]);
+            $this->session->set("role", $result[2]);
+            Redirect::roleRedirect($result[2]);
         } else {
             //create admine session
-            $_SESSION['error'] = $result;
+            $this->session->set("user", $result[0]);
+            $this->session->set("data", null);
+            $this->session->set("role", 'admin');
+            Redirect::roleRedirect('admin');
             return false;
         }
     }

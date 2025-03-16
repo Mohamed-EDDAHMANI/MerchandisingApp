@@ -35,17 +35,15 @@ class StoreService
         $statistics = $this->storeRepository->getStoreCountsByStatus();
         $stores = $this->storeRepository->getPointsDeVente();
         return  ['stores' => $stores, 'statistics' => $statistics];
-        // return ['users' => $users, 'stores' => $stors];
-        // $stors = $this->adminRepository->getAllStores();
     }
-
+    
     public function getPointsDeVenteById($id)
     {
         $store = $this->storeRepository->getPointsDeVenteById($id); 
         echo json_encode($store);
         exit;
     }
-
+    
     public function updatePointDeVente($data, $id)
     {
         $result = $this->storeRepository->updatePointDeVente($data, $id); 
@@ -56,7 +54,7 @@ class StoreService
         }
         Redirect::to('/admin/points-de-vente'); 
     }
-
+    
     public function deletePointDeVente($id)
     {
         $result = $this->storeRepository->deletePointDeVente($id); 
@@ -66,6 +64,12 @@ class StoreService
             $this->session->setError('error', 'Error Deleting store');
         }
         Redirect::to('/admin/points-de-vente'); 
+    }
+    public function getPointsDeVente()
+    {
+        $statistics = $this->storeRepository->getStoreCountsByStatus();
+        $stores = $this->storeRepository->getPointsDeVente();
+        return  ['stores' => $stores, 'statistics' => $statistics];
     }
 
 }

@@ -80,7 +80,7 @@ async function updateModel(storeId) {
     document.getElementById('update-store-address').value = store.address || '';
     document.getElementById('update-store-city').value = store.city || '';
     document.getElementById('update-store-status').value = store.status || 'active';
-    document.getElementById('update-store-parking').checked = store.parking_space || false; 
+    document.getElementById('update-store-parking').checked = store.parking_space || false;
 }
 
 cancelUpdateBtn.addEventListener('click', () => {
@@ -90,6 +90,83 @@ cancelUpdateBtn.addEventListener('click', () => {
 closeUpdateBtn.addEventListener('click', () => {
     updateModal.classList.add('hidden');
 });
+
+const recherchInput = document.getElementById('recherch-input');
+const storesTableBody = document.getElementById('stores-table-body');
+
+recherchInput.addEventListener('change', async () => {
+    const value = recherchInput.value;
+    try {
+        const response = await fetch("/admin/points-de-vente", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ searchTerm: value }) 
+        });
+        if (!response.ok) throw new Error("Failed to fetch stores");
+
+        const stores = await response.json();
+        console.log(stores);
+        storesTableBody.innerHTML = ""; 
+
+        stores.forEach(store => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <div class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="text-sm font-medium text-gray-900">
+                            ${store.name}  <!-- Using store.name from the fetched data -->
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">${store.address}</div>  <!-- Using store.address -->
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <div class="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center mr-2 text-xs font-medium text-gray-700">
+                            ${store.city.substring(0, 2).toUpperCase()}  <!-- First two letters of the city -->
+                        </div>
+                        <div class="text-sm text-gray-500">${store.city}</div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    ${store.status === 'active' ? `
+                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            <i class="fas fa-circle text-green-500 mr-1 text-xs"></i> Actif
+                        </span>
+                    ` : store.status === 'inactive' ? `
+                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                            <i class="fas fa-circle text-red-500 mr-1 text-xs"></i> Inactif
+                        </span>
+                    ` : `
+                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                            <i class="fas fa-circle text-yellow-500 mr-1 text-xs"></i> En attente
+                        </span>
+                    `}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button class="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 mr-2 edit-store"
+                        onclick="updateModel(${store.id})" title="Modifier">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="p-1.5 rounded-lg text-red-600 hover:bg-red-50 delete-store"
+                        onclick="deleteModel(${store.id})" title="Supprimer">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            `;
+            storesTableBody.appendChild(row);
+        });
+    } catch (error) {
+        console.error("Error fetching stores:", error);
+    }
+});
+
 
 // Search functionality
 const searchInput = document.querySelector('input[placeholder="Rechercher..."]');

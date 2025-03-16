@@ -70,6 +70,11 @@ class Validator
             $this->addError($field, explode(':', $rule)[0], explode(':', $rule)[1]);
           }
           break;
+        case 'max:30':
+          if (explode(':', $rule)[1] < strlen($value)) {
+            $this->addError($field, explode(':', $rule)[0], explode(':', $rule)[1]);
+          }
+          break;
 
         case 'email':
           if (!empty($value) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {

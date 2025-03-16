@@ -2,7 +2,7 @@ USE merchandisingDB;
 
 -- Create suppliers table
 CREATE TABLE IF NOT EXISTS suppliers (
-    id INT PRIMARY KEY,                  -- Unique identifier for the supplier
+    supplier_id INT PRIMARY KEY,                  -- Unique identifier for the supplier
     name VARCHAR(100) NOT NULL,          -- Name of the supplier
     contact_phone VARCHAR(100),          -- Contact person's name
     city VARCHAR(100),                   -- City of the supplier
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS suppliers (
 
 -- Create stores table
 CREATE TABLE IF NOT EXISTS stores (
-    id INT AUTO_INCREMENT PRIMARY KEY,                      -- Unique identifier for the store
+    store_id INT AUTO_INCREMENT PRIMARY KEY,                      -- Unique identifier for the store
     name VARCHAR(255) NOT NULL,                             -- Name of the store
     address VARCHAR(255) NOT NULL,                          -- Address of the store
     city VARCHAR(100) NOT NULL,                             -- City where the store is located
@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS stores (
 
 -- Create roles table
 CREATE TABLE IF NOT EXISTS roles (
-    id INT PRIMARY KEY AUTO_INCREMENT, -- Unique identifier for the role (auto-incremented)
-    role VARCHAR(50) NOT NULL UNIQUE   -- Name of the role (must be unique and not null)
+    role_id INT PRIMARY KEY AUTO_INCREMENT, -- Unique identifier for the role (auto-incremented)
+    role_name VARCHAR(50) NOT NULL UNIQUE   -- Name of the role (must be unique and not null)
 );
 
 -- Create users table
@@ -41,13 +41,13 @@ CREATE TABLE IF NOT EXISTS users (
     role_id INT NOT NULL,              -- Foreign key to the roles table
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp when the user was created
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Timestamp when the user was last updated
-    FOREIGN KEY (store_id) REFERENCES stores(id), -- Link to the store table
-    FOREIGN KEY (role_id) REFERENCES roles(id)    -- Link to the roles table
+    FOREIGN KEY (store_id) REFERENCES stores(store_id), -- Link to the store table
+    FOREIGN KEY (role_id) REFERENCES roles(role_id)    -- Link to the roles table
 );
 
 -- Create managers table
 CREATE TABLE IF NOT EXISTS managers (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each manager
+    manager_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each manager
     is_valid BOOLEAN NOT NULL DEFAULT TRUE,  -- Boolean field to indicate if the manager is valid
     salary DECIMAL(10, 2) NOT NULL,  -- Salary of the manager
     user_id INT NOT NULL,  -- Foreign key referencing the users table
@@ -56,9 +56,9 @@ CREATE TABLE IF NOT EXISTS managers (
 
 -- Create employees table
 CREATE TABLE IF NOT EXISTS employees (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each employee
+    employee_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each employee
     is_valid BOOLEAN NOT NULL DEFAULT TRUE,  -- Boolean field to indicate if the employee is valid
-    salary INT NOT NULL,  -- Salary of the employee
+    salary DECIMAL(10, 2) NOT NULL,  -- Salary of the employee
     performance DECIMAL(5, 2),  -- Performance percentage (e.g., 95.50 for 95.5%)
     user_id INT NOT NULL,  -- Foreign key referencing the users table
     CONSTRAINT fk_user_employee FOREIGN KEY (user_id) REFERENCES users(id)  -- Foreign key constraint
@@ -66,86 +66,83 @@ CREATE TABLE IF NOT EXISTS employees (
 
 -- Create categories table
 CREATE TABLE IF NOT EXISTS categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each category
+    category_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each category
     name VARCHAR(100) NOT NULL,  -- Name of the category
     description TEXT NOT NULL  -- Description of the category
 );
 
 -- Create products table
 CREATE TABLE IF NOT EXISTS products (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each product
+    product_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each product
     name VARCHAR(100) NOT NULL,  -- Name of the product
     price DECIMAL(10, 2) NOT NULL,  -- Price of the product
     stock INT NOT NULL,  -- Quantity of the product in stock
-    supplier_id INT NOT NULL,  -- Foreign key referencing the suppliers table
     category_id INT NOT NULL,  -- Foreign key referencing the categories table
-    CONSTRAINT fk_supplier FOREIGN KEY (supplier_id) REFERENCES suppliers(id),  -- Foreign key constraint for supplier
-    CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES categories(id)  -- Foreign key constraint for category
+    store_id INT NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id),  -- Foreign key constraint for category
+    FOREIGN KEY (store_id) REFERENCES stores(store_id)  -- Foreign key constraint for category
 );
 
 -- Create orders table
 CREATE TABLE IF NOT EXISTS orders (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each order
+    order_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each order
     supplier_id INT NOT NULL,  -- Foreign key referencing the suppliers table
     manager_id INT NOT NULL,  -- Foreign key referencing the managers table
     product_id INT NOT NULL,  -- Foreign key referencing the products table
     quantity INT NOT NULL,  -- Quantity of the product ordered
     is_done BOOLEAN NOT NULL DEFAULT FALSE,  -- Boolean field to indicate if the order is completed
-    FOREIGN KEY (supplier_id) REFERENCES suppliers(id),  -- Foreign key constraint for supplier
-    FOREIGN KEY (manager_id) REFERENCES managers(id),  -- Foreign key constraint for manager
-    FOREIGN KEY (product_id) REFERENCES products(id)  -- Foreign key constraint for product
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id),  -- Foreign key constraint for supplier
+    FOREIGN KEY (manager_id) REFERENCES managers(manager_id),  -- Foreign key constraint for manager
+    FOREIGN KEY (product_id) REFERENCES products(product_id)  -- Foreign key constraint for product
 );
 
 -- Create merchandising_data table
 CREATE TABLE IF NOT EXISTS merchandising_data (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    store_id INT NOT NULL,  
-    population INT, 
-    average_purchasing_power DECIMAL(10, 2), 
-    competitor_revenue DECIMAL(15, 2), 
-    estimated_revenue DECIMAL(15, 2),  
-    operational_costs DECIMAL(15, 2), 
-    profit_margin DECIMAL(5, 2),  
-    analysis_date DATE,  
-    FOREIGN KEY (store_id) REFERENCES stores(id)
-);
-
--- Create competitors table
-CREATE TABLE IF NOT EXISTS competitors (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,  -- اسم المنافس
-    store_id INT NOT NULL,  -- مفتاح خارجي للمتجر (لربط المنافسين بمنطقة محددة)
-    revenue DECIMAL(15, 2),  -- إيرادات المنافس
-    location VARCHAR(255),  -- موقع المنافس
-    FOREIGN KEY (store_id) REFERENCES stores(id)
+    store_id INT NOT NULL,                      -- معرف المتجر
+    zone_population INT,                        -- عدد السكان في المنطقة
+    avg_household_size DECIMAL(3, 1),           -- متوسط عدد الأفراد في كل أسرة
+    nombre_menages DECIMAL(10, 2),              -- عدد الأسر في المنطقة
+    avg_annual_spending DECIMAL(10, 2),         -- متوسط الإنفاق السنوي لكل أسرة
+    regional_wealth_index DECIMAL(5, 2),        -- مؤشر الثروة الإقليمي
+    depense_moyenne DECIMAL(10, 2),             -- متوسط الإنفاق لكل أسرة (محسوب)
+    invasion DECIMAL(15, 2),                    -- الإنفاق من غير المقيمين في المنطقة
+    evasion DECIMAL(15, 2),                     -- الإنفاق خارج المنطقة من المقيمين
+    CA_potentiel_zone DECIMAL(15, 2),           -- الإيرادات المحتملة للمنطقة
+    competitor_revenue DECIMAL(15, 2),          -- إيرادات المنافسين
+    CA_potentiel_store DECIMAL(15, 2),          -- الإيرادات المحتملة للمتجر
+    operational_costs DECIMAL(15, 2),           -- التكاليف التشغيلية
+    profit DECIMAL(15, 2),                      -- الربح (محسوب)
+    analysis_date DATE,                         -- تاريخ التحليل
+    FOREIGN KEY (store_id) REFERENCES stores(store_id)  -- Foreign key constraint
 );
 
 -- Create sales table
 CREATE TABLE IF NOT EXISTS sales (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each sale
+    sale_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each sale
     product_id INT NOT NULL,  -- Foreign key referencing the products table
     employee_id INT NOT NULL,  -- Foreign key referencing the employees table
     store_id INT NOT NULL,  -- Foreign key referencing the stores table
     quantity INT NOT NULL,  -- Quantity of the product sold
     total DECIMAL(10, 2) NOT NULL,  -- Total amount of the sale
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the sale was made
-    FOREIGN KEY (product_id) REFERENCES products(id),  -- Foreign key constraint for product
-    FOREIGN KEY (employee_id) REFERENCES employees(id),  -- Foreign key constraint for employee
-    FOREIGN KEY (store_id) REFERENCES stores(id)  -- Foreign key constraint for store
+    FOREIGN KEY (product_id) REFERENCES products(product_id),  -- Foreign key constraint for product
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id),  -- Foreign key constraint for employee
+    FOREIGN KEY (store_id) REFERENCES stores(store_id)  -- Foreign key constraint for store
 );
 
 -- Create objectifs table
 CREATE TABLE IF NOT EXISTS objectifs (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each objective
+    objectif_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each objective
     frequency ENUM('daily', 'weekly') NOT NULL,  -- Enum for daily or weekly
     type ENUM('quantity_product', 'montant_total') NOT NULL,  -- Enum for quantity or maintenance
     manager_id INT NOT NULL,  -- Foreign key referencing the managers table
-    FOREIGN KEY (manager_id) REFERENCES managers(id)  -- Foreign key constraint
+    FOREIGN KEY (manager_id) REFERENCES managers(manager_id)  -- Foreign key constraint
 );
 
 -- Create reports table
 CREATE TABLE IF NOT EXISTS reports (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each report
+    report_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each report
     user_id INT NOT NULL,  -- Foreign key referencing the users table
     message TEXT NOT NULL,  -- The content of the report
     report_type ENUM('profitability', 'competitor_analysis', 'sales_performance') NOT NULL,  -- Enum for report type

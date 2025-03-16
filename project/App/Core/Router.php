@@ -3,17 +3,20 @@
 namespace App\Core;
 
 use App\Middleware\Validation\ValidationMiddleware;
+use App\Middleware\Auth\GateMiddleware;
 
 
 class Router
 {
 
     private $routes = [];
-    private $ValidationMiddleware;
+    private $validationMiddleware;
+    private $gateMiddleware;
 
     public function __construct()
     {
-        $this->ValidationMiddleware = new ValidationMiddleware();
+        $this->validationMiddleware = new ValidationMiddleware();
+        $this->gateMiddleware = new GateMiddleware();
     }
 
     public function get($uri, $controllerAction)
@@ -37,7 +40,7 @@ class Router
         // exit;
         //validate the request
         if ($method == 'POST') {
-            $this->ValidationMiddleware->validate($_POST);
+            $this->validationMiddleware->validate($_POST);
         }
 
         // Check if the route exists directly (without parameters) 
@@ -53,7 +56,7 @@ class Router
 
             // Check if the URI matches the route pattern
             if (preg_match($pattern, $uri, $matches)) {
-          
+
                 array_shift($matches);
 
                 $this->callAction($controllerAction, ['id' => $matches['id']]);
@@ -79,9 +82,13 @@ class Router
     private function callAction($controllerAction, $parameters = [])
     {
         list($controller, $action) = explode('@', $controllerAction);
+
+        //check if the user have the permission to call this method 
+        $this->gateMiddleware->handlePolicis($action);
+
         $controller = 'App\\Controllers\\' . $controller;
         $controllerInstance = new $controller();
-        
+
         // Call the action with parameters
         call_user_func_array([$controllerInstance, $action], $parameters);
     }

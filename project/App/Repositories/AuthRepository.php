@@ -8,16 +8,11 @@ use App\Core\Repository;
 use App\Models\User;
 use App\Models\Manager;
 use App\Models\Employee;
+use App\Utils\Mappers\dataMapper;
 
 
 class AuthRepository extends Repository
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = Database::getConnection();
-    }
 
     public function login($email, $password)
     {
@@ -25,16 +20,16 @@ class AuthRepository extends Repository
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($user) {
-            $user = new User($user);
-            if (password_verify($password, $user->getPassword())) {
-                $table = $this->getUserRole($user->getRoleId());
-                if ($table == 'admin') {
-                    return $user;
+            $usersInstences = DataMapper::adminMapper($user);
+            if (password_verify($password, $usersInstences->getPassword())) {
+                $table = $this->getUserRole($usersInstences->getRoleId());
+                if ($table->getRole() == 'admin') {
+                    return $usersInstences;
                 }
-                $data = $this->getUserData($table, $user->getId());
-                return [$user, $data, $table];
+                $dataInstencs = $this->getUserData($table->getRole(), $usersInstences->getId());
+                return [$usersInstences, $dataInstencs, $table->getRole()];
             } else {
                 return "Invalid password";
             }
@@ -45,21 +40,23 @@ class AuthRepository extends Repository
 
     public function getUserRole($id)
     {
-        $sql = "SELECT role FROM roles WHERE id = :id";
+        $sql = "SELECT * FROM roles WHERE role_id = :role_id";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(['id' => $id]);
+        $stmt->execute(['role_id' => $id]);
         $role = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $role;
+        $roleInstences = DataMapper::roleMapper($role);
+        return $roleInstences;
     }
 
     public function getUserData($table, $id)
     {
         $class = ucfirst($table);
-        $sql = "SELECT * FROM $table.s WHERE user_id = :id";
+        $table = $table . 's';
+        $sql = "SELECT * FROM $table WHERE user_id = :user_id";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(['id' => $id]);
+        $stmt->execute(['user_id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        $class = "App\\Models\\" . $class;
         $data = new $class($data);
         return $data;
     }
@@ -156,7 +153,7 @@ class AuthRepository extends Repository
 
 //       $min = explode(':', $rule)[1];
 
-      
+
 //       if (strlen($value) < $min) {
 //         $this->addError($field, explode(':', $rule)[0], $value);
 //       }

@@ -42,6 +42,14 @@ class dataMapper
         }
         return $users;
     }
+    public static function adminMapper($usersData)
+    {
+        return  new User($usersData); 
+    }
+    public static function roleMapper($role)
+    {
+        return  new Role($role); 
+    }
 
     public static function EmployeeMapper(array $employeeData)
     {

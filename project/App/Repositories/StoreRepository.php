@@ -18,6 +18,7 @@ class StoreRepository extends Repository
     public function createPointDeVente($data)
     {
         try {
+            $parkingSpace = ($data['parkingSpace'] ?? 'on' == 'on') ? 1 : 0;
             $query = "INSERT INTO stores (name, address, city, status, parking_space, created_at, updated_at) 
                   VALUES (:name, :address, :city, :status, :parking_space, NOW(), NOW())";
 
@@ -26,7 +27,7 @@ class StoreRepository extends Repository
             $stmt->bindParam(':address', $data['address'], PDO::PARAM_STR);
             $stmt->bindParam(':city', $data['city'], PDO::PARAM_STR);
             $stmt->bindParam(':status', $data['status'], PDO::PARAM_STR);
-            $stmt->bindParam(':parking_space', $data['parking_space'], PDO::PARAM_BOOL);
+            $stmt->bindParam(':parking_space', $parkingSpace, PDO::PARAM_BOOL);
             return $stmt->execute();
 
         } catch (PDOException $e) {
@@ -72,7 +73,7 @@ class StoreRepository extends Repository
 
     public function updatePointDeVente($data, $id)
     {
-        
+
         try {
             $parkingSpace = ($data['parkingSpace'] ?? 'on' == 'on') ? 1 : 0;
             $sql = "UPDATE stores 
@@ -91,14 +92,15 @@ class StoreRepository extends Repository
             $stmt->bindParam(':status', $data['status'], PDO::PARAM_STR);
             $stmt->bindParam(':parking_space', $parkingSpace, PDO::PARAM_INT);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    
+
             return $stmt->execute();
-        }catch (PDOException $e) {
-            return "Error :". $e->getMessage();
+        } catch (PDOException $e) {
+            return "Error :" . $e->getMessage();
         }
     }
 
-    public function getStoreCountsByStatus() {
+    public function getStoreCountsByStatus()
+    {
         try {
             $sql = "SELECT 
                         status, 
@@ -106,11 +108,11 @@ class StoreRepository extends Repository
                     FROM stores
                     WHERE status IN ('active', 'pending', 'inactive')
                     GROUP BY status";
-            
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
             $storeCounts = [
                 'active' => 0,
                 'total' => 0,
@@ -119,13 +121,35 @@ class StoreRepository extends Repository
             foreach ($result as $row) {
                 $storeCounts[$row['status']] = $row['count'];
             }
-            
+
             $storeCounts['total'] = array_sum($storeCounts);
-    
+
             return $storeCounts;
         } catch (PDOException $e) {
             return "Error: " . $e->getMessage();
         }
     }
-    
+
+    public function recherchPointsDeVente($key)
+    {
+        try {
+            $sql = "SELECT * FROM stores WHERE name LIKE :key OR city LIKE :key";
+
+            $stmt = $this->db->prepare($sql);
+
+            $key = "%" . $key . "%";
+            $stmt->bindParam(':key', $key, PDO::PARAM_STR);
+
+            $stmt->execute();
+            $stores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $storsInstences = DataMapper::StoreMapper($stores);
+
+            return $storsInstences;
+        } catch (PDOException $e) {
+            return "Error : " . $e->getMessage();
+        }
+    }
+
+
 }

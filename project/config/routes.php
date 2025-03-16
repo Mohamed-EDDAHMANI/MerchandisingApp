@@ -20,6 +20,8 @@ $router->get('/test', 'AdminController@test'); // front test
 // Gestion des points de vente
 $router->get('/admin/points-de-vente', 'StoreController@getPointsDeVente'); // Lister les points de vente
 $router->get('/admin/points-de-vente/{id}', 'StoreController@getPointsDeVenteById'); // get by id
+$router->post('/admin/points-de-vente', 'StoreController@sortPointsDeVente'); // trie les points de vente
+$router->get('/admin/merchandising', 'StoreController@getMerchandising'); // get by id
 $router->post('/admin/points-de-vente/create', 'StoreController@createPointDeVente'); // Ajouter un point de vente
 $router->post('/admin/points-de-vente/update/{id}', 'StoreController@updatePointDeVente'); // Modifier un point de vente
 $router->post('/admin/points-de-vente/delete/{id}', 'StoreController@deletePointDeVente'); // Supprimer un point de vente

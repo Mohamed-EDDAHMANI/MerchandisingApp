@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Store;
 use App\Services\StoreService;
 use App\Utils\Redirects\Redirect;
 
@@ -35,8 +36,8 @@ class StoreController extends BaseController{
         $this->storeService->deletePointDeVente( $id);
     }
     public function getMerchandising(){
-        $data = $this->storeService->getPointsDeVentePanding();
-        $this->view('admin/merchandising');
+        $stores = $this->storeService->getPointsDeVentePanding();
+        $this->view('admin/merchandising', $stores);
     }
 
     

@@ -115,8 +115,9 @@
                     <div class="w-full mb-4">
                         <select name="stores" id="" class=" block w-full pl-3 pr-12 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-medium">
                             <option value="">Les point de vente En attente</option>
-                            <?php if (isset($stores)): ?>
-                                <?php foreach ($stores as $store): ?>
+                            <?php if (isset($data)): ?>
+                                <?php foreach ($data as $store): ?>
+                                    <?php var_dump($store); ?>
                                     <option value="<?php echo $store->getId() ?>"><?php echo $store->getName() ?></option>
                                 <?php endforeach; ?>
                             <?php endif; ?>

@@ -46,6 +46,17 @@ class StoreRepository extends Repository
         }
     }
 
+    public function getPointsDeVentePanding()
+    {
+        try {
+            $stores = $this->getAll('stores',  '*', 'status = ?', ['pending']);
+            $storsInstences = DataMapper::StoreMapper($stores);
+            return $storsInstences;
+        } catch (PDOException $e) {
+            return "Error :" . $e->getMessage();
+        }
+    }
+
     public function getPointsDeVenteById($id)
     {
         try {

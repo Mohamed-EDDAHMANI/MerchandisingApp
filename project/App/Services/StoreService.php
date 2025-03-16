@@ -65,11 +65,9 @@ class StoreService
         }
         Redirect::to('/admin/points-de-vente'); 
     }
-    public function getPointsDeVente()
+    public function getPointsDeVentePanding()
     {
-        $statistics = $this->storeRepository->getStoreCountsByStatus();
-        $stores = $this->storeRepository->getPointsDeVente();
-        return  ['stores' => $stores, 'statistics' => $statistics];
+        return $this->storeRepository->getPointsDeVentePanding();
     }
 
 }

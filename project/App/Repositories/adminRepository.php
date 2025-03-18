@@ -195,17 +195,17 @@ class adminRepository extends Repository
         users.password,
         users.first_name,
         users.last_name,
-        roles.role AS role_name,
+        roles.role_name,
         stores.name AS store_name,
         managers.is_valid AS manager_valid,
         managers.salary AS manager_salary,
-        employees.id AS employee_id,
+        employees.employee_id,
         employees.is_valid AS employee_valid,
         employees.salary AS employee_salary,
         employees.performance AS employee_performance
     FROM users
-    LEFT JOIN roles ON users.role_id = roles.id
-    LEFT JOIN stores ON users.store_id = stores.id
+    LEFT JOIN roles ON users.role_id = roles.role_id
+    LEFT JOIN stores ON users.store_id = stores.store_id
     LEFT JOIN managers ON users.id = managers.user_id
     LEFT JOIN employees ON users.id = employees.user_id
     WHERE users.id = :id
@@ -248,15 +248,13 @@ class adminRepository extends Repository
             $sql = "UPDATE users 
                 SET first_name = :first_name, 
                     last_name = :last_name, 
-                    email = :email,
-                    role_id = :role_id 
+                    email = :email
                 WHERE id = :id";
 
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':first_name', $data['firstName']);
             $stmt->bindParam(':last_name', $data['lastName']);
             $stmt->bindParam(':email', $data['email']);
-            $stmt->bindParam(':role_id', $roleId['id']);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
 

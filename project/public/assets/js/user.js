@@ -101,7 +101,10 @@ async function showDetailsModal(userId) {
 async function showModifyModal(userId) {
     document.getElementById('userForm').action = `/admin/utilisateurs/update/${userId}`;
     document.getElementById('password').name = 'passwordUpdate';
-    document.getElementById('role').setAttribute('disabled', 'true');
+    let select = document.getElementById('role_select')
+    select.addEventListener('mouseover', function() {
+        select.style.pointerEvents = 'none';
+    });
     const user = await getUserById(userId)
     if (user) {
         modalTitle.textContent = 'Modifier un utilisateur';
@@ -110,36 +113,36 @@ async function showModifyModal(userId) {
         document.getElementById('lastName').value = user.last_name;
         document.getElementById('email').value = user.email;
         document.getElementById('store').value = user.store_name;
-        document.getElementById('role').value = user.role_name;
+        document.getElementById('role_select').value = user.role_name;
         document.getElementById('salary').value = user.salary;
         document.getElementById('isValid').checked = user.is_valid;
-
-        userFormModal.classList.remove('hidden');
+        
     }
+    userFormModal.classList.remove('hidden');
 }
 
-function updateUser(userId) {
-    const user = getUserById(userId)
-    editBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+// function updateUser(userId) {
+//     const user = getUserById(userId)
+//     editBtns.forEach(btn => {
+//         btn.addEventListener('click', () => {
 
-            if (user) {
-                modalTitle.textContent = 'Modifier un utilisateur';
-                document.getElementById('userId').value = user.id;
-                document.getElementById('firstName').value = user.firstName;
-                document.getElementById('lastName').value = user.lastName;
-                document.getElementById('email').value = user.email;
-                document.getElementById('password').value = user.password;
-                document.getElementById('store').value = user.store;
-                document.getElementById('role').value = user.role;
-                document.getElementById('salary').value = user.salary;
-                document.getElementById('isValid').checked = user.isValid;
+//             if (user) {
+//                 modalTitle.textContent = 'Modifier un utilisateur';
+//                 document.getElementById('userId').value = user.id;
+//                 document.getElementById('firstName').value = user.firstName;
+//                 document.getElementById('lastName').value = user.lastName;
+//                 document.getElementById('email').value = user.email;
+//                 document.getElementById('password').value = user.password;
+//                 document.getElementById('store').value = user.store;
+//                 document.getElementById('role').value = user.role;
+//                 document.getElementById('salary').value = user.salary;
+//                 document.getElementById('isValid').checked = user.isValid;
 
-                userFormModal.classList.remove('hidden');
-            }
-        });
-    });
-}
+//                 userFormModal.classList.remove('hidden');
+//             }
+//         });
+//     });
+// }
 
 // Toggle user status
 function toggleStatus() {

@@ -25,12 +25,7 @@ $router->get('/admin/merchandising', 'StoreController@getMerchandising'); // get
 $router->post('/admin/points-de-vente/create', 'StoreController@createPointDeVente'); // Ajouter un point de vente
 $router->post('/admin/points-de-vente/update/{id}', 'StoreController@updatePointDeVente'); // Modifier un point de vente
 $router->post('/admin/points-de-vente/delete/{id}', 'StoreController@deletePointDeVente'); // Supprimer un point de vente
-
-// Calculs Merchandising
-$router->get('/merchandising/analyse-demographique', 'MerchandisingController@analyseDemographique'); // Analyser le potentiel d'un point de vente
-$router->get('/merchandising/analyse-concurrence', 'MerchandisingController@analyseConcurrence'); // Étudier la concurrence
-$router->get('/merchandising/calcul-rentabilite', 'MerchandisingController@calculRentabilite'); // Calculer la rentabilité
-$router->get('/merchandising/estimation-marge', 'MerchandisingController@estimationMarge'); // Estimer les marges bénéficiaires
+$router->post('/admin/analyse', 'MerchandisingController@analysePotentiel');
 
 // Tableau de bord et rapports
 $router->get('/dashboard', 'DashboardController@index'); // Tableau de bord principal

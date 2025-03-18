@@ -361,7 +361,7 @@
                         </div>
                         <div id="roleContainer">
                             <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Rôle</label>
-                            <select id="role" name="role"
+                            <select id="role_select" name="role"
                                 class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Sélectionner un rôle</option>
                                 <option value="manager">Manager</option>

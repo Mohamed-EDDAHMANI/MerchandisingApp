@@ -36,8 +36,6 @@ class StoreController extends BaseController{
     }
     public function getMerchandising(){
         $data = $this->storeService->getPointsDeVentePanding();
-        $this->view('admin/merchandising');
+        $this->view('admin/merchandising', $data);
     }
-
-    
 }

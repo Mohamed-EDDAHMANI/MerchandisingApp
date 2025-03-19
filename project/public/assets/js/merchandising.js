@@ -13,9 +13,9 @@ const store = document.querySelector('select[name="stores"]');
 document.getElementById('nextToStep2').addEventListener('click', function () {
     let timeout = 500;
     if (!store || store.value.trim() === '') {
-        store.classList.add('border-red-500')
+        store.classList.add('border-red-500', 'animate-pulse', 'shadow-lg', 'shadow-red-500/50')
         setTimeout(() => {
-            store.classList.remove('border-red-500')
+            store.classList.remove('border-red-500', 'animate-pulse', 'shadow-lg', 'shadow-red-500/50')
         }, timeout);
     } else {
         document.getElementById('step1').classList.add('hidden');
@@ -111,15 +111,21 @@ function calculateAverageSpending() {
 function updateZoneSummary() {
     const households = calculateHouseholds();
     const avgSpending = calculateAverageSpending();
-    const evasionRate = parseFloat(document.getElementById('evasionRate').value) || 10;
-    const invasionRate = parseFloat(document.getElementById('invasionRate').value) || 5;
+    const evasionRate = parseFloat(document.getElementById('evasionRate').value) || 0;
+    const invasionRate = parseFloat(document.getElementById('invasionRate').value) || 0;
 
     // Calculate theoretical revenue (before evasion/invasion)
     const theoreticalRevenue = households * avgSpending;
 
     // Calculate revenue adjustment due to evasion (loss) and invasion (gain)
-    const evasionAdjustment = theoreticalRevenue * (evasionRate / 100);
-    const invasionAdjustment = theoreticalRevenue * (invasionRate / 100);
+    let evasionAdjustment = 0
+    let invasionAdjustment = 0
+    if (evasionRate > 0) {
+        evasionAdjustment = theoreticalRevenue * (evasionRate / 100);
+    }
+    if (invasionRate > 0) {
+        invasionAdjustment = theoreticalRevenue * (invasionRate / 100);
+    }
 
     // Calculate potential zone revenue
     const potentialZoneRevenue = theoreticalRevenue - evasionAdjustment + invasionAdjustment;

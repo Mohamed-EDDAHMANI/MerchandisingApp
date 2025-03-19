@@ -41,13 +41,13 @@
                     </a>
                 </li>
                 <li class="px-4 py-2 hover:bg-blue-800">
-                    <a href="#" class="flex items-center">
+                    <a href="/admin/utilisateurs" class="flex items-center">
                         <i class="fas fa-users w-5 h-5 mr-3"></i>
                         <span>Utilisateurs</span>
                     </a>
                 </li>
                 <li class="px-4 py-2 hover:bg-blue-800">
-                    <a href="#" class="flex items-center">
+                    <a href="/dashboard/rapports" class="flex items-center">
                         <i class="fas fa-file-alt w-5 h-5 mr-3"></i>
                         <span>Rapports</span>
                     </a>
@@ -257,7 +257,7 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input type="number" id="evasionRate" name="evasionRate"
                                         class="block w-full pl-3 pr-12 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="0" value="10" min="0" max="100" step="1">
+                                        placeholder="0" value="0" min="0" max="100" step="1">
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500">%</span>
                                     </div>
@@ -271,7 +271,7 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input type="number" id="invasionRate" name="invasionRate"
                                         class="block w-full pl-3 pr-12 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="0" value="5" min="0" max="100" step="1">
+                                        placeholder="0" value="0" min="0" max="100" step="1">
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500">%</span>
                                     </div>

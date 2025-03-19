@@ -38,6 +38,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Open form modal for new user
 openFormBtn.addEventListener('click', () => {
+    document.getElementById('userForm').action = `/admin/utilisateurs/create`;
+    let select = document.getElementById('role_select')
+    let newSelect = document.createElement('select');
+    newSelect.id = select.id;
+    newSelect.className = select.className;
+    newSelect.innerHTML = select.innerHTML;
+    select.replaceWith(newSelect);
+    select.addEventListener('mouseenter', function () {
+        select.style.pointerEvents = 'auto';
+    });
     modalTitle.textContent = 'Ajouter un utilisateur';
     document.getElementById('userId').value = '';
     userForm.reset();
@@ -75,7 +85,6 @@ async function getUserById(userId) {
             throw new Error('Failed to fetch user data');
         }
         const user = await response.json();
-        console.log(user)
         return user;
     } catch (error) {
         console.error('Error fetching user data:', error);
@@ -102,7 +111,7 @@ async function showModifyModal(userId) {
     document.getElementById('userForm').action = `/admin/utilisateurs/update/${userId}`;
     document.getElementById('password').name = 'passwordUpdate';
     let select = document.getElementById('role_select')
-    select.addEventListener('mouseover', function() {
+    select.addEventListener('mouseenter', function () {
         select.style.pointerEvents = 'none';
     });
     const user = await getUserById(userId)
@@ -112,11 +121,18 @@ async function showModifyModal(userId) {
         document.getElementById('firstName').value = user.first_name;
         document.getElementById('lastName').value = user.last_name;
         document.getElementById('email').value = user.email;
-        document.getElementById('store').value = user.store_name;
         document.getElementById('role_select').value = user.role_name;
         document.getElementById('salary').value = user.salary;
         document.getElementById('isValid').checked = user.is_valid;
-        
+
+        let storeSelect = document.getElementById('store');
+        for (let option of storeSelect.options) {
+            if (option.textContent == user.store_name) {
+                option.selected = true;
+                break;
+            }
+        }
+
     }
     userFormModal.classList.remove('hidden');
 }
@@ -249,9 +265,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                         data-id="${user.user_id}" 
                                         data-status="true">
                                     ${user.role_name === 'manager'
-                                                    ? `<i class="fas ${user.manager_valid ? 'fa-user-check text-green-500' : 'fa-user-times'}"></i>`
-                                                    : `<i class="fas ${user.employee_valid ? 'fa-user-check text-green-500' : 'fa-user-times'}"></i>`
-                                                }
+                        ? `<i class="fas ${user.manager_valid ? 'fa-user-check text-green-500' : 'fa-user-times'}"></i>`
+                        : `<i class="fas ${user.employee_valid ? 'fa-user-check text-green-500' : 'fa-user-times'}"></i>`
+                    }
                                 </button>
                             </form>
                         </td>

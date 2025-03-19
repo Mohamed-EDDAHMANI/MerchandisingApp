@@ -118,9 +118,36 @@
 
 
 
-        <!-- La page "Calcul Merchandising" de votre tableau de bord sera conçue pour permettre aux utilisateurs d’évaluer la rentabilité potentielle d’un point de vente en fonction de données démographiques et économiques. Elle comportera une interface claire et intuitive, divisée en plusieurs sections interactives. Tout d'abord, l'utilisateur saisira les données de base telles que le nombre total de personnes dans la zone étudiée et le nombre moyen de personnes par ménage. Une fois ces informations fournies, le système calculera automatiquement le nombre de ménages. Ensuite, l'utilisateur entrera la consommation annuelle moyenne d'un ménage en France et l’indice de consommation (IDC) spécifique à la région, permettant ainsi de déterminer la dépense moyenne par foyer. Une troisième section effectuera le calcul du Chiffre d'Affaires (CA) potentiel de la zone, en prenant en compte les ménages, leur dépense moyenne, ainsi que les flux d’invasion (clients venant d’autres zones) et d’évasion (clients quittant la zone pour acheter ailleurs). Enfin, la dernière étape consistera à estimer le CA potentiel du point de vente, en soustrayant le chiffre d'affaires estimé des concurrents présents dans la zone. Un indicateur de rentabilité visuel (graphique ou code couleur) affichera si l’ouverture du magasin est viable ou risquée, accompagnée d’une suggestion stratégique basée sur les résultats. Cette page sera donc un outil puissant pour la prise de décision des gestionnaires de points de vente. -->
+        <!--  La page "Rapports" qui represente la list des rappore de calcule merchandising et un list des rapport des employer    -->
+   
+ <!--    CREATE TABLE IF NOT EXISTS merchandising_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    store_id INT NOT NULL,                      -- معرف المتجر
+    zone_population INT,                        -- عدد السكان في المنطقة
+    avg_household_size DECIMAL(3, 1),           -- متوسط عدد الأفراد في كل أسرة
+    nombre_menages DECIMAL(10, 2),              -- عدد الأسر في المنطقة
+    avg_annual_spending DECIMAL(10, 2),         -- متوسط الإنفاق السنوي لكل أسرة
+    regional_wealth_index DECIMAL(5, 2),        -- مؤشر الثروة الإقليمي
+    invasion DECIMAL(15, 2),                    -- الإنفاق من غير المقيمين في المنطقة
+    evasion DECIMAL(15, 2),                     -- الإنفاق خارج المنطقة من المقيمين
+    CA_potentiel_zone DECIMAL(15, 2),           -- الإيرادات المحتملة للمنطقة
+    competitor_revenue DECIMAL(15, 2),          -- إيرادات المنافسين
+    CA_potentiel_store DECIMAL(15, 2),          -- الإيرادات المحتملة للمتجر
+    result_frot DECIMAL(10,2) NOT NULL DEFAULT 0,
+    analysis_date  CURRENT_DATE,
+    FOREIGN KEY (store_id) REFERENCES stores(store_id)  -- Foreign key constraint
+); in merchandising_data list i want just show store name, zone_population, CA_potentiel_zone, CA_potentiel_store, competitor_revenue,  result_frot. actions(generate/delete)  -->
 
-
+<!--      
+CREATE TABLE IF NOT EXISTS reports (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each report
+    user_id INT NOT NULL,  -- Foreign key referencing the users table
+    message TEXT NOT NULL,  -- The content of the report
+    report_type ENUM('profitability', 'competitor_analysis', 'sales_performance') NOT NULL,  -- Enum for report type
+    generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the report was generated
+    subject VARCHAR(255) NOT NULL,  -- The subject of the report
+    FOREIGN KEY (user_id) REFERENCES users(id)  -- Foreign key constraint
+);  in reports list i want just show user name, report_type, message, subject. actions(generate/delete)  -->
 
 
 

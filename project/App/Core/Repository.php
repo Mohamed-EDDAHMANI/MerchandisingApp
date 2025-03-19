@@ -9,7 +9,6 @@ class Repository {
     protected $db;
 
     public function __construct() {
-        // $db = new Database();
         $this->db = Database::getConnection();
     }
 

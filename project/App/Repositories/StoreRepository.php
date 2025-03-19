@@ -49,7 +49,7 @@ class StoreRepository extends Repository
     public function getPointsDeVentePanding()
     {
         try {
-            $stores = $this->getAll('stores',  '*', 'status = ?', ['pending']);
+            $stores = $this->getAll('stores', '*', 'status = ?', ['pending']);
             $storsInstences = DataMapper::StoreMapper($stores);
             return $storsInstences;
         } catch (PDOException $e) {
@@ -60,7 +60,7 @@ class StoreRepository extends Repository
     public function getPointsDeVenteById($id)
     {
         try {
-            $store = $this->getById('stores', $id);
+            $store = $this->getAll('stores', '*', 'store_id = ?', [$id]);
             return $store;
         } catch (PDOException $e) {
             return "Error :" . $e->getMessage();
@@ -70,16 +70,13 @@ class StoreRepository extends Repository
     public function deletePointDeVente($id)
     {
         try {
-            $store = $this->deleteById('stores', $id);
-            return $store;
+            $sql = "DELETE FROM stores WHERE store_id = :store_id LIMIT 1";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':store_id', $id);
+            return $stmt->execute();
         } catch (PDOException $e) {
             return "Error :" . $e->getMessage();
         }
-    }
-
-    public function create($data)
-    {
-        // Query to create a new point de vente
     }
 
     public function updatePointDeVente($data, $id)
@@ -91,9 +88,9 @@ class StoreRepository extends Repository
                     SET name = :name, 
                         address = :address, 
                         city = :city,
-                        status = :status ,
+                        status = :status,
                         parking_space = :parking_space 
-                    WHERE id = :id";
+                    WHERE store_id = :store_id";
 
             $stmt = $this->db->prepare($sql);
 
@@ -102,7 +99,7 @@ class StoreRepository extends Repository
             $stmt->bindParam(':city', $data['city'], PDO::PARAM_STR);
             $stmt->bindParam(':status', $data['status'], PDO::PARAM_STR);
             $stmt->bindParam(':parking_space', $parkingSpace, PDO::PARAM_INT);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->bindParam(':store_id', $id, PDO::PARAM_INT);
 
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -161,6 +158,25 @@ class StoreRepository extends Repository
             return "Error : " . $e->getMessage();
         }
     }
+
+    public function toggleStatus($id, $status)
+    {
+        try {
+            $query = "UPDATE stores SET status = :status WHERE store_id = :store_id";
+            
+            $stmt = $this->db->prepare($query);
+    
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            $stmt->bindParam(':store_id', $id, PDO::PARAM_INT);
+    
+            $stmt->execute();
+            
+            return true;
+        } catch (PDOException $e) {
+            return "Error: " . $e->getMessage();
+        }
+    }
+    
 
 
 }

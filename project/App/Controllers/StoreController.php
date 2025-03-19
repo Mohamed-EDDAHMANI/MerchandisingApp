@@ -36,9 +36,7 @@ class StoreController extends BaseController{
         $this->storeService->deletePointDeVente( $id);
     }
     public function getMerchandising(){
-        $stores = $this->storeService->getPointsDeVentePanding();
-        $this->view('admin/merchandising', $stores);
+        $data = $this->storeService->getPointsDeVentePanding();
+        $this->view('admin/merchandising', $data);
     }
-
-    
 }

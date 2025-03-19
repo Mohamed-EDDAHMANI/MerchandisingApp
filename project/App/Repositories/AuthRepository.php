@@ -61,11 +61,6 @@ class AuthRepository extends Repository
         return $data;
     }
 
-    public function logout()
-    {
-        session_destroy();
-    }
-
     public function signup($data)
     {
         $sql = "INSERT INTO users (name, email, password, role_id) VALUES (:name, :email, :password, :role_id)";

@@ -41,13 +41,13 @@
                     </a>
                 </li>
                 <li class="px-4 py-2 hover:bg-blue-800">
-                    <a href="#" class="flex items-center">
+                    <a href="/admin/utilisateurs" class="flex items-center">
                         <i class="fas fa-users w-5 h-5 mr-3"></i>
                         <span>Utilisateurs</span>
                     </a>
                 </li>
                 <li class="px-4 py-2 hover:bg-blue-800">
-                    <a href="#" class="flex items-center">
+                    <a href="/dashboard/rapports" class="flex items-center">
                         <i class="fas fa-file-alt w-5 h-5 mr-3"></i>
                         <span>Rapports</span>
                     </a>
@@ -113,12 +113,13 @@
                         de vente
                     </h2>
                     <div class="w-full mb-4">
-                        <select name="stores" id="" class=" block w-full pl-3 pr-12 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-medium">
-                            <option value="">Les point de vente En attente</option>
+                        <select name="stores" id=""
+                            class=" block w-full pl-3 pr-12 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-medium">
+                            <option value="" id="store">Les point de vente En attente</option>
                             <?php if (isset($data)): ?>
                                 <?php foreach ($data as $store): ?>
-                                    <?php var_dump($store); ?>
-                                    <option value="<?php echo $store->getId() ?>"><?php echo $store->getName() ?></option>
+                                    <option value="<?php echo $store->getId() ?>">
+                                        <?php echo $store->getName() . '  |  ' . $store->getCity() ?></option>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </select>
@@ -199,7 +200,7 @@
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                                    Consommation annuelle moyenne d'un ménage en France
+                                    Consommation annuelle moyenne d'un ménage au Maroc
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -207,7 +208,7 @@
                                     </div>
                                     <input type="number" id="avgConsumption" name="avgConsumption"
                                         class="block w-full pl-7 pr-12 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="0" value="34300">
+                                        placeholder="0" value="">
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500">/an</span>
                                     </div>
@@ -216,7 +217,6 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">
                                     Indice de consommation (IDC) de la région
-                                    <span class="text-xs text-gray-500 ml-1">(100 = moyenne nationale)</span>
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input type="number" id="consumptionIndex" name="consumptionIndex"
@@ -259,7 +259,7 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input type="number" id="evasionRate" name="evasionRate"
                                         class="block w-full pl-3 pr-12 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="0" value="10" min="0" max="100" step="1">
+                                        placeholder="0" value="0" min="0" max="100" step="1">
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500">%</span>
                                     </div>
@@ -273,7 +273,7 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input type="number" id="invasionRate" name="invasionRate"
                                         class="block w-full pl-3 pr-12 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="0" value="5" min="0" max="100" step="1">
+                                        placeholder="0" value="0" min="0" max="100" step="1">
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500">%</span>
                                     </div>
@@ -339,19 +339,6 @@
                                         placeholder="0" value="0">
                                 </div>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">
-                                    Part de marché visée
-                                </label>
-                                <div class="mt-1 relative rounded-md shadow-sm">
-                                    <input type="number" id="marketShare" name="marketShare"
-                                        class="block w-full pl-3 pr-12 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="0" value="15" min="0" max="100" step="1">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500">%</span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="mt-4 p-4 bg-gray-50 rounded-lg">
                             <div class="flex flex-col space-y-2">
@@ -392,212 +379,72 @@
                                     class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-md shadow-sm transition-colors duration-200">
                                     <i class="fas fa-arrow-left mr-2"></i> Retour
                                 </button>
-                                <button id="generateReportBtn"
+                                <button id="saveDataBtn"
                                     class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md shadow-sm transition-colors duration-200">
-                                    <i class="fas fa-file-pdf mr-2"></i> Générer un rapport
+                                    <i class="fas fa-file-pdf mr-2"></i> Seuvgarger les resultat
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </main>
     </div>
 
-    <script>
 
-        // Navigation between steps
-        document.getElementById('nextToStep2').addEventListener('click', function () {
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('step2').classList.remove('hidden');
-            updateProgressBar(2);
-            calculateHouseholds();
-        });
 
-        document.getElementById('backToStep1').addEventListener('click', function () {
-            document.getElementById('step2').classList.add('hidden');
-            document.getElementById('step1').classList.remove('hidden');
-            updateProgressBar(1);
-        });
+    <!-- error modal -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <?php
+        $isSuccess = $_SESSION['error']['type'] === 'success';
+        $bgColor = $isSuccess ? 'bg-emerald-50' : 'bg-rose-50';
+        $textColor = $isSuccess ? 'text-emerald-800' : 'text-rose-800';
+        $borderColor = $isSuccess ? 'border-emerald-200' : 'border-rose-200';
+        $iconBgColor = $isSuccess ? 'bg-emerald-100' : 'bg-rose-100';
+        ?>
+        <div id="alert-message" class="message fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fadeIn
+                flex items-center gap-3 w-auto max-w-md
+                <?php echo "$bgColor $textColor $borderColor"; ?> 
+                px-4 py-3 rounded-lg shadow-lg border">
 
-        document.getElementById('nextToStep3').addEventListener('click', function () {
-            document.getElementById('step2').classList.add('hidden');
-            document.getElementById('step3').classList.remove('hidden');
-            updateProgressBar(3);
-            calculateAverageSpending();
-            updateZoneSummary();
-        });
+            <!-- Icon container with circular background -->
+            <div class="<?php echo $iconBgColor; ?> p-2 rounded-full flex-shrink-0">
+                <?php if ($isSuccess): ?>
+                    <!-- Success icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd" />
+                    </svg>
+                <?php else: ?>
+                    <!-- Error icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                            clip-rule="evenodd" />
+                    </svg>
+                <?php endif; ?>
+            </div>
 
-        document.getElementById('backToStep2').addEventListener('click', function () {
-            document.getElementById('step3').classList.add('hidden');
-            document.getElementById('step2').classList.remove('hidden');
-            updateProgressBar(2);
-        });
+            <!-- Message content -->
+            <div class="flex-1">
+                <p class="font-medium"><?php echo htmlspecialchars($_SESSION['error']['message']); ?></p>
+            </div>
 
-        document.getElementById('nextToStep4').addEventListener('click', function () {
-            document.getElementById('step3').classList.add('hidden');
-            document.getElementById('step4').classList.remove('hidden');
-            updateProgressBar(4);
-            calculatePotentialRevenue();
-            updateStoreSummary();
-        });
+            <!-- Close button -->
+            <button onclick="this.parentElement.remove()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
 
-        document.getElementById('backToStep3').addEventListener('click', function () {
-            document.getElementById('step4').classList.add('hidden');
-            document.getElementById('step3').classList.remove('hidden');
-            updateProgressBar(3);
-        });
+            <?php unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
 
-        // Function to update progress bar
-        function updateProgressBar(step) {
-            const texts = document.querySelectorAll('.flex-1 .text-sm');
-
-            texts.forEach((text, index) => {
-                if (index < step) {
-                    text.classList.remove('text-gray-400', 'text-blue-300', 'text-blue-400');
-                    text.classList.add('text-blue-600');
-                } else if (index === step) {
-                    text.classList.remove('text-gray-400', 'text-blue-300', 'text-blue-600');
-                    text.classList.add('text-blue-400');
-                } else if (index === step + 1) {
-                    text.classList.remove('text-gray-400', 'text-blue-400', 'text-blue-600');
-                    text.classList.add('text-blue-300');
-                } else {
-                    text.classList.remove('text-blue-600', 'text-blue-400', 'text-blue-300');
-                    text.classList.add('text-gray-400');
-                }
-            });
-        }
-
-        // Calculate number of households
-        function calculateHouseholds() {
-            const population = document.getElementById('population').value;
-            const avgPersonsPerHousehold = document.getElementById('avgPersonsPerHousehold').value;
-
-            const households = Math.round(parseFloat(population) / parseFloat(avgPersonsPerHousehold));
-
-            // Update the result display
-            document.getElementById('householdsResult').textContent = households.toLocaleString();
-
-            return households;
-        }
-
-        // Calculate average spending per household
-        function calculateAverageSpending() {
-            const avgConsumption = parseFloat(document.getElementById('avgConsumption').value) || 34300;
-            const consumptionIndex = parseFloat(document.getElementById('consumptionIndex').value) || 100;
-
-            // Calculate average spending with regional index adjustment
-            const avgSpending = avgConsumption * (consumptionIndex / 100);
-
-            // Update the result display
-            document.getElementById('avgSpendingResult').textContent = avgSpending.toLocaleString() + ' €';
-
-            return avgSpending;
-        }
-
-        // Update zone summary and calculate potential zone revenue
-        function updateZoneSummary() {
-            const households = calculateHouseholds();
-            const avgSpending = calculateAverageSpending();
-            const evasionRate = parseFloat(document.getElementById('evasionRate').value) || 10;
-            const invasionRate = parseFloat(document.getElementById('invasionRate').value) || 5;
-
-            // Calculate theoretical revenue (before evasion/invasion)
-            const theoreticalRevenue = households * avgSpending;
-
-            // Calculate revenue adjustment due to evasion (loss) and invasion (gain)
-            const evasionAdjustment = theoreticalRevenue * (evasionRate / 100);
-            const invasionAdjustment = theoreticalRevenue * (invasionRate / 100);
-
-            // Calculate potential zone revenue
-            const potentialZoneRevenue = theoreticalRevenue - evasionAdjustment + invasionAdjustment;
-
-            // Update summary displays
-            document.getElementById('householdsSummary').textContent = households.toLocaleString();
-            document.getElementById('avgSpendingSummary').textContent = avgSpending.toLocaleString() + ' €';
-            document.getElementById('theoreticalRevenue').textContent = theoreticalRevenue.toLocaleString() + ' €';
-            document.getElementById('potentialZoneRevenue').textContent = potentialZoneRevenue.toLocaleString() + ' €';
-
-            return potentialZoneRevenue;
-        }
-
-        // Calculate potential store revenue and update store summary
-        function calculatePotentialRevenue() {
-            const zoneRevenue = updateZoneSummary();
-            const competitors = parseInt(document.getElementById('competitors').value) || 0;
-            const competitorsRevenue = parseFloat(document.getElementById('competitorsRevenue').value) || 0;
-            const marketShare = parseFloat(document.getElementById('marketShare').value) || 15;
-
-            // Calculate potential store revenue based on market share
-            let availableMarket = zoneRevenue - competitorsRevenue;
-            if (availableMarket < 0) availableMarket = 0;
-
-            const potentialStoreRevenue = (availableMarket * (marketShare / 100));
-
-            // Update summary displays
-            document.getElementById('zonePotentialSummary').textContent = zoneRevenue.toLocaleString() + ' €';
-            document.getElementById('competitorsRevenueSummary').textContent = competitorsRevenue.toLocaleString() + ' €';
-            document.getElementById('potentialStoreRevenue').textContent = potentialStoreRevenue.toLocaleString() + ' €';
-
-            // Update profitability indicator
-            updateProfitabilityIndicator(potentialStoreRevenue, zoneRevenue);
-
-            return potentialStoreRevenue;
-        }
-
-        // Update the profitability indicator
-        function updateProfitabilityIndicator(storeRevenue, zoneRevenue) {
-            // Calculate profitability percentage (simple version)
-            // This is just a demo calculation - in real life this would be more complex
-            const profitabilityThreshold = 500000; // Example threshold
-            let profitability = (storeRevenue / profitabilityThreshold) * 100;
-
-            // Cap at 100%
-            if (profitability > 100) profitability = 100;
-
-            // Update the indicator
-            const indicator = document.getElementById('profitabilityIndicator');
-            const percentage = document.getElementById('profitabilityPercentage');
-            const message = document.getElementById('profitabilityMessage');
-
-            indicator.style.width = profitability + '%';
-            percentage.textContent = Math.round(profitability) + '%';
-
-            // Set color and message based on profitability level
-            if (profitability < 30) {
-                indicator.classList.remove('bg-green-500', 'bg-yellow-500');
-                indicator.classList.add('bg-red-500');
-                message.innerHTML = '<i class="fas fa-exclamation-circle text-red-500 mr-1"></i> Ce point de vente présente un risque élevé de non-rentabilité.';
-            } else if (profitability < 60) {
-                indicator.classList.remove('bg-green-500', 'bg-red-500');
-                indicator.classList.add('bg-yellow-500');
-                message.innerHTML = '<i class="fas fa-exclamation-triangle text-yellow-500 mr-1"></i> Ce point de vente présente un potentiel moyen. Une analyse supplémentaire est recommandée.';
-            } else {
-                indicator.classList.remove('bg-yellow-500', 'bg-red-500');
-                indicator.classList.add('bg-green-500');
-                message.innerHTML = '<i class="fas fa-check-circle text-green-500 mr-1"></i> Ce point de vente semble avoir un bon potentiel de rentabilité.';
-            }
-        }
-
-        // Generate PDF report
-        document.getElementById('generateReportBtn').addEventListener('click', function () {
-            alert('Génération du rapport PDF en cours... Cette fonctionnalité sera disponible prochainement.');
-        });
-
-        // Add input event listeners to update calculations in real-time
-        document.getElementById('population').addEventListener('input', calculateHouseholds);
-        document.getElementById('avgPersonsPerHousehold').addEventListener('input', calculateHouseholds);
-        document.getElementById('avgConsumption').addEventListener('input', calculateAverageSpending);
-        document.getElementById('consumptionIndex').addEventListener('input', calculateAverageSpending);
-        document.getElementById('evasionRate').addEventListener('input', updateZoneSummary);
-        document.getElementById('invasionRate').addEventListener('input', updateZoneSummary);
-        document.getElementById('competitors').addEventListener('input', calculatePotentialRevenue);
-        document.getElementById('competitorsRevenue').addEventListener('input', calculatePotentialRevenue);
-        document.getElementById('marketShare').addEventListener('input', calculatePotentialRevenue);
-    </script>
+    <script src="../../public/assets/js/merchandising.js"></script>
 </body>
 
 </html>

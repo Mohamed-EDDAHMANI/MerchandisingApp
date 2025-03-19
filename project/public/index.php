@@ -16,7 +16,8 @@ $uri = $_SERVER['REQUEST_URI'];
 
 // Check if the URI matches any protected routes without a session
 // AuthMiddleware::handleAuthentification($protectedRoutes , $uri);
-
+// var_dump($_SESSION['role']);
+// exit;
 
 $router = new Router();
 require_once "../config/routes.php";

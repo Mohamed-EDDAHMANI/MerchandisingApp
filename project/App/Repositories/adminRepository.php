@@ -125,21 +125,21 @@ class adminRepository extends Repository
             users.email,
             users.first_name,
             users.last_name,
-            roles.role AS role_name,
+            roles.role_name,
             stores.name AS store_name,
             managers.is_valid AS manager_valid,
             managers.salary AS manager_salary,
-            managers.id AS manager_id,
-            employees.id AS employee_id,
+            managers.manager_id,
+            employees.employee_id,
             employees.is_valid AS employee_valid,
             employees.salary AS employee_salary,
             employees.performance AS employee_performance
         FROM users
-        LEFT JOIN roles ON users.role_id = roles.id
-        LEFT JOIN stores ON users.store_id = stores.id
+        LEFT JOIN roles ON users.role_id = roles.role_id
+        LEFT JOIN stores ON users.store_id = stores.store_id
         LEFT JOIN managers ON users.id = managers.user_id
         LEFT JOIN employees ON users.id = employees.user_id
-        WHERE roles.role != 'admin'
+        WHERE roles.role_name != 'admin'
     ";
 
         if ($is_valid == 'true') {
@@ -156,12 +156,12 @@ class adminRepository extends Repository
         $params = [];
 
         if ($role) {
-            $conditions[] = "roles.role = :role";
+            $conditions[] = "roles.role_name = :role";
             $params[':role'] = $role;
         }
 
         if ($store) {
-            $conditions[] = "stores.name = :store";
+            $conditions[] = "stores.store_name = :store";
             $params[':store'] = $store;
         }
 
@@ -195,17 +195,17 @@ class adminRepository extends Repository
         users.password,
         users.first_name,
         users.last_name,
-        roles.role AS role_name,
+        roles.role_name,
         stores.name AS store_name,
         managers.is_valid AS manager_valid,
         managers.salary AS manager_salary,
-        employees.id AS employee_id,
+        employees.employee_id,
         employees.is_valid AS employee_valid,
         employees.salary AS employee_salary,
         employees.performance AS employee_performance
     FROM users
-    LEFT JOIN roles ON users.role_id = roles.id
-    LEFT JOIN stores ON users.store_id = stores.id
+    LEFT JOIN roles ON users.role_id = roles.role_id
+    LEFT JOIN stores ON users.store_id = stores.store_id
     LEFT JOIN managers ON users.id = managers.user_id
     LEFT JOIN employees ON users.id = employees.user_id
     WHERE users.id = :id
@@ -249,14 +249,14 @@ class adminRepository extends Repository
                 SET first_name = :first_name, 
                     last_name = :last_name, 
                     email = :email,
-                    role_id = :role_id 
+                    store_id = :store_id
                 WHERE id = :id";
 
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':first_name', $data['firstName']);
             $stmt->bindParam(':last_name', $data['lastName']);
             $stmt->bindParam(':email', $data['email']);
-            $stmt->bindParam(':role_id', $roleId['id']);
+            $stmt->bindParam(':store_id', $data['store_id']);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
 

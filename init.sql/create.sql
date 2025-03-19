@@ -105,15 +105,13 @@ CREATE TABLE IF NOT EXISTS merchandising_data (
     nombre_menages DECIMAL(10, 2),              -- عدد الأسر في المنطقة
     avg_annual_spending DECIMAL(10, 2),         -- متوسط الإنفاق السنوي لكل أسرة
     regional_wealth_index DECIMAL(5, 2),        -- مؤشر الثروة الإقليمي
-    depense_moyenne DECIMAL(10, 2),             -- متوسط الإنفاق لكل أسرة (محسوب)
     invasion DECIMAL(15, 2),                    -- الإنفاق من غير المقيمين في المنطقة
     evasion DECIMAL(15, 2),                     -- الإنفاق خارج المنطقة من المقيمين
     CA_potentiel_zone DECIMAL(15, 2),           -- الإيرادات المحتملة للمنطقة
     competitor_revenue DECIMAL(15, 2),          -- إيرادات المنافسين
     CA_potentiel_store DECIMAL(15, 2),          -- الإيرادات المحتملة للمتجر
-    operational_costs DECIMAL(15, 2),           -- التكاليف التشغيلية
-    profit DECIMAL(15, 2),                      -- الربح (محسوب)
-    analysis_date DATE,                         -- تاريخ التحليل
+    result_frot DECIMAL(10,2) NOT NULL DEFAULT 0,
+    analysis_date  CURRENT_DATE,
     FOREIGN KEY (store_id) REFERENCES stores(store_id)  -- Foreign key constraint
 );
 

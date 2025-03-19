@@ -1,18 +1,22 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Services\MerchandisingService;
+use App\Utils\Redirects\Redirect;
+
 class MerchandisingController
 {
     private $merchandisingService;
 
-    public function __construct(MerchandisingService $merchandisingService)
-    {
-        $this->merchandisingService = $merchandisingService;
+    public function __construct() {
+        $this->merchandisingService = new MerchandisingService();
     }
 
-    public function analyseDemographique()
+    public function analysePotentiel()
     {
-        $result = $this->merchandisingService->analyseDemographique();
-        require 'views/merchandising/analyse-demographique.php';
+        $data = json_decode(file_get_contents("php://input"), true);
+        $this->merchandisingService->analysePotentiel($data);
     }
 
     public function analyseConcurrence()

@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li class="px-4 py-2 hover:bg-blue-800">
-                    <a href="#" class="flex items-center">
+                    <a href="/dashboard/rapports" class="flex items-center">
                         <i class="fas fa-file-alt w-5 h-5 mr-3"></i>
                         <span>Rapports</span>
                     </a>
@@ -245,7 +245,7 @@
                                                         <?php if ($user->getRole()->getRole() == 'manager'): ?>
                                                             <i
                                                                 class="fas <?php echo $user->getManager()->getIsValid() ? 'fa-user-check text-green-500' : 'fa-user-times'; ?>"></i>
-                                                        <?php else :?>
+                                                        <?php else: ?>
                                                             <i
                                                                 class="fas <?php echo $user->getEmployee()->getIsValid() ? 'fa-user-check text-green-500' : 'fa-user-times'; ?>"></i>
                                                         <?php endif ?>
@@ -354,14 +354,16 @@
                             <select id="store" name="store_id"
                                 class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Sélectionner un magasin</option>
-                                <option value="1">Magasin A</option>
-                                <option value="2">Magasin B</option>
-                                <option value="3">Magasin C</option>
+                                <?php if (isset($data['stores'])): ?>
+                                    <?php foreach ($data['stores'] as $value): ?>
+                                        <option value="<?php echo $value->getId() ?>"><?php echo $value->getName() ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </select>
                         </div>
                         <div id="roleContainer">
                             <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Rôle</label>
-                            <select id="role" name="role"
+                            <select id="role_select" name="role"
                                 class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Sélectionner un rôle</option>
                                 <option value="manager">Manager</option>

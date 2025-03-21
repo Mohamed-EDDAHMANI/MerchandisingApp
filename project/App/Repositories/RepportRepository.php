@@ -15,10 +15,12 @@ use PDOException;
 class RepportRepository extends Repository
 {
     public function getMerchangisingRapports(){
-        return $this->getAll('merchandising_data');
+        $data = $this->getAll('merchandising_data');
+        $usersInstences = DataMapper::UserMapper($users);
     }
 
     public function getEmployeeRapports(){
-        return $this->getAll('reports');
+        $data = $this->getAll('reports');
+        $usersInstences = DataMapper::UserMapper($users);
     }
 }

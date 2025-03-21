@@ -177,6 +177,8 @@
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     <!-- Sample data rows -->
+                                    <?php if(isset($data['merchandising'])) ?>
+                                    <?php foreach($data['merchandising'] as $data) ?>
                                     <tr class="hover:bg-gray-50 transition-colors duration-150">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="font-medium text-gray-900">Magasin Paris Centre</div>

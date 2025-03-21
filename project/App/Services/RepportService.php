@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Utils\Sessions\Session;
 use App\Utils\Redirects\Redirect;
+use App\Repositories\RepportRepository;
 
 class RepportService
 {

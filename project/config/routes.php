@@ -28,7 +28,7 @@ $router->post('/admin/points-de-vente/delete/{id}', 'StoreController@deletePoint
 $router->post('/admin/analyse', 'MerchandisingController@analysePotentiel');
 
 // Tableau de bord et rapports
-$router->get('/dashboard/rapports', 'ExportController@getRapports'); // Générer des rapports
+$router->get('/admine/rapports', 'RepportController@getRepports'); // Générer des rapports
 $router->get('/dashboard/comparaison', 'DashboardController@comparaisonVilles'); // Comparer les performances des points de vente
 
 // Sécurité et gestion des utilisateurs

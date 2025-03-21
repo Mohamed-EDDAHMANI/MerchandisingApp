@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\adminRepository;
+use App\Repositories\AdminRepository;
 use App\Utils\Sessions\Session;
 use App\Utils\Redirects\Redirect;
 

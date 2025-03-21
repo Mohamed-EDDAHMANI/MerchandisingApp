@@ -13,7 +13,7 @@ use Exception;
 use PDOException;
 
 
-class adminRepository extends Repository
+class AdminRepository extends Repository
 {
     public function createUser($data)
     {

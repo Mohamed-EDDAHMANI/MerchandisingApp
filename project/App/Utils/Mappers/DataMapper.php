@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Manager;
 use App\Models\Employee;
 use App\Models\Role;
+use App\Models\MerchandisingData;
 
 
 class dataMapper
@@ -51,22 +52,27 @@ class dataMapper
         return  new Role($role); 
     }
 
-    public static function EmployeeMapper(array $employeeData)
+    public static function DataMapper(array $dataArray, $class)
     {
-        $employees = [];
-        foreach ($employeeData as $employee) {
-            $employees[] = new Store($employee);
+        $datas = [];
+        foreach ($dataArray as $data) {
+            $classPath = 'App\Models\\' . $class;  
+            $datas[] = new $classPath($data);
         }
-        return $employees;
+        return $datas;
     }
-    public static function ManagerMapper(array $managerData)
+
+    public static function MerchandisingDataMapper(array $dataArray)
     {
-        $managers = [];
-        foreach ($managerData as $manager) {
-            $managers[] = new Store($manager);
+        $datas = [];
+        foreach ($dataArray as $data) {
+            $instence = new MerchandisingData($data);
+            $instence->setStoreName($data['name']);
+            $datas[] = $instence;
         }
-        return $managers;
+        return $datas;
     }
+
 
 
 }

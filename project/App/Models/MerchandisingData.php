@@ -1,6 +1,9 @@
 <?php
 
-class MerchandisingData {
+namespace App\Models;
+
+
+class  MerchandisingData{
     private $id;
     private $store_id;
     private $zone_population;
@@ -17,6 +20,7 @@ class MerchandisingData {
     private $analysis_date;
     private $createdAt;
     private $updatedAt;
+    private $storeName;
 
     // Constructeur
     public function __construct($data) {
@@ -36,6 +40,14 @@ class MerchandisingData {
         $this->analysis_date = $data['analysis_date'] ?? date('Y-m-d');
         $this->createdAt = $data['created_at'] ?? null;
         $this->updatedAt = $data['updated_at'] ?? null;
+    }
+
+    public function getStoreName(){
+        return $this->storeName;
+    }
+
+    public function setStoreName($storeName){
+        $this->storeName = $storeName;
     }
 
     // Getters et Setters

@@ -17,17 +17,12 @@ class AuthController extends BaseController{
 
     public function login() {
         $email = $_POST['email'];
-        $password = $_POST['password'];
+        $password = $_POST['password']; 
         $this->authService->login($email, $password);
     }
 
     public function getSignupPage() {
         require 'views/auth/signup.php';
-    }
-
-    public function signup() {
-        $data = $_POST;
-        $this->authService->signup($data);
     }
 
     public function logout() {

@@ -177,160 +177,62 @@
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     <!-- Sample data rows -->
-                                    <?php if(isset($data['merchandising'])) ?>
-                                    <?php foreach($data['merchandising'] as $data) ?>
-                                    <tr class="hover:bg-gray-50 transition-colors duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="font-medium text-gray-900">Magasin Paris Centre</div>
-                                            <div class="text-xs text-gray-500">ID: 1001</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            42,500
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€8,750,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€2,450,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€3,250,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <span class="mr-2 text-green-600 font-semibold">75.4%</span>
-                                                <div class="w-16 h-2 bg-gray-200 rounded-full">
-                                                    <div class="h-2 bg-green-500 rounded-full" style="width: 75%"></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <div class="flex space-x-3">
-                                                <button
-                                                    class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
-                                                    <i class="fas fa-download"></i>
-                                                </button>
-                                                <button
-                                                    class="text-red-600 hover:text-red-900 transition-colors duration-150">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="font-medium text-gray-900">Magasin Lyon</div>
-                                            <div class="text-xs text-gray-500">ID: 1002</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            35,750
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€6,250,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€1,820,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€2,150,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <span class="mr-2 text-green-600 font-semibold">68.2%</span>
-                                                <div class="w-16 h-2 bg-gray-200 rounded-full">
-                                                    <div class="h-2 bg-green-500 rounded-full" style="width: 68%"></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <div class="flex space-x-3">
-                                                <button
-                                                    class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
-                                                    <i class="fas fa-download"></i>
-                                                </button>
-                                                <button
-                                                    class="text-red-600 hover:text-red-900 transition-colors duration-150">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="font-medium text-gray-900">Magasin Marseille</div>
-                                            <div class="text-xs text-gray-500">ID: 1003</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            39,200
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€7,120,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€1,950,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€2,750,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <span class="mr-2 text-amber-600 font-semibold">54.8%</span>
-                                                <div class="w-16 h-2 bg-gray-200 rounded-full">
-                                                    <div class="h-2 bg-amber-500 rounded-full" style="width: 55%"></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <div class="flex space-x-3">
-                                                <button
-                                                    class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
-                                                    <i class="fas fa-download"></i>
-                                                </button>
-                                                <button
-                                                    class="text-red-600 hover:text-red-900 transition-colors duration-150">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="font-medium text-gray-900">Magasin Bordeaux</div>
-                                            <div class="text-xs text-gray-500">ID: 1004</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            28,750
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€5,840,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€1,350,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-700">
-                                            <span class="font-medium">€1,980,000.00</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <span class="mr-2 text-red-600 font-semibold">42.3%</span>
-                                                <div class="w-16 h-2 bg-gray-200 rounded-full">
-                                                    <div class="h-2 bg-red-500 rounded-full" style="width: 42%"></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <div class="flex space-x-3">
-                                                <button
-                                                    class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
-                                                    <i class="fas fa-download"></i>
-                                                </button>
-                                                <button
-                                                    class="text-red-600 hover:text-red-900 transition-colors duration-150">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <?php if (isset($data['merchandising'])): ?>
+                                        <?php foreach ($data['merchandising'] as $merchandising): ?>
+                                            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="font-medium text-gray-900"><?php echo $merchandising->getStoreName(); ?></div>
+                                                    <div class="text-xs text-gray-500">ID:
+                                                        <?php echo $merchandising->getStoreId(); ?></div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                                                    <?php echo number_format($merchandising->getZonePopulation()); ?>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                                                    <span
+                                                        class="font-medium"><?php echo '€' . number_format($merchandising->getAvgAnnualSpending()); ?></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                                                    <span
+                                                        class="font-medium"><?php echo '€' . number_format($merchandising->getCompetitorRevenue()); ?></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-gray-700">
+                                                    <span
+                                                        class="font-medium"><?php echo '€' . number_format($merchandising->getCAPotentielStore()); ?></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <span class="mr-2 text-green-600 font-semibold"><?php echo number_format($merchandising->getResultFrot(), 2) . '%' ?></span>
+                                                        <div class="w-16 h-2 bg-gray-200 rounded-full">
+                                                            <?php 
+                                                            $bg = (number_format($merchandising->getResultFrot(), 2) < 30 )
+                                                            ? 'bg-red-500' 
+                                                            : (number_format($merchandising->getResultFrot(), 2) < 60 
+                                                              ? 'bg-orange-500' 
+                                                              : 'bg-green-500');
+                                                            ?>
+                                                            <div class="h-2 <?php echo $bg; ?>  rounded-full" style="width: <?php echo number_format($merchandising->getResultFrot(), 2) . '%' ?>"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                    <div class="flex space-x-3">
+                                                        <button
+                                                            class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
+                                                            <i class="fas fa-download"></i>
+                                                        </button>
+                                                        <button
+                                                            class="text-red-600 hover:text-red-900 transition-colors duration-150">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+
+                                    
+                     
                                 </tbody>
                             </table>
                         </div>

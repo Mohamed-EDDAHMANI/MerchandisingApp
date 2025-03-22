@@ -22,6 +22,8 @@ class RepportService
     {
         $merchangisingRapports = $this->repportRepository->getMerchangisingRapports();
         $employeeRapports = $this->repportRepository->getEmployeeRapports();
+        // var_dump($merchangisingRapports);
+        // exit;
         return ['merchandising' => $merchangisingRapports, 'employee' =>  $employeeRapports];
         // if ($result) {
         //     $this->session->setError('success', 'the Store Status will be ' . $result);

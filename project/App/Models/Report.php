@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 class Report {
     private $reportId;
     private $userId;

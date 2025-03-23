@@ -29,9 +29,10 @@ $router->post('/admin/analyse', 'MerchandisingController@analysePotentiel');
 
 // Tableau de bord et rapports
 $router->get('/admin/rapports', 'RepportController@getRepports'); // Générer des rapports
-$router->get('/admin/rapports/{id}', 'RepportController@getRepportsById'); // Générer des rapports
+$router->get('/admin/rapport/{id}', 'RepportController@getRepportsById'); // Générer des rapports
 $router->get('/admin/rapports/pdf/{id}', 'RepportController@exportPDF'); // Exporter les données au format PDF
 $router->get('/admin/rapports/delete/{id}', 'RepportController@deleteRepport'); // Comparer les performances des points de vente
+$router->get('/admin/rapports/user/delete/{id}', 'RepportController@deleteUserRepport'); // Comparer les performances des points de vente
 
 // Sécurité et gestion des utilisateurs
 $router->get('/admin/utilisateurs', 'AdminController@getUsers'); // Lister les utilisateurs

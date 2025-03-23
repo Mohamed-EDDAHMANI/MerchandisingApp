@@ -46,4 +46,20 @@ class RepportRepository extends Repository
     {
         return $this->deleteById('merchandising_data', $id);
     }
+    public function deleteUserRepport($id)
+    {
+        return $this->deleteById('reports', $id);
+    }
+
+    public function getRepportsById($id)
+    {
+        $sql = "SELECT * FROM reports
+        INNER JOIN users ON users.id = reports.user_id
+        WHERE reports.report_id = :id
+        LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(["id"=> $id]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
 }

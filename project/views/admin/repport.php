@@ -119,14 +119,14 @@
                 <div class="mb-6 border-b border-gray-200">
                     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center">
                         <li class="mr-2">
-                            <a href="#"
+                            <a 
                                 class="inline-block p-4 rounded-t-lg border-b-2 border-blue-600 text-blue-600 active"
                                 id="merchandising-tab" onclick="showTab('merchandising')">
                                 Rapports Merchandising
                             </a>
                         </li>
                         <li class="mr-2">
-                            <a href="#"
+                            <a 
                                 class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300"
                                 id="user-tab" onclick="showTab('user')">
                                 Rapports Utilisateurs
@@ -323,10 +323,10 @@
                                                             onclick="openReportModal(<?php echo $employee->getReportId() ?>)">
                                                             <i class="fas fa-eye"></i>
                                                         </button>
-                                                        <button
+                                                        <a href="/admin/rapports/user/delete/<?php echo $employee->getReportId() ?>"
                                                             class="text-red-600 hover:text-red-900 transition-colors duration-150">
                                                             <i class="fas fa-trash"></i>
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -358,7 +358,7 @@
                     <h2 id="reportSubject" class="text-xl font-bold text-gray-800 mb-2"></h2>
                     <div class="flex items-center text-sm text-gray-600 mb-4">
                         <span id="reportDate" class="mr-4"><i class="far fa-calendar-alt mr-1"></i> Date: </span>
-                        <span id="reportAuthor"><i class="far fa-user mr-1"></i> Auteur: </span>
+                        <span id="reportAuthor"><i class="far fa-user mr-1"></i> </span>
                     </div>
                     <div class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mb-4"
                         id="reportType"></div>
@@ -387,9 +387,9 @@
                 <div class="flex justify-end mt-6">
                     <button type="button" id="closeBtn"
                         class="mr-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Fermer</button>
-                    <button type="button" id="printBtn"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                        <i class="fas fa-print mr-1"></i> Imprimer
+                    <button type="button" id="deleteBtn"
+                        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                        <i class="fas fa-trash-alt mr-1"></i> Supprimer
                     </button>
                 </div>
             </div>
@@ -419,12 +419,12 @@
         }
 
         function showReportDetails(report) {
-            // Remplir les données du rapport dans le modal
             document.getElementById('reportId').textContent = report.report_id;
             document.getElementById('reportSubject').textContent = report.subject;
             document.getElementById('reportContent').textContent = report.message;
+            document.getElementById('reportAuthor').textContent = `Auteur: ${report.first_name} ${report.last_name}`;
+            document.getElementById('deleteBtn').setAttribute("href", `/admin/rapports/user/delete/${report.report_id}`);;
 
-            // Formater le type de rapport
             let reportTypeText = '';
             switch (report.report_type) {
                 case 'profitability':
@@ -439,7 +439,6 @@
             }
             document.getElementById('reportType').textContent = reportTypeText;
 
-            // Formater la date
             const date = new Date(report.generated_at);
             const formattedDate = date.toLocaleDateString('fr-FR', {
                 day: '2-digit',
@@ -452,7 +451,6 @@
             document.getElementById('reportDate').innerHTML = '<i class="far fa-calendar-alt mr-1"></i> Date: ' + formattedDate;
             document.getElementById('reportGeneratedAt').textContent = formattedDate;
 
-            // Afficher le modal
             document.getElementById('reportViewModal').classList.remove('hidden');
         }
 
@@ -464,20 +462,21 @@
             document.getElementById('reportViewModal').classList.add('hidden');
         });
 
-        function openReportModal(reportId) {
+        async function openReportModal(reportId) {
             try {
-                const response = await fetch(`/admin/rapports/${reportId}`, {
+                const response = await fetch(`/admin/rapport/${reportId}`, {
                     method: 'GET',
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch store data');
+                    throw new Error('Failed to fetch report data');
                 }
-                const store = await response.json();
-                showReportDetails(report)
-                return store[0];
+                const report = await response.json();
+                console.log(report)
+                showReportDetails(report[0])
+                return report[0];
             } catch (error) {
-                console.error('Error fetching store data:', error);
+                console.error('Error fetching report data:', error);
             }
         }
     </script>

@@ -46,6 +46,20 @@ class RepportService
         }
         Redirect::to('/admine/rapports');//i want redirect to this rout 
     }
+    public function deleteUserRepport($id)
+    {
+        $result = $this->repportRepository->deleteUserRepport($id);
+        if ($result) {
+            $this->session->setError('success', 'Report deleted successfully');
+        } else {
+            $this->session->setError('error', 'Error Deleting');
+        }
+        Redirect::to('/admine/rapports');//i want redirect to this rout 
+    }
+    public function getRepportsById($id)
+    {
+        return $this->repportRepository->getRepportsById($id);
+    }
 
     public function generateMerchandisingPDF($merchangisingRapports)
     {

@@ -18,6 +18,7 @@ class AdminRepository extends Repository
     public function createUser($data)
     {
         try {
+            
             if ($this->emailExists($data['email'])) {
                 return false;
             }
@@ -161,7 +162,7 @@ class AdminRepository extends Repository
         }
 
         if ($store) {
-            $conditions[] = "stores.store_name = :store";
+            $conditions[] = "stores.name = :store";
             $params[':store'] = $store;
         }
 

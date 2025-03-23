@@ -27,13 +27,16 @@ class AuthService
             $this->session->set("data", $result[1]);
             $this->session->set("role", $result[2]);
             Redirect::roleRedirect($result[2]);
-        } else {
+        } elseif (is_object($result)) {
             //create admine session
-            $this->session->set("user", $result[0]);
+            $this->session->set("user", $result);
             $this->session->set("data", null);
             $this->session->set("role", 'admin');
             Redirect::roleRedirect('admin');
             return false;
+        }else{
+            $this->session->setError('error', 'incorrect email or password !!');
+            Redirect::to('/login');
         }
     }
 

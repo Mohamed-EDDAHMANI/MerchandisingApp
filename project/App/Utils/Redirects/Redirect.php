@@ -20,8 +20,8 @@ class Redirect
                 self::to("/admin/dashboard");
                 break;
             case "manager":
-                var_dump('seccses');
-                exit;
+                // var_dump('seccses');
+                // exit;
                 self::to("/manager/dashboard");
                 break;
             case "employee":

@@ -16,7 +16,7 @@ class Rules
     //store Rules
     'name' => 'required|min:3|max:20',
     'address' => 'required|min:6|max:30',
-    'city' => 'required|min:4|max:20',
+    'city' => 'required|min:3|max:20',
     'status' => 'required',
     'parking_space' => 'required',
   ];

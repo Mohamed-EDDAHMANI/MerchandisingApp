@@ -24,6 +24,18 @@ CREATE TABLE IF NOT EXISTS stores (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP          -- Timestamp when the store was created
 );
 
+-- Create store_performance table
+CREATE TABLE IF NOT EXISTS store_performance (
+    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each performance record
+    store_id INT NOT NULL,  -- Foreign key referencing the stores table
+    chiffre_daffaire DECIMAL(15, 2) NOT NULL,  -- Total revenue of the store
+    expenses DECIMAL(15, 2) NOT NULL,  -- Total expenses of the store
+    rentability DECIMAL(10, 2) GENERATED ALWAYS AS (chiffre_daffaire - expenses) STORED, -- Profitability (Revenue - Expenses)
+    performance_index DECIMAL(5, 2),  -- Performance index (e.g., a percentage rating)
+    FOREIGN KEY (store_id) REFERENCES stores(store_id)  -- Foreign key constraint
+);
+
+
 -- Create roles table
 CREATE TABLE IF NOT EXISTS roles (
     role_id INT PRIMARY KEY AUTO_INCREMENT, -- Unique identifier for the role (auto-incremented)
@@ -61,26 +73,35 @@ CREATE TABLE IF NOT EXISTS employees (
     salary DECIMAL(10, 2) NOT NULL,  -- Salary of the employee
     performance DECIMAL(5, 2),  -- Performance percentage (e.g., 95.50 for 95.5%)
     user_id INT NOT NULL,  -- Foreign key referencing the users table
-    CONSTRAINT fk_user_employee FOREIGN KEY (user_id) REFERENCES users(id)  -- Foreign key constraint
+    FOREIGN KEY (user_id) REFERENCES users(id)  -- Foreign key constraint
 );
 
 -- Create categories table
 CREATE TABLE IF NOT EXISTS categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each category
-    name VARCHAR(100) NOT NULL,  -- Name of the category
+    category_name VARCHAR(100) NOT NULL,  -- Name of the category
     description TEXT NOT NULL  -- Description of the category
 );
+
 
 -- Create products table
 CREATE TABLE IF NOT EXISTS products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each product
     name VARCHAR(100) NOT NULL,  -- Name of the product
-    price DECIMAL(10, 2) NOT NULL,  -- Price of the product
-    stock INT NOT NULL,  -- Quantity of the product in stock
+    trade_price DECIMAL(10, 2) NOT NULL,  -- Price at which the store buys the product (wholesale price)
+    sale_price DECIMAL(10, 2) NOT NULL,  -- Price at which the product is sold to customers
     category_id INT NOT NULL,  -- Foreign key referencing the categories table
-    store_id INT NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES categories(category_id),  -- Foreign key constraint for category
-    FOREIGN KEY (store_id) REFERENCES stores(store_id)  -- Foreign key constraint for category
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)  -- Foreign key constraint for category
+);
+
+-- Create stock table
+CREATE TABLE IF NOT EXISTS stocks (
+    stock_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each stock
+    store_id INT NOT NULL,  -- Store id Forign key
+    product_id INT NOT NULL,  -- Price of the product
+    quentity INT NOT NULL,  -- Quantity of the product in stock
+    FOREIGN KEY (store_id) REFERENCES stores(store_id),  -- Foreign key constraint for category
+    FOREIGN KEY (product_id) REFERENCES products(product_id)  -- Foreign key constraint for category
 );
 
 -- Create orders table
@@ -105,13 +126,13 @@ CREATE TABLE IF NOT EXISTS merchandising_data (
     nombre_menages DECIMAL(10, 2),              -- عدد الأسر في المنطقة
     avg_annual_spending DECIMAL(10, 2),         -- متوسط الإنفاق السنوي لكل أسرة
     regional_wealth_index DECIMAL(5, 2),        -- مؤشر الثروة الإقليمي
-    invasion DECIMAL(15, 2),                    -- الإنفاق من غير المقيمين في المنطقة
+    invasion DECIMAL(15, 2),                
     evasion DECIMAL(15, 2),                     -- الإنفاق خارج المنطقة من المقيمين
-    CA_potentiel_zone DECIMAL(15, 2),           -- الإيرادات المحتملة للمنطقة
-    competitor_revenue DECIMAL(15, 2),          -- إيرادات المنافسين
-    CA_potentiel_store DECIMAL(15, 2),          -- الإيرادات المحتملة للمتجر
+    CA_potentiel_zone DECIMAL(15, 2),           
+    competitor_revenue DECIMAL(15, 2),         
+    CA_potentiel_store DECIMAL(15, 2),          
     result_frot DECIMAL(10,2) NOT NULL DEFAULT 0,
-    analysis_date  CURRENT_DATE,
+    analysis_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (store_id) REFERENCES stores(store_id)  -- Foreign key constraint
 );
 

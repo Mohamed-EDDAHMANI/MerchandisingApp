@@ -135,7 +135,7 @@
                             <option value="">Tous les magasins</option>
                             <?php if (isset($data['stores'])): ?>
                                 <?php foreach ($data['stores'] as $value): ?>
-                                    <option value="<?php echo $value->getId() ?>"><?php echo $value->getName() ?></option>
+                                    <option value="<?php echo $value->getName() ?>"><?php echo $value->getName() ?></option>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </select>

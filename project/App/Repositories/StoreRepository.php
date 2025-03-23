@@ -83,7 +83,7 @@ class StoreRepository extends Repository
     {
 
         try {
-            $parkingSpace = ($data['parkingSpace'] ?? 'on' == 'on') ? 1 : 0;
+            $parkingSpace = isset($data['parkingSpace']) && $data['parkingSpace'] == 'on' ? 1 : 0;
             $sql = "UPDATE stores 
                     SET name = :name, 
                         address = :address, 

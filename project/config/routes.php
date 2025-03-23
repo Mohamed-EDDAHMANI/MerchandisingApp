@@ -43,7 +43,8 @@ $router->post('/admin/utilisateurs/create', 'AdminController@createUser'); // Cr
 $router->post('/admin/utilisateurs/toggle/{id}', 'AdminController@toggleUserStatus'); // Activer/Désactiver un utilisateur
 $router->post('/admin/utilisateurs/delete/{id}', 'AdminController@deleteUser'); // Supprimer un utilisateur définitivement
 
-// API pour l'export des rapports
-$router->get('/api/export/excel', 'ExportController@exportExcel'); // Exporter les données au format Excel
+// Manager Route
+$router->get('/manager/dashboard', 'ManagerController@index'); // Exporter les données au format Excel
+$router->post('/manager/tag/create', 'ManagerController@createTag'); // Exporter les données au format Excel
 
 ?>

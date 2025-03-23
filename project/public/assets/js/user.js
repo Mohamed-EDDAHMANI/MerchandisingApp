@@ -174,6 +174,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (storeFilter.value) filters.store = storeFilter.value;
         if (statusFilter.value) filters.is_valid = statusFilter.value;
 
+        console.log(storeFilter || 'not')
+
         try {
             const response = await fetch("/admin/utilisateurs", {
                 method: "POST",
@@ -188,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(users);
             usersTableBody.innerHTML = "";
 
-            users.forEach(user => {
+            (Array.isArray(users) ? users : []).forEach(user => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
                         <td class="px-6 py-4 whitespace-nowrap">

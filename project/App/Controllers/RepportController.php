@@ -16,6 +16,12 @@ class RepportController extends BaseController{
         $data = $this->repportService->getRepports();
         $this->view('admin/repport', $data);
     }
+    public function exportPDF($id) {
+        $this->repportService->exportPDF($id);
+    }
+    public function deleteRepport($id) {
+        $this->repportService->deleteRepport($id);
+    }
 
 }
 

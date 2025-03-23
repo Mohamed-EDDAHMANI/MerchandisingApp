@@ -28,8 +28,10 @@ $router->post('/admin/points-de-vente/delete/{id}', 'StoreController@deletePoint
 $router->post('/admin/analyse', 'MerchandisingController@analysePotentiel');
 
 // Tableau de bord et rapports
-$router->get('/admine/rapports', 'RepportController@getRepports'); // Générer des rapports
-$router->get('/dashboard/comparaison', 'DashboardController@comparaisonVilles'); // Comparer les performances des points de vente
+$router->get('/admin/rapports', 'RepportController@getRepports'); // Générer des rapports
+$router->get('/admin/rapports/{id}', 'RepportController@getRepportsById'); // Générer des rapports
+$router->get('/admin/rapports/pdf/{id}', 'RepportController@exportPDF'); // Exporter les données au format PDF
+$router->get('/admin/rapports/delete/{id}', 'RepportController@deleteRepport'); // Comparer les performances des points de vente
 
 // Sécurité et gestion des utilisateurs
 $router->get('/admin/utilisateurs', 'AdminController@getUsers'); // Lister les utilisateurs
@@ -41,7 +43,6 @@ $router->post('/admin/utilisateurs/toggle/{id}', 'AdminController@toggleUserStat
 $router->post('/admin/utilisateurs/delete/{id}', 'AdminController@deleteUser'); // Supprimer un utilisateur définitivement
 
 // API pour l'export des rapports
-$router->get('/api/export/pdf', 'ExportController@exportPDF'); // Exporter les données au format PDF
 $router->get('/api/export/excel', 'ExportController@exportExcel'); // Exporter les données au format Excel
 
 ?>

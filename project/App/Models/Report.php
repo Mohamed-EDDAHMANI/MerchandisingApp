@@ -9,6 +9,8 @@ class Report {
     private $reportType;
     private $generatedAt;
     private $subject;
+    private $userEmail;
+    private $userName;
 
     // Constructeur
     public function __construct($reportData) {
@@ -44,6 +46,12 @@ class Report {
     public function getSubject() {
         return $this->subject;
     }
+    public function getUserName() {
+        return $this->userName;
+    }
+    public function getUserEmail() {
+        return $this->userEmail;
+    }
 
     // Setters
     public function setUserId($userId) {
@@ -64,5 +72,11 @@ class Report {
 
     public function setSubject($subject) {
         $this->subject = $subject;
+    }
+    public function setUserEmail($userEmail) {
+        $this->userEmail = $userEmail;
+    }
+    public function setUserName($first_name , $last_name) {
+        $this->userName = $first_name . $last_name;
     }
 }

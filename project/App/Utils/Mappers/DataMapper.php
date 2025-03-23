@@ -2,6 +2,7 @@
 
 namespace App\Utils\Mappers;
 
+use App\Models\Report;
 use App\Models\Store;
 use App\Models\User;
 use App\Models\Manager;
@@ -68,6 +69,17 @@ class dataMapper
         foreach ($dataArray as $data) {
             $instence = new MerchandisingData($data);
             $instence->setStoreName($data['name']);
+            $datas[] = $instence;
+        }
+        return $datas;
+    }
+    public static function RepportMapper(array $dataArray)
+    {
+        $datas = [];
+        foreach ($dataArray as $data) {
+            $instence = new Report($data);
+            $instence->setUserName($data['first_name'], $data['last_name']);
+            $instence->setUserEmail($data['email']);
             $datas[] = $instence;
         }
         return $datas;

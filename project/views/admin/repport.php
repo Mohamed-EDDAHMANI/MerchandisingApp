@@ -181,9 +181,12 @@
                                         <?php foreach ($data['merchandising'] as $merchandising): ?>
                                             <tr class="hover:bg-gray-50 transition-colors duration-150">
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="font-medium text-gray-900"><?php echo $merchandising->getStoreName(); ?></div>
+                                                    <div class="font-medium text-gray-900">
+                                                        <?php echo $merchandising->getStoreName(); ?>
+                                                    </div>
                                                     <div class="text-xs text-gray-500">ID:
-                                                        <?php echo $merchandising->getStoreId(); ?></div>
+                                                        <?php echo $merchandising->getStoreId(); ?>
+                                                    </div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-gray-700">
                                                     <?php echo number_format($merchandising->getZonePopulation()); ?>
@@ -202,37 +205,38 @@
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="flex items-center">
-                                                        <span class="mr-2 text-green-600 font-semibold"><?php echo number_format($merchandising->getResultFrot(), 2) . '%' ?></span>
+                                                        <span
+                                                            class="mr-2 text-green-600 font-semibold"><?php echo number_format($merchandising->getResultFrot(), 2) . '%' ?></span>
                                                         <div class="w-16 h-2 bg-gray-200 rounded-full">
-                                                            <?php 
-                                                            $bg = (number_format($merchandising->getResultFrot(), 2) < 30 )
-                                                            ? 'bg-red-500' 
-                                                            : (number_format($merchandising->getResultFrot(), 2) < 60 
-                                                              ? 'bg-orange-500' 
-                                                              : 'bg-green-500');
+                                                            <?php
+                                                            $bg = (number_format($merchandising->getResultFrot(), 2) < 30)
+                                                                ? 'bg-red-500'
+                                                                : (number_format($merchandising->getResultFrot(), 2) < 60
+                                                                    ? 'bg-orange-500'
+                                                                    : 'bg-green-500');
                                                             ?>
-                                                            <div class="h-2 <?php echo $bg; ?>  rounded-full" style="width: <?php echo number_format($merchandising->getResultFrot(), 2) . '%' ?>"></div>
+                                                            <div class="h-2 <?php echo $bg; ?>  rounded-full"
+                                                                style="width: <?php echo number_format($merchandising->getResultFrot(), 2) . '%' ?>">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                     <div class="flex space-x-3">
-                                                        <button
+                                                        <a href="/admine/rapports/pdf/<?php echo $merchandising->getId(); ?>"
                                                             class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
                                                             <i class="fas fa-download"></i>
-                                                        </button>
-                                                        <button
+                                                        </a>
+                                                        <a href="/admine/rapports/delete/<?php echo $merchandising->getId(); ?>"
                                                             class="text-red-600 hover:text-red-900 transition-colors duration-150">
                                                             <i class="fas fa-trash"></i>
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
 
-                                    
-                     
                                 </tbody>
                             </table>
                         </div>
@@ -273,177 +277,61 @@
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     <!-- Sample data rows -->
-                                    <tr class="hover:bg-gray-50 transition-colors duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div
-                                                    class="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-sm">
-                                                    <span class="font-medium">JP</span>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Jean Pierre</div>
-                                                    <div class="text-xs text-gray-500">jean.pierre@example.com</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                Profitabilité
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">Analyse Q1 2025</div>
-                                            <div class="text-xs text-gray-500">Créé le 15 Mar 2025</div>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-gray-700 max-w-xs">
-                                            <div class="line-clamp-2">
-                                                Analyse de la profitabilité du premier trimestre 2025 pour les magasins
-                                                de la région parisienne. Recommandations pour optimiser les
-                                                performances.
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <div class="flex space-x-3">
-                                                <button
-                                                    class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button
-                                                    class="text-red-600 hover:text-red-900 transition-colors duration-150">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div
-                                                    class="h-10 w-10 rounded-full bg-purple-600 text-white flex items-center justify-center shadow-sm">
-                                                    <span class="font-medium">SL</span>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Sophie Laurent</div>
-                                                    <div class="text-xs text-gray-500">sophie.laurent@example.com</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                                Analyse concurrentielle
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">Nouveaux concurrents - Lyon
-                                            </div>
-                                            <div class="text-xs text-gray-500">Créé le 12 Mar 2025</div>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-gray-700 max-w-xs">
-                                            <div class="line-clamp-2">
-                                                Analyse détaillée des nouveaux concurrents dans la région lyonnaise et
-                                                leur impact sur nos magasins. Stratégies de différenciation proposées.
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <div class="flex space-x-3">
-                                                <button
-                                                    class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button
-                                                    class="text-red-600 hover:text-red-900 transition-colors duration-150">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div
-                                                    class="h-10 w-10 rounded-full bg-amber-600 text-white flex items-center justify-center shadow-sm">
-                                                    <span class="font-medium">MB</span>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Marc Bonnet</div>
-                                                    <div class="text-xs text-gray-500">marc.bonnet@example.com</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                                Performance des ventes
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">Bilan 2024 - Sud-Ouest</div>
-                                            <div class="text-xs text-gray-500">Créé le 08 Mar 2025</div>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-gray-700 max-w-xs">
-                                            <div class="line-clamp-2">
-                                                Bilan des performances de vente pour les magasins du Sud-Ouest pour
-                                                l'année 2024. Analyse des tendances et opportunités de croissance.
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <div class="flex space-x-3">
-                                                <button
-                                                    class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button
-                                                    class="text-red-600 hover:text-red-900 transition-colors duration-150">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50 transition-colors duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div
-                                                    class="h-10 w-10 rounded-full bg-green-600 text-white flex items-center justify-center shadow-sm">
-                                                    <span class="font-medium">CL</span>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Claire Lefèvre</div>
-                                                    <div class="text-xs text-gray-500">claire.lefevre@example.com</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                Profitabilité
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">Projections 2025</div>
-                                            <div class="text-xs text-gray-500">Créé le 05 Mar 2025</div>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-gray-700 max-w-xs">
-                                            <div class="line-clamp-2">
-                                                Projections financières pour l'année 2025 basées sur les tendances
-                                                actuelles et les objectifs stratégiques. Recommandations pour maximiser
-                                                les résultats.
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <div class="flex space-x-3">
-                                                <button
-                                                    class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button
-                                                    class="text-red-600 hover:text-red-900 transition-colors duration-150">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <?php if (isset($data['employee'])): ?>
+                                        <?php foreach ($data['employee'] as $employee): ?>
+                                            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <div
+                                                            class="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-sm">
+                                                            <span
+                                                                class="font-medium"><?php echo strtoupper(substr($employee->getUserName(), 0, 2)); ?></span>
+                                                        </div>
+                                                        <div class="ml-4">
+                                                            <div class="text-sm font-medium text-gray-900">
+                                                                <?php echo $employee->getUserName() ?>
+                                                            </div>
+                                                            <div class="text-xs text-gray-500">
+                                                                <?php echo $employee->getUserEmail() ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span
+                                                        class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                                        <?php echo $employee->getReportType() ?>
+                                                    </span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                        <?php echo $employee->getSubject() ?>
+                                                    </div>
+                                                    <div class="text-xs text-gray-500">Créé le
+                                                        <?php echo $employee->getGeneratedAt() ?>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 text-sm text-gray-700 max-w-xs">
+                                                    <div class="line-clamp-2">
+                                                        <?php echo $employee->getMessage() ?>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                    <div class="flex space-x-3">
+                                                        <button
+                                                            class="text-blue-600 hover:text-blue-900 transition-colors duration-150"
+                                                            onclick="openReportModal(<?php echo $employee->getReportId() ?>)">
+                                                            <i class="fas fa-eye"></i>
+                                                        </button>
+                                                        <button
+                                                            class="text-red-600 hover:text-red-900 transition-colors duration-150">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -452,6 +340,60 @@
             </div>
         </main>
 
+    </div>
+
+
+    <!-- Report View Modal -->
+    <div id="reportViewModal"
+        class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-xl w-full max-w-2xl mx-4 overflow-hidden shadow-xl">
+            <div class="px-6 py-4 bg-blue-700 text-white flex justify-between items-center">
+                <h3 class="text-xl font-bold" id="modalTitle">Détails du rapport</h3>
+                <button id="closeViewBtn" class="text-white hover:text-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="mb-6">
+                    <h2 id="reportSubject" class="text-xl font-bold text-gray-800 mb-2"></h2>
+                    <div class="flex items-center text-sm text-gray-600 mb-4">
+                        <span id="reportDate" class="mr-4"><i class="far fa-calendar-alt mr-1"></i> Date: </span>
+                        <span id="reportAuthor"><i class="far fa-user mr-1"></i> Auteur: </span>
+                    </div>
+                    <div class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mb-4"
+                        id="reportType"></div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Contenu du rapport</h3>
+                    <div id="reportContent"
+                        class="bg-gray-50 p-4 rounded-lg border border-gray-200 text-gray-700 whitespace-pre-line">
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 pt-4 mt-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-600">ID du rapport: <span id="reportId"
+                                    class="font-medium text-gray-800"></span></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600 text-right">Généré le: <span id="reportGeneratedAt"
+                                    class="font-medium text-gray-800"></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end mt-6">
+                    <button type="button" id="closeBtn"
+                        class="mr-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Fermer</button>
+                    <button type="button" id="printBtn"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-print mr-1"></i> Imprimer
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -474,6 +416,69 @@
 
             document.getElementById(tabName + '-tab').classList.add('border-blue-600', 'text-blue-600');
             document.getElementById(tabName + '-tab').classList.remove('hover:text-gray-600', 'hover:border-gray-300');
+        }
+
+        function showReportDetails(report) {
+            // Remplir les données du rapport dans le modal
+            document.getElementById('reportId').textContent = report.report_id;
+            document.getElementById('reportSubject').textContent = report.subject;
+            document.getElementById('reportContent').textContent = report.message;
+
+            // Formater le type de rapport
+            let reportTypeText = '';
+            switch (report.report_type) {
+                case 'profitability':
+                    reportTypeText = 'Analyse de rentabilité';
+                    break;
+                case 'competitor_analysis':
+                    reportTypeText = 'Analyse des concurrents';
+                    break;
+                case 'sales_performance':
+                    reportTypeText = 'Performance des ventes';
+                    break;
+            }
+            document.getElementById('reportType').textContent = reportTypeText;
+
+            // Formater la date
+            const date = new Date(report.generated_at);
+            const formattedDate = date.toLocaleDateString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            document.getElementById('reportDate').innerHTML = '<i class="far fa-calendar-alt mr-1"></i> Date: ' + formattedDate;
+            document.getElementById('reportGeneratedAt').textContent = formattedDate;
+
+            // Afficher le modal
+            document.getElementById('reportViewModal').classList.remove('hidden');
+        }
+
+        document.getElementById('closeViewBtn').addEventListener('click', function () {
+            document.getElementById('reportViewModal').classList.add('hidden');
+        });
+
+        document.getElementById('closeBtn').addEventListener('click', function () {
+            document.getElementById('reportViewModal').classList.add('hidden');
+        });
+
+        function openReportModal(reportId) {
+            try {
+                const response = await fetch(`/admin/rapports/${reportId}`, {
+                    method: 'GET',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch store data');
+                }
+                const store = await response.json();
+                showReportDetails(report)
+                return store[0];
+            } catch (error) {
+                console.error('Error fetching store data:', error);
+            }
         }
     </script>
 

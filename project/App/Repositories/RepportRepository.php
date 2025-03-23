@@ -14,19 +14,36 @@ use PDOException;
 
 class RepportRepository extends Repository
 {
-    public function getMerchangisingRapports(){
+    public function getMerchangisingRapports($id = null)
+    {
 
         $sql = "SELECT * FROM merchandising_data
         INNER JOIN stores ON stores.store_id = merchandising_data.store_id";
+        if ($id != null) {
+            $sql .= " WHERE id = :id";
+        }
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute();
+        if ($id != null) {
+            $stmt->execute(["id" => $id]);
+        } else {
+            $stmt->execute();
+        }
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return DataMapper::MerchandisingDataMapper($data);
     }
 
-    public function getEmployeeRapports(){
-        $data = $this->getAll('reports');
-        return DataMapper::DataMapper($data, "Report");
+    public function getEmployeeRapports()
+    {
+        $sql = "SELECT * FROM reports
+        INNER JOIN users ON users.id = reports.user_id";
+         $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return DataMapper::RepportMapper($data);
+    }
+    public function deleteRepport($id)
+    {
+        return $this->deleteById('merchandising_data', $id);
     }
 }

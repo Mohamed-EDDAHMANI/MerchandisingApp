@@ -7,7 +7,7 @@ class Permissions
 {
 
   public static $permissions = [
-    'admin' => 'getPointsDeVente|getPointsDeVenteById|sortPointsDeVente|createPointDeVente|updatePointDeVente|deletePointDeVente|dashboard|getUsers|getUserById|sortUsers|updateUser|createUser|toggleUserStatus|deleteUser|getRapports|getMerchandising|analysePotentiel|deleteRepport|getRepports|logout|exportPDF|exportExcel|getRepportsById',
+    'admin' => 'getPointsDeVente|getPointsDeVenteById|sortPointsDeVente|createPointDeVente|updatePointDeVente|deletePointDeVente|dashboard|getUsers|getUserById|sortUsers|updateUser|createUser|toggleUserStatus|deleteUser|getRapports|getMerchandising|analysePotentiel|deleteRepport|getRepports|logout|exportPDF|exportExcel|deleteUserRepport|getRepportsById',
     
     'manager' => 'getPointsDeVente|getPointsDeVenteById|sortPointsDeVente|createPointDeVente|updatePointDeVente|deletePointDeVente|dashboard|comparaisonVilles|analyseDemographique|analyseConcurrence|calculRentabilite|logout|estimationMarge',
     

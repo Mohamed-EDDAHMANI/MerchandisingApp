@@ -48,7 +48,10 @@ class RepportRepository extends Repository
     }
     public function deleteUserRepport($id)
     {
-        return $this->deleteById('reports', $id);
+        $sql = "DELETE FROM reports WHERE report_id = :id LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
     }
 
     public function getRepportsById($id)

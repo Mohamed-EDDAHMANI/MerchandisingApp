@@ -35,8 +35,7 @@ class Router
 
     public function dispatch($method, $uri)
     {
-        // var_dump($method);
-        // var_dump($uri);
+        // var_dump($this->routes[$method][$uri]);
         // exit;
         //validate the request
         if ($method == 'POST') {
@@ -66,7 +65,7 @@ class Router
 
         // No matching route found
         header("HTTP/1.0 404 Not Found");
-        echo '404 Not Found';
+        echo '404 Not Found Router';
     }
 
     // Convert a route with placeholders (e.g., {id}) to a regex pattern

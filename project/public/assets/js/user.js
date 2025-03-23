@@ -39,15 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // Open form modal for new user
 openFormBtn.addEventListener('click', () => {
     document.getElementById('userForm').action = `/admin/utilisateurs/create`;
-    let select = document.getElementById('role_select')
-    let newSelect = document.createElement('select');
-    newSelect.id = select.id;
-    newSelect.className = select.className;
-    newSelect.innerHTML = select.innerHTML;
-    select.replaceWith(newSelect);
-    select.addEventListener('mouseenter', function () {
-        select.style.pointerEvents = 'auto';
-    });
+    let select = document.getElementById('roleContainer').classList.remove('hidden');
     modalTitle.textContent = 'Ajouter un utilisateur';
     document.getElementById('userId').value = '';
     userForm.reset();
@@ -110,10 +102,7 @@ async function showDetailsModal(userId) {
 async function showModifyModal(userId) {
     document.getElementById('userForm').action = `/admin/utilisateurs/update/${userId}`;
     document.getElementById('password').name = 'passwordUpdate';
-    let select = document.getElementById('role_select')
-    select.addEventListener('mouseenter', function () {
-        select.style.pointerEvents = 'none';
-    });
+    document.getElementById('roleContainer').classList = 'hidden';
     const user = await getUserById(userId)
     if (user) {
         modalTitle.textContent = 'Modifier un utilisateur';
@@ -137,28 +126,6 @@ async function showModifyModal(userId) {
     userFormModal.classList.remove('hidden');
 }
 
-// function updateUser(userId) {
-//     const user = getUserById(userId)
-//     editBtns.forEach(btn => {
-//         btn.addEventListener('click', () => {
-
-//             if (user) {
-//                 modalTitle.textContent = 'Modifier un utilisateur';
-//                 document.getElementById('userId').value = user.id;
-//                 document.getElementById('firstName').value = user.firstName;
-//                 document.getElementById('lastName').value = user.lastName;
-//                 document.getElementById('email').value = user.email;
-//                 document.getElementById('password').value = user.password;
-//                 document.getElementById('store').value = user.store;
-//                 document.getElementById('role').value = user.role;
-//                 document.getElementById('salary').value = user.salary;
-//                 document.getElementById('isValid').checked = user.isValid;
-
-//                 userFormModal.classList.remove('hidden');
-//             }
-//         });
-//     });
-// }
 
 // Toggle user status
 function toggleStatus() {

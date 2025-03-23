@@ -44,7 +44,7 @@ class RepportService
         } else {
             $this->session->setError('error', 'Error Deleting');
         }
-        Redirect::to('/admine/rapports');//i want redirect to this rout 
+        Redirect::to('/admin/rapports');//i want redirect to this rout 
     }
     public function deleteUserRepport($id)
     {
@@ -54,7 +54,7 @@ class RepportService
         } else {
             $this->session->setError('error', 'Error Deleting');
         }
-        Redirect::to('/admine/rapports');//i want redirect to this rout 
+        Redirect::to('/admin/rapports');//i want redirect to this rout 
     }
     public function getRepportsById($id)
     {

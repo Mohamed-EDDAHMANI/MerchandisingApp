@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li class="px-4 py-2 hover:bg-blue-800">
-                    <a href="/admine/rapports" class="flex items-center">
+                    <a href="/admin/rapports" class="flex items-center">
                         <i class="fas fa-file-alt w-5 h-5 mr-3"></i>
                         <span>Rapports</span>
                     </a>
@@ -373,7 +373,7 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label for="salary" class="block text-sm font-medium text-gray-700 mb-1">Salaire (€)</label>
+                            <label for="salary" class="block text-sm font-medium text-gray-700 mb-1">Salaire (MAD)</label>
                             <input type="number" id="salary" name="salary"
                                 class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>

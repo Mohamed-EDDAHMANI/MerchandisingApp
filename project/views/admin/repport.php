@@ -35,13 +35,13 @@
                     </a>
                 </li>
                 <li class="px-4 py-2 hover:bg-blue-800">
-                    <a href="#" class="flex items-center">
+                    <a href="/admin/merchandising" class="flex items-center">
                         <i class="fas fa-calculator w-5 h-5 mr-3"></i>
                         <span>Calculs Merchandising</span>
                     </a>
                 </li>
                 <li class="px-4 py-2 hover:bg-blue-800">
-                    <a href="#" class="flex items-center">
+                    <a href="/admin/utilisateurs" class="flex items-center">
                         <i class="fas fa-users w-5 h-5 mr-3"></i>
                         <span>Utilisateurs</span>
                     </a>
@@ -223,11 +223,11 @@
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                     <div class="flex space-x-3">
-                                                        <a href="/admine/rapports/pdf/<?php echo $merchandising->getId(); ?>"
+                                                        <a href="/admin/rapports/pdf/<?php echo $merchandising->getId(); ?>"
                                                             class="text-blue-600 hover:text-blue-900 transition-colors duration-150">
                                                             <i class="fas fa-download"></i>
                                                         </a>
-                                                        <a href="/admine/rapports/delete/<?php echo $merchandising->getId(); ?>"
+                                                        <a href="/admin/rapports/delete/<?php echo $merchandising->getId(); ?>"
                                                             class="text-red-600 hover:text-red-900 transition-colors duration-150">
                                                             <i class="fas fa-trash"></i>
                                                         </a>
@@ -386,11 +386,7 @@
 
                 <div class="flex justify-end mt-6">
                     <button type="button" id="closeBtn"
-                        class="mr-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Fermer</button>
-                    <button type="button" id="deleteBtn"
-                        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-                        <i class="fas fa-trash-alt mr-1"></i> Supprimer
-                    </button>
+                        class="mr-2 px-4 py-2 bg-blue-200 text-gray-800 rounded-lg hover:bg-gray-300">Fermer</button>
                 </div>
             </div>
         </div>
@@ -423,7 +419,6 @@
             document.getElementById('reportSubject').textContent = report.subject;
             document.getElementById('reportContent').textContent = report.message;
             document.getElementById('reportAuthor').textContent = `Auteur: ${report.first_name} ${report.last_name}`;
-            document.getElementById('deleteBtn').setAttribute("href", `/admin/rapports/user/delete/${report.report_id}`);;
 
             let reportTypeText = '';
             switch (report.report_type) {

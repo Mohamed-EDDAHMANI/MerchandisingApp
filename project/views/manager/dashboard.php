@@ -42,14 +42,6 @@
                 onclick="switchTab('employees')">
                 <i class="fas fa-users mr-3"></i> Employees
             </a>
-            <a data-tab="#reports" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
-                onclick="switchTab('reports')">
-                <i class="fas fa-chart-bar mr-3"></i> Reports
-            </a>
-            <a data-tab="#inventory" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
-                onclick="switchTab('inventory')">
-                <i class="fas fa-warehouse mr-3"></i> Inventory
-            </a>
         </nav>
         <div class="absolute bottom-0 w-full border-t border-blue-700 p-4">
             <div class="flex items-center">
@@ -300,51 +292,25 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">Electronics</div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm text-gray-500">Electronic devices and accessories</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">Clothing</div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm text-gray-500">Apparel and fashion items</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">56</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">Home & Kitchen</div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm text-gray-500">Household products and appliances</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">38</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
+                        <?php if (isset($data['categories'])): ?>
+                            <?php foreach ($data['categories'] as $category): ?>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $category->getCategoryId() ?></td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900"><?php echo $category->getCategoryName() ?></div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-500"><?php echo $category->getDescription() ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $category->getProductCount() ?></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                                class="fas fa-edit"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -1045,288 +1011,6 @@
             </div>
         </div>
 
-        <!-- Inventory Tab -->
-        <div id="inventory" class="tab-content hidden">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-semibold">Inventory Management</h3>
-                <div class="flex space-x-2">
-                    <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
-                        <i class="fas fa-file-export mr-2"></i> Export
-                    </button>
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        <i class="fas fa-sync-alt mr-2"></i> Refresh
-                    </button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="text-sm text-gray-500">Total Stock Value</p>
-                            <h3 class="text-2xl font-bold">$245,689</h3>
-                        </div>
-                        <div class="bg-purple-100 p-3 rounded-full">
-                            <i class="fas fa-dollar-sign text-purple-500"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4 text-sm text-green-500 flex items-center">
-                        <i class="fas fa-arrow-up mr-1"></i> 8% from last month
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg shadow p-6">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="text-sm text-gray-500">Low Stock Items</p>
-                            <h3 class="text-2xl font-bold">15</h3>
-                        </div>
-                        <div class="bg-red-100 p-3 rounded-full">
-                            <i class="fas fa-exclamation-triangle text-red-500"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4 text-sm text-red-500 flex items-center">
-                        <i class="fas fa-arrow-up mr-1"></i> 3 more than last week
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg shadow p-6">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="text-sm text-gray-500">Overstock Items</p>
-                            <h3 class="text-2xl font-bold">8</h3>
-                        </div>
-                        <div class="bg-blue-100 p-3 rounded-full">
-                            <i class="fas fa-boxes text-blue-500"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4 text-sm text-blue-500 flex items-center">
-                        <i class="fas fa-arrow-down mr-1"></i> 2 less than last week
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg shadow p-6">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="text-sm text-gray-500">Inventory Turnover</p>
-                            <h3 class="text-2xl font-bold">4.2x</h3>
-                        </div>
-                        <div class="bg-green-100 p-3 rounded-full">
-                            <i class="fas fa-sync-alt text-green-500"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4 text-sm text-green-500 flex items-center">
-                        <i class="fas fa-arrow-up mr-1"></i> 0.3x from last quarter
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow mb-8">
-                <div class="px-6 py-4 border-b flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Stock Level by Category</h3>
-                    <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>Last 30 Days</option>
-                        <option>Last Quarter</option>
-                        <option>Last Year</option>
-                    </select>
-                </div>
-                <div class="p-6">
-                    <canvas id="stockLevelChart" height="300"></canvas>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow overflow-hidden">
-                <div class="px-6 py-4 border-b flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Inventory Items</h3>
-                    <div class="flex space-x-2">
-                        <input type="text" placeholder="Search inventory..."
-                            class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option>All Categories</option>
-                            <option>Electronics</option>
-                            <option>Clothing</option>
-                            <option>Home & Kitchen</option>
-                        </select>
-                    </div>
-                </div>
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Product</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                SKU</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Category</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                In Stock</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Reorder Level</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded"></div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Smartphone X</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">SP-X-001</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Electronics</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                    Low Stock
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i
-                                        class="fas fa-plus"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded"></div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Laptop Pro</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">LP-001</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Electronics</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    In Stock
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i
-                                        class="fas fa-plus"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="px-6 py-4 border-t flex justify-between items-center">
-                    <p class="text-sm text-gray-700">
-                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span
-                            class="font-medium">97</span> results
-                    </p>
-                    <div class="flex space-x-2">
-                        <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
-                        <button class="px-3 py-1 rounded border bg-blue-500 text-white">1</button>
-                        <button class="px-3 py-1 rounded border">2</button>
-                        <button class="px-3 py-1 rounded border">3</button>
-                        <button class="px-3 py-1 rounded border">Next</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Reports Tab -->
-        <div id="reports" class="tab-content hidden">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-semibold">Reports & Analytics</h3>
-                <div class="flex space-x-2">
-                    <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
-                        <i class="fas fa-file-export mr-2"></i> Export
-                    </button>
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        <i class="fas fa-print mr-2"></i> Print
-                    </button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4">Sales by Category</h3>
-                    <canvas id="salesByCategoryChart" height="300"></canvas>
-                </div>
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4">Monthly Revenue</h3>
-                    <canvas id="monthlyRevenueChart" height="300"></canvas>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4">Top Selling Products</h3>
-                    <canvas id="topProductsChart" height="300"></canvas>
-                </div>
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4">Employee Performance</h3>
-                    <canvas id="employeeChart" height="300"></canvas>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold">Custom Reports</h3>
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        <i class="fas fa-plus mr-2"></i> New Report
-                    </button>
-                </div>
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Report Name</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Type</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Created</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Last Run</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Q1 Sales Report
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sales</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jan 15, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mar 31, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-play"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i
-                                        class="fas fa-file-pdf"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Inventory Status
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Inventory</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 10, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Apr 1, 2023</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-play"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i
-                                        class="fas fa-file-pdf"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 
     <!-- error modal -->

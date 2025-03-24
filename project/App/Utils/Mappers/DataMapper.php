@@ -2,6 +2,7 @@
 
 namespace App\Utils\Mappers;
 
+use App\Models\Category;
 use App\Models\Report;
 use App\Models\Store;
 use App\Models\User;
@@ -80,6 +81,16 @@ class dataMapper
             $instence = new Report($data);
             $instence->setUserName($data['first_name'], $data['last_name']);
             $instence->setUserEmail($data['email']);
+            $datas[] = $instence;
+        }
+        return $datas;
+    }
+    public static function categoriesMapper(array $dataArray)
+    {
+        $datas = [];
+        foreach ($dataArray as $data) {
+            $instence = new Category($data);
+            $instence->setProductCount($data['product_count']);
             $datas[] = $instence;
         }
         return $datas;

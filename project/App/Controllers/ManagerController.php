@@ -12,7 +12,9 @@ class ManagerController extends BaseController {
     }
 
     public function index() {
-        return $this->view('manager/dashboard');
+        $categories = $this->managerService->getAllCategories();
+        $data = ['categories' => $categories];
+        return $this->view('manager/dashboard', $data);
     }
 
     public function createCategory() {

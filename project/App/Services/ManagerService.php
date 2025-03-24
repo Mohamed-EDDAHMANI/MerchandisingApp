@@ -16,6 +16,10 @@ class ManagerService{
         $this->session = new Session();
     }
 
+    public function getAllCategories(){
+        return $this->managerRepository->getAllCategories();
+    }
+
     public function createCategory($data){
         $result = $this->managerRepository->createCategory($data);
         if ($result) {

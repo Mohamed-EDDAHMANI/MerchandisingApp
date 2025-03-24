@@ -41,4 +41,24 @@ class ManagerRepository extends Repository
         }
     }
 
+    public function getAllCategories()
+    {
+        try {
+            $query = "SELECT categories.category_id, categories.category_name, categories.description, 
+            COUNT(products.product_id) AS product_count
+            FROM categories
+            LEFT JOIN products ON products.category_id = categories.category_id
+            GROUP BY categories.category_id;";
+            
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $categoriesInstences = DataMapper::categoriesMapper($categories);
+            return $categoriesInstences;
+
+        }catch (Exception $e) {
+            throw new Exception('Error :'. $e->getMessage());
+        }
+    }
+
 }

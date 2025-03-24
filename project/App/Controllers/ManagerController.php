@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Services\ManagerService;
+
 class ManagerController extends BaseController {
 
     private $managerService ;
@@ -13,8 +15,8 @@ class ManagerController extends BaseController {
         return $this->view('manager/dashboard');
     }
 
-    public function createTag() {
-
+    public function createCategory() {
+        $this->managerService->createCategory($_POST);
     }
 
 }

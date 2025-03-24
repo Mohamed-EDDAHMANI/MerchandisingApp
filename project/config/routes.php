@@ -45,6 +45,6 @@ $router->post('/admin/utilisateurs/delete/{id}', 'AdminController@deleteUser'); 
 
 // Manager Route
 $router->get('/manager/dashboard', 'ManagerController@index'); // Exporter les données au format Excel
-$router->post('/manager/tag/create', 'ManagerController@createTag'); // Exporter les données au format Excel
+$router->post('/manager/category/create', 'ManagerController@createCategory'); // Exporter les données au format Excel
 
 ?>

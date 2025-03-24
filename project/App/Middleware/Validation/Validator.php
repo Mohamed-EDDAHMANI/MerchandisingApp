@@ -35,7 +35,7 @@ class Validator
 
   public function applyRules($rules, $value, $field)
   {
-    
+
     $rules = explode('|', $rules);
 
     foreach ($rules as $rule) {
@@ -75,15 +75,25 @@ class Validator
             $this->addError($field, explode(':', $rule)[0], explode(':', $rule)[1]);
           }
           break;
+        case 'max:50':
+          if (explode(':', $rule)[1] < strlen($value)) {
+            $this->addError($field, explode(':', $rule)[0], explode(':', $rule)[1]);
+          }
+          break;
 
         case 'email':
           if (!empty($value) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
             $this->addError($field, $rule);
           }
           break;
+        case 'notInt':
+          if (preg_match('/\d/', $value)) {
+            $this->addError($field, $rule);
+          }
+          break;
         case 'nullabel':
           if (!empty($value)) {
-            if(6 > strlen($value) || 20 < strlen($value)){
+            if (6 > strlen($value) || 20 < strlen($value)) {
               $this->addError($field, $rule);
             }
           }
@@ -105,7 +115,7 @@ class Validator
       $message = str_replace(':value', $value, $message);
     }
 
-    $this->errors[$field]= $message;
+    $this->errors[$field] = $message;
   }
 
 

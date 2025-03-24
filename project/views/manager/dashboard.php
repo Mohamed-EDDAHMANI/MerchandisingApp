@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,35 +10,44 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
+
 <body class="bg-gray-100 font-sans">
     <!-- Sidebar -->
     <div class="fixed inset-y-0 left-0 w-64 bg-blue-800 text-white shadow-lg z-10">
         <div class="flex items-center justify-center h-16 border-b border-blue-700">
             <h1 class="text-xl font-bold">Store Manager</h1>
         </div>
-        <nav class="mt-5">
-            <a data-tab="#dashboard" class="flex items-center py-3 px-6 text-white hover:bg-blue-700 active-nav" onclick="switchTab('dashboard')">
+        <nav class="mt-5 sidebar">
+            <a data-tab="#dashboard" class="flex items-center py-3 px-6 text-white hover:bg-blue-700 active-nav"
+                onclick="switchTab('dashboard')">
                 <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
             </a>
-            <a data-tab="#categories" class="flex items-center py-3 px-6 text-white hover:bg-blue-700" onclick="switchTab('categories')">
+            <a data-tab="#categories" id="categoriesBtn"
+                class="flex items-center py-3 px-6 text-white hover:bg-blue-700" onclick="switchTab('categories')">
                 <i class="fas fa-tags mr-3"></i> Categories
             </a>
-            <a data-tab="#products" class="flex items-center py-3 px-6 text-white hover:bg-blue-700" onclick="switchTab('products')">
+            <a data-tab="#products" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
+                onclick="switchTab('products')">
                 <i class="fas fa-box mr-3"></i> Products
             </a>
-            <a data-tab="#suppliers" class="flex items-center py-3 px-6 text-white hover:bg-blue-700" onclick="switchTab('suppliers')">
+            <a data-tab="#suppliers" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
+                onclick="switchTab('suppliers')">
                 <i class="fas fa-truck mr-3"></i> Suppliers
             </a>
-            <a data-tab="#orders" class="flex items-center py-3 px-6 text-white hover:bg-blue-700" onclick="switchTab('orders')">
+            <a data-tab="#orders" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
+                onclick="switchTab('orders')">
                 <i class="fas fa-shopping-cart mr-3"></i> Orders
             </a>
-            <a data-tab="#employees" class="flex items-center py-3 px-6 text-white hover:bg-blue-700" onclick="switchTab('employees')">
+            <a data-tab="#employees" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
+                onclick="switchTab('employees')">
                 <i class="fas fa-users mr-3"></i> Employees
             </a>
-            <a data-tab="#reports" class="flex items-center py-3 px-6 text-white hover:bg-blue-700" onclick="switchTab('reports')">
+            <a data-tab="#reports" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
+                onclick="switchTab('reports')">
                 <i class="fas fa-chart-bar mr-3"></i> Reports
             </a>
-            <a data-tab="#inventory" class="flex items-center py-3 px-6 text-white hover:bg-blue-700" onclick="switchTab('inventory')">
+            <a data-tab="#inventory" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
+                onclick="switchTab('inventory')">
                 <i class="fas fa-warehouse mr-3"></i> Inventory
             </a>
         </nav>
@@ -55,25 +65,27 @@
     <!-- Main Content -->
     <div class="ml-64 p-8">
         <!-- Header -->
-        
+
 
         <!-- Dashboard Tab -->
         <div id="dashboard" class="tab-content active">
-        <header class="flex justify-between items-center mb-8">
-            <div>
-                <h2 id="page-title" class="text-2xl font-bold text-gray-800">Dashboard</h2>
-                <p class="text-sm text-gray-600">Welcome back, John Doe</p>
-            </div>
-            <div class="flex items-center space-x-4">
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" onclick="showModal('orderModal')">
-                    <i class="fas fa-plus mr-2"></i> New Order
-                </button>
-                <div class="relative">
-                    <i class="fas fa-bell text-gray-500 text-xl cursor-pointer"></i>
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">3</span>
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 id="page-title" class="text-2xl font-bold text-gray-800">Dashboard</h2>
+                    <p class="text-sm text-gray-600">Welcome back, John Doe</p>
                 </div>
-            </div>
-        </header>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                        onclick="showModal('orderModal')">
+                        <i class="fas fa-plus mr-2"></i> New Order
+                    </button>
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-500 text-xl cursor-pointer"></i>
+                        <span
+                            class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">3</span>
+                    </div>
+                </div>
+            </header>
             <!-- Stats cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="bg-white rounded-lg shadow p-6">
@@ -211,7 +223,8 @@
                                 </div>
                             </td>
                             <td class="py-3">Electronics</td>
-                            <td class="py-3"><span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Low (5)</span></td>
+                            <td class="py-3"><span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Low
+                                    (5)</span></td>
                             <td class="py-3">$999</td>
                             <td class="py-3">502 units</td>
                         </tr>
@@ -223,7 +236,8 @@
                                 </div>
                             </td>
                             <td class="py-3">Electronics</td>
-                            <td class="py-3"><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">In Stock (42)</span></td>
+                            <td class="py-3"><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">In
+                                    Stock (42)</span></td>
                             <td class="py-3">$1,299</td>
                             <td class="py-3">342 units</td>
                         </tr>
@@ -235,7 +249,8 @@
                                 </div>
                             </td>
                             <td class="py-3">Audio</td>
-                            <td class="py-3"><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">In Stock (78)</span></td>
+                            <td class="py-3"><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">In
+                                    Stock (78)</span></td>
                             <td class="py-3">$149</td>
                             <td class="py-3">281 units</td>
                         </tr>
@@ -247,7 +262,9 @@
                                 </div>
                             </td>
                             <td class="py-3">Wearables</td>
-                            <td class="py-3"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Medium (15)</span></td>
+                            <td class="py-3"><span
+                                    class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Medium
+                                    (15)</span></td>
                             <td class="py-3">$299</td>
                             <td class="py-3">184 units</td>
                         </tr>
@@ -260,7 +277,8 @@
         <div id="categories" class="tab-content hidden">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-semibold">Product Categories</h3>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" onclick="showModal('categoryModal')">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                    onclick="showModal('categoryModal')">
                     <i class="fas fa-plus mr-2"></i> New Category
                 </button>
             </div>
@@ -269,11 +287,16 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Products</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Description</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Products</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -287,7 +310,8 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -301,7 +325,8 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">56</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -315,7 +340,8 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">38</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -324,35 +350,44 @@
             </div>
 
             <!-- Category Modal -->
-            <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-                <form action="/manager/tag/create" method="POST">
-                <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
-                    <div class="px-6 py-4 border-b">
-                        <h3 class="text-lg font-semibold">Add New Category</h3>
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryName">
-                                Category Name
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="categoryName" type="text" placeholder="Enter category name" name="category_name">
+            <div id="categoryModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <form action="/manager/category/create" method="POST">
+                    <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+                        <div class="px-6 py-4 border-b">
+                            <h3 class="text-lg font-semibold">Add New Category</h3>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryDescription">
-                                Description
-                            </label>
-                            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="categoryDescription" placeholder="Enter category description" rows="3" name="description"></textarea>
+                        <div class="p-6">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryName">
+                                    Category Name
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="categoryName" type="text" placeholder="Enter category name"
+                                    name="category_name">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryDescription">
+                                    Description
+                                </label>
+                                <textarea
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="categoryDescription" placeholder="Enter category description" rows="3"
+                                    name="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
+                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                                onclick="hideModal('categoryModal')">
+                                Cancel
+                            </button>
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Save
+                            </button>
                         </div>
                     </div>
-                    <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
-                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2" onclick="hideModal('categoryModal')">
-                            Cancel
-                        </button>
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Save
-                        </button>
-                    </div>
-                </div>
                 </form>
             </div>
         </div>
@@ -369,7 +404,8 @@
             <div class="bg-white rounded-lg shadow mb-6 p-4">
                 <div class="flex flex-wrap items-center">
                     <div class="w-full md:w-1/3 mb-4 md:mb-0">
-                        <input type="text" placeholder="Search products..." class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" placeholder="Search products..."
+                            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div class="w-full md:w-2/3 flex flex-wrap justify-end space-x-2">
                         <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -392,13 +428,20 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trade Price</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sale Price</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Product</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Category</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Trade Price</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Sale Price</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Stock</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -416,13 +459,16 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$799</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$999</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                <span
+                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                     Low (5)
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-shopping-cart"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                        class="fas fa-shopping-cart"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -440,13 +486,16 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$1,099</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$1,299</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                <span
+                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                     In Stock (42)
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-shopping-cart"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                        class="fas fa-shopping-cart"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -454,7 +503,8 @@
                 </table>
                 <div class="px-6 py-4 border-t flex justify-between items-center">
                     <p class="text-sm text-gray-700">
-                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">97</span> results
+                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span
+                            class="font-medium">97</span> results
                     </p>
                     <div class="flex space-x-2">
                         <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
@@ -471,7 +521,8 @@
         <div id="suppliers" class="tab-content hidden">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-semibold">Suppliers</h3>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" onclick="showModal('supplierModal')">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                    onclick="showModal('supplierModal')">
                     <i class="fas fa-plus mr-2"></i> New Supplier
                 </button>
             </div>
@@ -480,12 +531,18 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supplier</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Products</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Supplier</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Contact</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Products</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -506,12 +563,14 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">35</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                <span
+                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                     Active
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -532,12 +591,14 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                <span
+                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                     Active
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -546,7 +607,8 @@
             </div>
 
             <!-- Supplier Modal -->
-            <div id="supplierModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div id="supplierModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
                 <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
                     <div class="px-6 py-4 border-b">
                         <h3 class="text-lg font-semibold">Add New Supplier</h3>
@@ -556,35 +618,46 @@
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="supplierName">
                                 Supplier Name
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="supplierName" type="text" placeholder="Enter supplier name">
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="supplierName" type="text" placeholder="Enter supplier name">
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="supplierType">
                                 Supplier Type
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="supplierType" type="text" placeholder="e.g. Electronics Supplier">
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="supplierType" type="text" placeholder="e.g. Electronics Supplier">
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="contactName">
                                 Contact Person
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="contactName" type="text" placeholder="Enter contact name">
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="contactName" type="text" placeholder="Enter contact name">
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="contactEmail">
                                 Email
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="contactEmail" type="email" placeholder="Enter email address">
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="contactEmail" type="email" placeholder="Enter email address">
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="contactPhone">
                                 Phone
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="contactPhone" type="text" placeholder="Enter phone number">
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="contactPhone" type="text" placeholder="Enter phone number">
                         </div>
                     </div>
                     <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
-                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2" onclick="hideModal('supplierModal')">
+                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                            onclick="hideModal('supplierModal')">
                             Cancel
                         </button>
                         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -599,7 +672,8 @@
         <div id="orders" class="tab-content hidden">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-semibold">Orders Management</h3>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" onclick="showModal('orderModal')">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                    onclick="showModal('orderModal')">
                     <i class="fas fa-plus mr-2"></i> New Order
                 </button>
             </div>
@@ -607,7 +681,8 @@
             <div class="bg-white rounded-lg shadow mb-6 p-4">
                 <div class="flex flex-wrap items-center">
                     <div class="w-full md:w-1/3 mb-4 md:mb-0">
-                        <input type="text" placeholder="Search orders..." class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" placeholder="Search orders..."
+                            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div class="w-full md:w-2/3 flex flex-wrap justify-end space-x-2">
                         <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -628,12 +703,18 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supplier</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Order ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Supplier</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Product</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Quantity</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -643,13 +724,16 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Smartphone X</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">50</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                <span
+                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
                                     Pending
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i class="fas fa-file-pdf"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-eye"></i></button>
+                                <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
+                                        class="fas fa-file-pdf"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
                             </td>
                         </tr>
@@ -659,13 +743,16 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">T-shirts (Assorted)</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">100</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                <span
+                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                     Completed
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i class="fas fa-file-pdf"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-eye"></i></button>
+                                <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
+                                        class="fas fa-file-pdf"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
                             </td>
                         </tr>
@@ -673,7 +760,8 @@
                 </table>
                 <div class="px-6 py-4 border-t flex justify-between items-center">
                     <p class="text-sm text-gray-700">
-                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">24</span> results
+                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span
+                            class="font-medium">24</span> results
                     </p>
                     <div class="flex space-x-2">
                         <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
@@ -686,7 +774,8 @@
             </div>
 
             <!-- Order Modal -->
-            <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div id="orderModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
                 <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
                     <div class="px-6 py-4 border-b">
                         <h3 class="text-lg font-semibold">Create New Order</h3>
@@ -696,7 +785,9 @@
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="orderSupplier">
                                 Supplier
                             </label>
-                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="orderSupplier">
+                            <select
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="orderSupplier">
                                 <option value="">Select Supplier</option>
                                 <option value="1">TechSupply Inc.</option>
                                 <option value="2">Fashion World</option>
@@ -706,7 +797,9 @@
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="orderProduct">
                                 Product
                             </label>
-                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="orderProduct">
+                            <select
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="orderProduct">
                                 <option value="">Select Product</option>
                                 <option value="1">Smartphone X</option>
                                 <option value="2">Laptop Pro</option>
@@ -717,11 +810,14 @@
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="orderQuantity">
                                 Quantity
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="orderQuantity" type="number" min="1" placeholder="Enter quantity">
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="orderQuantity" type="number" min="1" placeholder="Enter quantity">
                         </div>
                     </div>
                     <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
-                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2" onclick="hideModal('orderModal')">
+                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                            onclick="hideModal('orderModal')">
                             Cancel
                         </button>
                         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -748,7 +844,8 @@
                         <h3 class="text-lg font-semibold">Jane Smith</h3>
                         <p class="text-gray-500 mb-2">Senior Sales Associate</p>
                         <div class="flex mb-4">
-                            <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Top Performer</span>
+                            <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Top
+                                Performer</span>
                         </div>
                         <div class="w-full mt-2">
                             <div class="flex justify-between mb-1">
@@ -780,7 +877,8 @@
                         <h3 class="text-lg font-semibold">Mike Johnson</h3>
                         <p class="text-gray-500 mb-2">Sales Associate</p>
                         <div class="flex mb-4">
-                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Regular</span>
+                            <span
+                                class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Regular</span>
                         </div>
                         <div class="w-full mt-2">
                             <div class="flex justify-between mb-1">
@@ -812,7 +910,8 @@
                         <h3 class="text-lg font-semibold">Lisa Chen</h3>
                         <p class="text-gray-500 mb-2">Junior Sales Associate</p>
                         <div class="flex mb-4">
-                            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">New Hire</span>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">New
+                                Hire</span>
                         </div>
                         <div class="w-full mt-2">
                             <div class="flex justify-between mb-1">
@@ -852,17 +951,24 @@
             <div class="bg-white rounded-lg shadow">
                 <div class="px-6 py-4 border-b flex justify-between items-center">
                     <h3 class="text-lg font-semibold">Employee List</h3>
-                    <input type="text" placeholder="Search employees..." class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" placeholder="Search employees..."
+                        class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Employee</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Performance</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Salary</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Employee</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Position</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Performance</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Salary</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -887,13 +993,16 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$45,000</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                <span
+                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                     Active
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-chart-line"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                        class="fas fa-chart-line"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -918,13 +1027,16 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$38,000</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                <span
+                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                     Active
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-chart-line"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                        class="fas fa-chart-line"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -1024,7 +1136,8 @@
                 <div class="px-6 py-4 border-b flex justify-between items-center">
                     <h3 class="text-lg font-semibold">Inventory Items</h3>
                     <div class="flex space-x-2">
-                        <input type="text" placeholder="Search inventory..." class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" placeholder="Search inventory..."
+                            class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option>All Categories</option>
                             <option>Electronics</option>
@@ -1036,13 +1149,20 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">In Stock</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reorder Level</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Product</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                SKU</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Category</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                In Stock</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Reorder Level</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -1060,13 +1180,16 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                <span
+                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                     Low Stock
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-plus"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                        class="fas fa-plus"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -1083,20 +1206,24 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                <span
+                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                     In Stock
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-plus"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-edit"></i></button>
+                                <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                        class="fas fa-plus"></i></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="px-6 py-4 border-t flex justify-between items-center">
                     <p class="text-sm text-gray-700">
-                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">97</span> results
+                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span
+                            class="font-medium">97</span> results
                     </p>
                     <div class="flex space-x-2">
                         <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
@@ -1155,33 +1282,44 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Report Name</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Run</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Report Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Type</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Created</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Last Run</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Q1 Sales Report</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Q1 Sales Report
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sales</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jan 15, 2023</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mar 31, 2023</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-play"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-file-pdf"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-play"></i></button>
+                                <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                        class="fas fa-file-pdf"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Inventory Status</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Inventory Status
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Inventory</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 10, 2023</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Apr 1, 2023</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-play"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-file-pdf"></i></button>
+                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        class="fas fa-play"></i></button>
+                                <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                        class="fas fa-file-pdf"></i></button>
                                 <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -1191,256 +1329,59 @@
         </div>
     </div>
 
+    <!-- error modal -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <?php
+        $isSuccess = $_SESSION['error']['type'] === 'success';
+        $bgColor = $isSuccess ? 'bg-emerald-50' : 'bg-rose-50';
+        $textColor = $isSuccess ? 'text-emerald-800' : 'text-rose-800';
+        $borderColor = $isSuccess ? 'border-emerald-200' : 'border-rose-200';
+        $iconBgColor = $isSuccess ? 'bg-emerald-100' : 'bg-rose-100';
+        ?>
+        <div id="alert-message" class="message fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fadeIn
+                flex items-center gap-3 w-auto max-w-md
+                <?php echo "$bgColor $textColor $borderColor"; ?> 
+                px-4 py-3 rounded-lg shadow-lg border">
+
+            <!-- Icon container with circular background -->
+            <div class="<?php echo $iconBgColor; ?> p-2 rounded-full flex-shrink-0">
+                <?php if ($isSuccess): ?>
+                    <!-- Success icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd" />
+                    </svg>
+                <?php else: ?>
+                    <!-- Error icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                            clip-rule="evenodd" />
+                    </svg>
+                <?php endif; ?>
+            </div>
+
+            <!-- Message content -->
+            <div class="flex-1">
+                <p class="font-medium"><?php echo htmlspecialchars($_SESSION['error']['message']); ?></p>
+            </div>
+
+            <!-- Close button -->
+            <button onclick="this.parentElement.remove()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <?php unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
+
     <!-- JavaScript -->
-    <script>
-        // Tab switching
-        function switchTab(tabId) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.add('hidden');
-            });
-            
-            // Show selected tab
-            document.getElementById(tabId).classList.remove('hidden');
-            
-            // Update page title
-            document.getElementById('page-title').textContent = tabId.charAt(0).toUpperCase() + tabId.slice(1);
-            
-            // Update active nav
-            document.querySelectorAll('nav a').forEach(link => {
-                link.classList.remove('active-nav', 'bg-blue-700');
-                if (link.getAttribute('data-tab') === '#' + tabId) {
-                    link.classList.add('active-nav', 'bg-blue-700');
-                }
-            });
-        }
-        
-        // Modal functions
-        function showModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
-        }
-        
-        function hideModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            document.querySelectorAll('.fixed.inset-0').forEach(modal => {
-                if (event.target === modal) {
-                    modal.classList.add('hidden');
-                }
-            });
-        });
-        
-        // Generate PDF function
-        function generatePDF() {
-            alert('Generating PDF... This would create a PDF of the order in a real application.');
-            // In a real application, this would use jsPDF to generate a PDF
-        }
-        
-        // Initialize charts when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sales Chart
-            const salesCtx = document.getElementById('salesChart').getContext('2d');
-            const salesChart = new Chart(salesCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Sales',
-                        data: [12000, 19000, 15000, 25000, 22000, 30000],
-                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                        borderColor: 'rgba(59, 130, 246, 1)',
-                        borderWidth: 2,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-            
-            // Category Chart
-            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-            const categoryChart = new Chart(categoryCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Electronics', 'Clothing', 'Home & Kitchen', 'Books', 'Others'],
-                    datasets: [{
-                        data: [35, 25, 20, 15, 5],
-                        backgroundColor: [
-                            'rgba(59, 130, 246, 0.7)',
-                            'rgba(16, 185, 129, 0.7)',
-                            'rgba(245, 158, 11, 0.7)',
-                            'rgba(239, 68, 68, 0.7)',
-                            'rgba(107, 114, 128, 0.7)'
-                        ],
-                        borderWidth: 1
-                    }]
-                }
-            });
-            
-            // Employee Performance Chart
-            if (document.getElementById('employeePerformanceChart')) {
-                const empCtx = document.getElementById('employeePerformanceChart').getContext('2d');
-                const empChart = new Chart(empCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Jane Smith', 'Mike Johnson', 'Lisa Chen', 'David Wilson', 'Sarah Brown'],
-                        datasets: [{
-                            label: 'Performance Score',
-                            data: [97.5, 85.2, 76.8, 88.4, 92.1],
-                            backgroundColor: [
-                                'rgba(16, 185, 129, 0.7)',
-                                'rgba(59, 130, 246, 0.7)',
-                                'rgba(245, 158, 11, 0.7)',
-                                'rgba(59, 130, 246, 0.7)',
-                                'rgba(16, 185, 129, 0.7)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                max: 100
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // Stock Level Chart
-            if (document.getElementById('stockLevelChart')) {
-                const stockCtx = document.getElementById('stockLevelChart').getContext('2d');
-                const stockChart = new Chart(stockCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Electronics', 'Clothing', 'Home & Kitchen', 'Books', 'Others'],
-                        datasets: [{
-                            label: 'Current Stock',
-                            data: [120, 85, 65, 40, 30],
-                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
-                            borderWidth: 1
-                        }, {
-                            label: 'Reorder Level',
-                            data: [50, 40, 30, 20, 15],
-                            backgroundColor: 'rgba(239, 68, 68, 0.7)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // Reports Charts
-            if (document.getElementById('salesByCategoryChart')) {
-                const salesCatCtx = document.getElementById('salesByCategoryChart').getContext('2d');
-                const salesCatChart = new Chart(salesCatCtx, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Electronics', 'Clothing', 'Home & Kitchen', 'Books', 'Others'],
-                        datasets: [{
-                            data: [45, 20, 15, 10, 10],
-                            backgroundColor: [
-                                'rgba(59, 130, 246, 0.7)',
-                                'rgba(16, 185, 129, 0.7)',
-                                'rgba(245, 158, 11, 0.7)',
-                                'rgba(239, 68, 68, 0.7)',
-                                'rgba(107, 114, 128, 0.7)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    }
-                });
-                
-                const revenueCtx = document.getElementById('monthlyRevenueChart').getContext('2d');
-                const revenueChart = new Chart(revenueCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                        datasets: [{
-                            label: 'Revenue',
-                            data: [15000, 22000, 18000, 30000, 25000, 35000],
-                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                            borderColor: 'rgba(16, 185, 129, 1)',
-                            borderWidth: 2,
-                            tension: 0.3
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-                
-                const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
-                const topProductsChart = new Chart(topProductsCtx, {
-                    type: 'horizontalBar',
-                    data: {
-                        labels: ['Smartphone X', 'Laptop Pro', 'Wireless Earbuds', 'Smart Watch', 'Tablet Mini'],
-                        datasets: [{
-                            label: 'Units Sold',
-                            data: [502, 342, 281, 184, 156],
-                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        scales: {
-                            x: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-                
-                const employeeCtx = document.getElementById('employeeChart').getContext('2d');
-                const employeeChart = new Chart(employeeCtx, {
-                    type: 'radar',
-                    data: {
-                        labels: ['Sales', 'Customer Service', 'Attendance', 'Product Knowledge', 'Team Work'],
-                        datasets: [{
-                            label: 'Jane Smith',
-                            data: [95, 90, 100, 85, 95],
-                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                            borderColor: 'rgba(16, 185, 129, 1)',
-                            borderWidth: 2
-                        }, {
-                            label: 'Mike Johnson',
-                            data: [85, 95, 80, 90, 85],
-                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                            borderColor: 'rgba(59, 130, 246, 1)',
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            r: {
-                                beginAtZero: true,
-                                max: 100
-                            }
-                        }
-                    }
-                });
-            }
-        });
-    </script>
+    <script src="../../public/assets/js/manager.js"></script>
 </body>
+
 </html>

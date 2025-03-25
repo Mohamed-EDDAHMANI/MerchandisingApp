@@ -50,8 +50,8 @@ $router->get('/manager/category/getCategory/{id}', 'ManagerController@getCategor
 $router->post('/manager/category/update/{id}', 'ManagerController@udpateCategory'); //get Category By Id
 $router->get('/manager/category/delete/{id}', 'ManagerController@deleteCategory'); //get Category By Id
 
-$router->get('/manager/products', 'ManagerController@getProductList'); //get Category By Id
-$router->post('/manager/product/create', 'ManagerController@createCategory'); //get Category By Id
-$router->post('/manager/product/update/{id}', 'ManagerController@updateCategory'); //get Category By Id
-$router->get('/manager/product/delete/{id}', 'ManagerController@deleteCategory'); //get Category By Id
-?>
+// $router->get('/manager/products', 'ManagerController@getProductList'); //get Category By Id
+// $router->post('/manager/product/create', 'ManagerController@createCategory'); //get Category By Id
+// $router->post('/manager/product/update/{id}', 'ManagerController@updateCategory'); //get Category By Id
+// $router->get('/manager/product/delete/{id}', 'ManagerController@deleteCategory'); //get Category By Id
+// ?>

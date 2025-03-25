@@ -29,5 +29,8 @@ class ManagerController extends BaseController {
     public function udpateCategory($id) {
         return $this->managerService->udpateCategory($_POST , $id);
     }
+    public function deleteCategory($id) {
+        return $this->managerService->deleteCategory($id);
+    }
 
 }

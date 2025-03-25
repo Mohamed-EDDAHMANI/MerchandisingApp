@@ -302,14 +302,14 @@
                                             <?php echo $category->getCategoryName() ?></div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-500"><?php echo $category->getDescription() ?></div>
+                                        <div class="text-sm text-gray-500 line-clamp-2 overflow-hidden"><?php echo $category->getDescription() ?></div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <?php echo $category->getProductCount() ?></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <button class="text-blue-600 hover:text-blue-900 mr-3"
                                             onclick="showUpdateCategoryModal('categoryUpdateModal', <?php echo $category->getCategoryId() ?> )"><i class="fas fa-edit"></i></button>
-                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                        <a href="/manager/category/delete/<?php echo $category->getCategoryId() ?>" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

@@ -93,5 +93,19 @@ class ManagerRepository extends Repository
             throw new Exception('Error :'. $e->getMessage());
         }
     }
+    public function deleteCategory($id)
+    {
+        try {
+            $query = "DELETE FROM categories 
+            WHERE category_id = :category_id  LIMIT 1;";
+            
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam("category_id", $id, PDO::PARAM_INT);
+            return $stmt->execute();
+
+        }catch (Exception $e) {
+            throw new Exception('Error :'. $e->getMessage());
+        }
+    }
 
 }

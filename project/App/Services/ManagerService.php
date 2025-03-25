@@ -49,5 +49,14 @@ class ManagerService{
         }
         Redirect::to('/manager/dashboard#categories');//i want redirect to this rout and clickon a button with js 
     }
+    public function deleteCategory($id){
+        $result = $this->managerRepository->deleteCategory($id);
+        if ($result) {
+            $this->session->setError('success', 'Category Deleted successfully');
+        } else {
+            $this->session->setError('error', 'Error Deleting Category');
+        }
+        Redirect::to('/manager/dashboard#categories');//i want redirect to this rout and clickon a button with js 
+    }
 }
 

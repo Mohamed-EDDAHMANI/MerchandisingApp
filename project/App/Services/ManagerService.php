@@ -62,7 +62,8 @@ class ManagerService{
         Redirect::to('/manager/dashboard#categories');//i want redirect to this rout and clickon a button with js 
     }
     public function createProduct($data){
-        $result = $this->managerRepository->createProduct($data);
+        $userData = $this->session->get('user');
+        $result = $this->managerRepository->createProduct($data, $userData->getStoreId());
         if ($result) {
             $this->session->setError('success', 'Product Created successfully');
         } else {

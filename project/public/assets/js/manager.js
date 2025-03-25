@@ -120,6 +120,19 @@ function calcProfit() {
     }
 }
 
+function incrementQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+}
+
+function decrementQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value);
+    if (currentValue > 0) {
+        quantityInput.value = currentValue - 1;
+    }
+}
+
 // Generate PDF function
 function generatePDF() {
     alert('Generating PDF... This would create a PDF of the order in a real application.');

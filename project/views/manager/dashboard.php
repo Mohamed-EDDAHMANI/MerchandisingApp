@@ -537,71 +537,106 @@
             <!-- Product Modal -->
             <div id="productModal"
                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-                <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
-                    <div class="px-6 py-4 border-b">
-                        <h3 class="text-lg font-semibold titel">Add New Product</h3>
-                        <h5 class="bg-red-500 text-white w-full absolute top-0 left-0 p-2 text-center rounded-t-lg font-semibold hidden" id="errorPrice">Trade Price must be lees then Sale Price</h5>
+                <div class="bg-white rounded-lg shadow-2xl w-full max-w-xl mx-4 my-8 max-h-[90vh] overflow-y-auto">
+                    <div class="sticky top-0 bg-white z-10 px-6 py-4 border-b">
+                        <h3 class="text-xl font-bold text-gray-800 titel">Add New Product</h3>
+                        <h5 class="bg-red-500 text-white w-full absolute top-full left-0 p-2 text-center rounded-b-lg font-semibold hidden"
+                            id="errorPrice">Trade Price must be less than Sale Price</h5>
                     </div>
-                    <form id="productForm" action="/manager/product/create" method="POST" class="p-6">
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                                Product Name
-                            </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="name" name="product_name" type="text" placeholder="Enter product name" required>
+                    <form id="productForm" action="/manager/product/create" method="POST" class="p-6 space-y-6">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                                    Product Name
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="name" name="product_name" type="text" placeholder="Enter product name" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="category_id">
+                                    Category
+                                </label>
+                                <select
+                                    class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="category_id" name="category_id" required>
+                                    <option value="">Select a Category</option>
+                                    <?php if (isset($data['categories'])): ?>
+                                        <?php foreach ($data['categories'] as $category): ?>
+                                            <option value="<?php echo $category->getCategoryId() ?>">
+                                                <?php echo $category->getCategoryName() ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="trade_price">
-                                Trade Price (Wholesale)
-                            </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="trade_price" name="trade_price" type="number" step="0.01"
-                                placeholder="Enter trade price" required>
+
+                        <div class="grid grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="trade_price">
+                                    Trade Price (Wholesale)
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="trade_price" name="trade_price" type="number" step="0.01"
+                                    placeholder="Trade price" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="sale_price">
+                                    Sale Price
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="sale_price" name="sale_price" type="number" step="0.01" placeholder="Sale price"
+                                    required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="profit">
+                                    Profit (La Marge)
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="profit" name="profit" type="number" step="0.01" placeholder="Profit" required>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="sale_price">
-                                Sale Price
+
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="quantity">
+                                Initial Quantity
                             </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="sale_price" name="sale_price" type="number" step="0.01"
-                                placeholder="Enter sale price" required>
+                            <div class="flex items-center">
+                                <button type="button" onclick="decrementQuantity()"
+                                    class="bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-3 rounded-l-lg border border-r-0 focus:outline-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                                <input
+                                    class="shadow appearance-none border text-center w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="quantity" name="quantity" type="number" min="0" value="0" required>
+                                <button type="button" onclick="incrementQuantity()"
+                                    class="bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-3 rounded-r-lg border border-l-0 focus:outline-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="sale_price">
-                                Profit (La Magre):
-                            </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="profit" name="profit" type="number" step="0.01"
-                                placeholder="" required>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="category_id">
-                                Category
-                            </label>
-                            <select
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="category_id" name="category_id" required>
-                                <option value="">Select a Category</option>
-                                <?php if (isset($data['categories'])): ?>
-                                    <?php foreach ($data['categories'] as $category): ?>
-                                        <option value="<?php echo $category->getCategoryId() ?>">
-                                            <?php echo $category->getCategoryName() ?></option>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </select>
-                        </div>
-                        <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
+
+                        <div class="bg-gray-50 flex justify-end space-x-4 p-4 rounded-b-lg">
                             <button type="button"
-                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded transition duration-300 ease-in-out"
                                 onclick="hideModal('productModal')">
                                 Cancel
                             </button>
                             <button type="submit" id="productSubmit"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition duration-300 ease-in-out">
                                 Save Product
                             </button>
                         </div>

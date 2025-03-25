@@ -93,7 +93,7 @@ class ManagerRepository extends Repository
             throw new Exception('Error :'. $e->getMessage());
         }
     }
-    public function createProduct($data)
+    public function createProduct($data, $storeID)
     {
         try {
 
@@ -107,9 +107,23 @@ class ManagerRepository extends Repository
             $stmt->bindParam(':sale_price', $data['sale_price']);
             $stmt->bindParam(':profit', $data['profit']);
             $stmt->bindParam(':category_id', $data['category_id']);
-            return $stmt->execute();
+            $stmt->execute();
+            $productId = $this->db->lastInsertId();
+            return $this->storeStock($data['quantity'], $productId, $storeID);
         } catch (Exception $e) {
             throw new Exception("Erreur lors de la création de Produit : " . $e->getMessage());
+        }
+    }
+    public function storeStock($quantity, $productId, $storeID){
+        try {
+            $sql = "INSERT INTO stocks (store_id, product_id, quentity) VALUES (:store_id, :product_id, :quentity)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':store_id', $storeID);
+            $stmt->bindParam(':product_id', $productId);
+            $stmt->bindParam(':quentity', $quantity);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors la création du Stock  : " . $e->getMessage());
         }
     }
 

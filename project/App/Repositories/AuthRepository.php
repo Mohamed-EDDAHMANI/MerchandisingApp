@@ -22,9 +22,9 @@ class AuthRepository extends Repository
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            $usersInstences = DataMapper::adminMapper($user);
 
-            if (password_verify($password, $usersInstences->getPassword())) {
+            if (password_verify($password, $user['password'])) {
+                $usersInstences = DataMapper::adminMapper($user);
                 $table = $this->getUserRole($usersInstences->getRoleId());
                 if ($table->getRole() == 'admin') {
                     return $usersInstences;

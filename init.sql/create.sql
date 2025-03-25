@@ -15,13 +15,13 @@ CREATE TABLE IF NOT EXISTS suppliers (
 -- Create stores table
 CREATE TABLE IF NOT EXISTS stores (
     store_id INT AUTO_INCREMENT PRIMARY KEY,                      -- Unique identifier for the store
-    name VARCHAR(255) NOT NULL,                             -- Name of the store
-    address VARCHAR(255) NOT NULL,                          -- Address of the store
-    city VARCHAR(100) NOT NULL,                             -- City where the store is located
+    store_name VARCHAR(100) not null,                             -- Name of the store
+    address VARCHAR(255) NOT NULL,                                -- Address of the store
+    city VARCHAR(100) NOT NULL,                                   -- City where the store is located
     status ENUM('active', 'inactive', 'pending') DEFAULT 'pending', -- Status of the store
-    parking_space BOOLEAN DEFAULT FALSE,                    -- If the store has parking space
+    parking_space BOOLEAN DEFAULT FALSE,                          -- If the store has parking space
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Last update timestamp
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP          -- Timestamp when the store was created
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                -- Timestamp when the store was created
 );
 
 -- Create store_performance table

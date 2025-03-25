@@ -140,7 +140,7 @@
                                             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i class="fas fa-store text-gray-400"></i>
                                         </div>
-                                        <input type="text" id="store-name" name="name"
+                                        <input type="text" id="store-name" name="store_name"
                                             class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                             placeholder="Nom du magasin">
                                     </div>

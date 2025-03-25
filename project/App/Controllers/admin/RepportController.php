@@ -1,8 +1,9 @@
 <?php 
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Services\RepportService;
+use App\Controllers\BaseController;
 
 
 class RepportController extends BaseController{

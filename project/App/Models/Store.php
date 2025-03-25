@@ -15,7 +15,7 @@ class Store {
     // Constructor
     public function __construct($storeData) {
         $this->id = $storeData['store_id'] ?? null;
-        $this->name = $storeData['name'] ?? null;
+        $this->name = $storeData['store_name'] ?? null;
         $this->address = $storeData['address'] ?? null;
         $this->city = $storeData['city'] ?? null;
         $this->status = $storeData['status'] ?? null;

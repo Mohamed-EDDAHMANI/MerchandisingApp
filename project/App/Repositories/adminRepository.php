@@ -18,19 +18,19 @@ class AdminRepository extends Repository
     public function createUser($data)
     {
         try {
-            
             if ($this->emailExists($data['email'])) {
                 return false;
             }
             $passwordHashed = password_hash($data['password'], PASSWORD_BCRYPT);
             $roleId = $this->getRoleId($data['role']);
-            $sql = "INSERT INTO users (first_name, last_name, email, password, role_id) VALUES (:first_name, :last_name, :email, :password, :role_id)";
+            $sql = "INSERT INTO users (first_name, last_name, email, password,store_id , role_id) VALUES (:first_name, :last_name, :email, :password, :store_id, :role_id)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':first_name', $data['firstName']);
             $stmt->bindParam(':last_name', $data['lastName']);
             $stmt->bindParam(':email', $data['email']);
             $stmt->bindParam(':password', $passwordHashed);
             $stmt->bindParam(':role_id', $roleId['role_id']);
+            $stmt->bindParam(':store_id', $data['store_id']);
             if ($stmt->execute()) {
                 $userId = $this->db->lastInsertId();
                 $result = $this->insertUserTable($data, $userId);
@@ -86,6 +86,7 @@ class AdminRepository extends Repository
         users.last_name,
         users.role_id,
         roles.role_name,
+        stores.store_id,
         stores.name AS store_name,
         managers.is_valid AS manager_valid,
         managers.salary AS manager_salary,
@@ -247,7 +248,7 @@ class AdminRepository extends Repository
 
 
             $sql = "UPDATE users 
-                SET first_name = :first_name, 
+                SET first_name = :first_name,
                     last_name = :last_name, 
                     email = :email,
                     store_id = :store_id

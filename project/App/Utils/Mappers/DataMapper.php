@@ -37,10 +37,10 @@ class dataMapper
             if (!empty($data['employee_salary'])) {
                 $user->setEmployee(new Employee($data));
             }
-
+            
             $user->setRole(new Role($data));
             $user->setStore(new Store($data));
-
+            
             $users[] = $user;
         }
         return $users;
@@ -60,7 +60,9 @@ class dataMapper
         foreach ($dataArray as $data) {
             $classPath = 'App\Models\\' . $class;  
             $datas[] = new $classPath($data);
+            exit;
         }
+
         return $datas;
     }
 

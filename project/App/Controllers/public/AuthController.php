@@ -1,8 +1,9 @@
 <?php 
 
-namespace App\Controllers;
+namespace App\Controllers\public;
 
 use App\Services\AuthService;
+use App\Controllers\BaseController;
 
 class AuthController extends BaseController{
     private $authService;

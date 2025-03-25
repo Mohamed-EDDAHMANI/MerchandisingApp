@@ -20,25 +20,19 @@ class GateMiddleware
 
     public function handlePolicis($method)
     {
-        $useRole = $this->session->get('role');
-        if(!isset($useRole)){
-            foreach (Permissions::$permissions as $role => $pirmission) {
-                if($role == 'public') {
-                    $pirmissions = explode('|', $pirmission);
-                    if (in_array($method, $pirmissions)) {
-                        return;
-                    }
-                    $this->redirect->to('notFound');
-                }
-            }
+        $useRole = ($method == 'logout') ? 'public' : $this->session->get('role');
+
+        if (!isset($useRole)) {
+            $useRole = 'public';
         }
-        foreach (Permissions::$permissions as $role => $pirmission) {
-            if($useRole == $role) {
-                $pirmissions = explode('|', $pirmission);
-                if (in_array($method, $pirmissions)) {
-                    return;
+
+        foreach (Permissions::$permissions as $role => $permissions) {
+            if ($role == $useRole) {
+                $permissionsArray = explode('|', $permissions);
+                if (in_array($method, $permissionsArray)) {
+                    return $role;
                 }
-                $this->redirect->to('notAuthorize');
+                $this->redirect->to( 'notAuthorize');
             }
         }
     }

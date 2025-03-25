@@ -1,10 +1,11 @@
 <?php 
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Models\Store;
 use App\Services\StoreService;
 use App\Utils\Redirects\Redirect;
+use App\Controllers\BaseController;
 
 class StoreController extends BaseController{
     private $storeService;

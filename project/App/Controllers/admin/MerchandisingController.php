@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Services\MerchandisingService;
 use App\Utils\Redirects\Redirect;
+use App\Controllers\BaseController;
 
 class MerchandisingController
 {

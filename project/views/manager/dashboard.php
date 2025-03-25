@@ -295,17 +295,20 @@
                         <?php if (isset($data['categories'])): ?>
                             <?php foreach ($data['categories'] as $category): ?>
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $category->getCategoryId() ?></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?php echo $category->getCategoryId() ?></td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900"><?php echo $category->getCategoryName() ?></div>
+                                        <div class="text-sm font-medium text-gray-900">
+                                            <?php echo $category->getCategoryName() ?></div>
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="text-sm text-gray-500"><?php echo $category->getDescription() ?></div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $category->getProductCount() ?></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?php echo $category->getProductCount() ?></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                                class="fas fa-edit"></i></button>
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3"
+                                            onclick="showUpdateCategoryModal('categoryUpdateModal', <?php echo $category->getCategoryId() ?> )"><i class="fas fa-edit"></i></button>
                                         <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -318,41 +321,79 @@
             <!-- Category Modal -->
             <div id="categoryModal"
                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-                <form action="/manager/category/create" method="POST">
-                    <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
-                        <div class="px-6 py-4 border-b">
-                            <h3 class="text-lg font-semibold">Add New Category</h3>
+                <form action="/manager/category/create" method="POST"
+                    class="bg-white rounded-lg shadow-lg w-full max-w-md">
+                    <div class="px-6 py-4 border-b">
+                        <h3 class="text-lg font-semibold">Add New Category</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryName">
+                                Category Name
+                            </label>
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="categoryName" type="text" placeholder="Enter category name" name="category_name">
                         </div>
-                        <div class="p-6">
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryName">
-                                    Category Name
-                                </label>
-                                <input
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="categoryName" type="text" placeholder="Enter category name"
-                                    name="category_name">
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryDescription">
-                                    Description
-                                </label>
-                                <textarea
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="categoryDescription" placeholder="Enter category description" rows="3"
-                                    name="description"></textarea>
-                            </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryDescription">
+                                Description
+                            </label>
+                            <textarea
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="categoryDescription" placeholder="Enter category description" rows="3"
+                                name="description"></textarea>
                         </div>
-                        <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
-                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
-                                onclick="hideModal('categoryModal')">
-                                Cancel
-                            </button>
-                            <button type="submit"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Save
-                            </button>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
+                        <button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                            onclick="hideModal('categoryModal')">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Category Modal Updaye -->
+            <div id="categoryUpdateModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <form action="/manager/category/update" method="POST"
+                    class="bg-white rounded-lg shadow-lg w-full max-w-md">
+                    <div class="px-6 py-4 border-b">
+                        <h3 class="text-lg font-semibold">Modifier Category</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryName">
+                                Category Name
+                            </label>
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="categoryNameUpdate" type="text" placeholder="Enter category name" name="category_name" value="">
                         </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryDescription">
+                                Description
+                            </label>
+                            <textarea
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="categoryDescriptionUpdate" placeholder="Enter category description" rows="3"
+                                name="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
+                        <button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                            onclick="hideModal('categoryUpdateModal')">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Save
+                        </button>
                     </div>
                 </form>
             </div>
@@ -577,7 +618,7 @@
                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
                 <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
                     <div class="px-6 py-4 border-b">
-                        <h3 class="text-lg font-semibold">Add New Supplier</h3>
+                        <h3 class="text-lg font-semibold titel">Add New Supplier</h3>
                     </div>
                     <div class="p-6">
                         <div class="mb-4">

@@ -83,9 +83,9 @@ class Router
         list($controller, $action) = explode('@', $controllerAction);
 
         //check if the user have the permission to call this method 
-        $this->gateMiddleware->handlePolicis($action);
+        $roleFolder = $this->gateMiddleware->handlePolicis($action);
+        $controller = 'App\\Controllers\\' . $roleFolder . '\\'. $controller;
 
-        $controller = 'App\\Controllers\\' . $controller;
         $controllerInstance = new $controller();
 
         // Call the action with parameters

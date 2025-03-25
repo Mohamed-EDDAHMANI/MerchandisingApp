@@ -60,5 +60,38 @@ class ManagerRepository extends Repository
             throw new Exception('Error :'. $e->getMessage());
         }
     }
+    public function getCategoryById($id)
+    {
+        try {
+            $query = "SELECT * FROM categories
+            WHERE category_id = :category_id;";
+            
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam("category_id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $category = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // $categoryInstences = DataMapper::DataMapper($category, 'Category');
+            return $category;
+
+        }catch (Exception $e) {
+            throw new Exception('Error :'. $e->getMessage());
+        }
+    }
+    public function udpateCategory($data, $id)
+    {
+        try {
+            $query = "UPDATE categories SET category_name = :category_name, description = :description
+            WHERE category_id = :category_id;";
+            
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam("category_name", $data['category_name'], PDO::PARAM_STR);
+            $stmt->bindParam("description", $data['description'], PDO::PARAM_STR);
+            $stmt->bindParam("category_id", $id, PDO::PARAM_INT);
+            return $stmt->execute();
+
+        }catch (Exception $e) {
+            throw new Exception('Error :'. $e->getMessage());
+        }
+    }
 
 }

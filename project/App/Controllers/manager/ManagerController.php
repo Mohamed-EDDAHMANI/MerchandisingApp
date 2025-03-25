@@ -1,8 +1,9 @@
 <?php 
 
-namespace App\Controllers;
+namespace App\Controllers\manager;
 
 use App\Services\ManagerService;
+use App\Controllers\BaseController;
 
 class ManagerController extends BaseController {
 
@@ -19,6 +20,14 @@ class ManagerController extends BaseController {
 
     public function createCategory() {
         $this->managerService->createCategory($_POST);
+    }
+
+    public function getCategoryById($id) {
+        return $this->managerService->getCategoryById($id);
+    }
+
+    public function udpateCategory($id) {
+        return $this->managerService->udpateCategory($_POST , $id);
     }
 
 }

@@ -34,16 +34,17 @@ class AuthService
             $this->session->set("role", 'admin');
             Redirect::roleRedirect('admin');
             return false;
-        }else{
+        } else {
             $this->session->setError('error', 'incorrect email or password !!');
             Redirect::to('/login');
         }
     }
 
-    
+
     public function logout()
     {
         session_destroy();
+        $_SESSION = array();
         Redirect::to('/login');
     }
 }

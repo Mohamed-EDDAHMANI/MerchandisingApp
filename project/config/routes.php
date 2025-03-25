@@ -46,5 +46,12 @@ $router->post('/admin/utilisateurs/delete/{id}', 'AdminController@deleteUser'); 
 // Manager Route
 $router->get('/manager/dashboard', 'ManagerController@index'); // Exporter les données au format Excel
 $router->post('/manager/category/create', 'ManagerController@createCategory'); // Exporter les données au format Excel
+$router->get('/manager/category/getCategory/{id}', 'ManagerController@getCategoryById'); //get Category By Id
+$router->post('/manager/category/update/{id}', 'ManagerController@udpateCategory'); //get Category By Id
+$router->get('/manager/category/delete/{id}', 'ManagerController@deleteCategory'); //get Category By Id
 
+$router->get('/manager/products', 'ManagerController@getProductList'); //get Category By Id
+$router->post('/manager/product/create', 'ManagerController@createCategory'); //get Category By Id
+$router->post('/manager/product/update/{id}', 'ManagerController@updateCategory'); //get Category By Id
+$router->get('/manager/product/delete/{id}', 'ManagerController@deleteCategory'); //get Category By Id
 ?>

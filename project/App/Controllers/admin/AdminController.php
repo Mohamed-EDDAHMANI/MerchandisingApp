@@ -1,9 +1,10 @@
 <?php 
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Services\AdminService;
 use App\Utils\Redirects\Redirect;
+use App\Controllers\BaseController;
 
 class AdminController extends BaseController{
     private $adminService;

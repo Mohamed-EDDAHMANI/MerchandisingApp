@@ -6,8 +6,8 @@ class AuthMiddleware
 {
     public static function handleAuthentification($protectedRoutes , $uri)
     {
-        if (in_array($uri, array_keys($protectedRoutes)) && !isset($_SESSION['user'])) {
-            header("Location: /auth/login");
+        if (in_array($uri, $protectedRoutes) && !isset($_SESSION['user'])) {
+            header("Location: /login");
             exit();
         }
         

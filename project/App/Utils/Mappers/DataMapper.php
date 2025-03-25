@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Manager;
 use App\Models\Employee;
 use App\Models\Role;
+use App\Models\Product;
 use App\Models\MerchandisingData;
 
 
@@ -93,6 +94,17 @@ class dataMapper
         foreach ($dataArray as $data) {
             $instence = new Category($data);
             $instence->setProductCount($data['product_count']);
+            $datas[] = $instence;
+        }
+        return $datas;
+    }
+    public static function productsMapper(array $dataArray)
+    {
+        $datas = [];
+        foreach ($dataArray as $data) {
+            $instence = new Product($data);
+            $instence->setProductCount($data['product_count']);
+            $instence->setCategoryName($data['category_name']);
             $datas[] = $instence;
         }
         return $datas;

@@ -20,7 +20,8 @@ class ManagerService{
         return $this->managerRepository->getAllCategories();
     }
     public function getAllProducts(){
-        return $this->managerRepository->getAllProducts();
+        $userData = $this->session->get('user');
+        return $this->managerRepository->getAllProducts( $userData->getStoreId());
     }
 
     public function createCategory($data){
@@ -71,5 +72,6 @@ class ManagerService{
         }
         Redirect::to('/manager/dashboard#products');//i want redirect to this rout and clickon a button with js 
     }
+    
 }
 

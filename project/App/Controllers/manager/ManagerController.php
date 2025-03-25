@@ -14,9 +14,8 @@ class ManagerController extends BaseController {
 
     public function index() {
         $categories = $this->managerService->getAllCategories();
-        // $products = $this->managerService->getAllProducts();
-        // $data = ['categories' => $categories, 'products' => $products];
-        $data = ['categories' => $categories];
+        $products = $this->managerService->getAllProducts();
+        $data = ['categories' => $categories, 'products' => $products];
         return $this->view('manager/dashboard', $data);
     }
 

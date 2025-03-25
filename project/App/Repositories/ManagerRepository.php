@@ -26,7 +26,7 @@ class ManagerRepository extends Repository
             throw new Exception("Erreur lors de la création de l'utilisateur : " . $e->getMessage());
         }
     }
-    
+
     public function getAllCategories()
     {
         try {
@@ -35,15 +35,15 @@ class ManagerRepository extends Repository
             FROM categories
             LEFT JOIN products ON products.category_id = categories.category_id
             GROUP BY categories.category_id;";
-            
+
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $categoriesInstences = DataMapper::categoriesMapper($categories);
             return $categoriesInstences;
-            
-        }catch (Exception $e) {
-            throw new Exception('Error :'. $e->getMessage());
+
+        } catch (Exception $e) {
+            throw new Exception('Error :' . $e->getMessage());
         }
     }
     public function getCategoryById($id)
@@ -51,16 +51,16 @@ class ManagerRepository extends Repository
         try {
             $query = "SELECT * FROM categories
             WHERE category_id = :category_id;";
-            
+
             $stmt = $this->db->prepare($query);
             $stmt->bindParam("category_id", $id, PDO::PARAM_INT);
             $stmt->execute();
             $category = $stmt->fetchAll(PDO::FETCH_ASSOC);
             // $categoryInstences = DataMapper::DataMapper($category, 'Category');
             return $category;
-            
-        }catch (Exception $e) {
-            throw new Exception('Error :'. $e->getMessage());
+
+        } catch (Exception $e) {
+            throw new Exception('Error :' . $e->getMessage());
         }
     }
     public function udpateCategory($data, $id)
@@ -68,15 +68,15 @@ class ManagerRepository extends Repository
         try {
             $query = "UPDATE categories SET category_name = :category_name, description = :description
             WHERE category_id = :category_id;";
-            
+
             $stmt = $this->db->prepare($query);
             $stmt->bindParam("category_name", $data['category_name'], PDO::PARAM_STR);
             $stmt->bindParam("description", $data['description'], PDO::PARAM_STR);
             $stmt->bindParam("category_id", $id, PDO::PARAM_INT);
             return $stmt->execute();
-            
-        }catch (Exception $e) {
-            throw new Exception('Error :'. $e->getMessage());
+
+        } catch (Exception $e) {
+            throw new Exception('Error :' . $e->getMessage());
         }
     }
     public function deleteCategory($id)
@@ -84,20 +84,20 @@ class ManagerRepository extends Repository
         try {
             $query = "DELETE FROM categories 
             WHERE category_id = :category_id  LIMIT 1;";
-            
+
             $stmt = $this->db->prepare($query);
             $stmt->bindParam("category_id", $id, PDO::PARAM_INT);
             return $stmt->execute();
-            
-        }catch (Exception $e) {
-            throw new Exception('Error :'. $e->getMessage());
+
+        } catch (Exception $e) {
+            throw new Exception('Error :' . $e->getMessage());
         }
     }
     public function createProduct($data, $storeID)
     {
         try {
 
-            if ($this->itemExists($data['product_name'],'products', 'product_name')) {
+            if ($this->itemExists($data['product_name'], 'products', 'product_name')) {
                 return false;
             }
             $sql = "INSERT INTO products (product_name, trade_price, sale_price, profit, category_id ) VALUES (:product_name, :trade_price, :sale_price, :profit, :category_id)";
@@ -114,7 +114,8 @@ class ManagerRepository extends Repository
             throw new Exception("Erreur lors de la création de Produit : " . $e->getMessage());
         }
     }
-    public function storeStock($quantity, $productId, $storeID){
+    public function storeStock($quantity, $productId, $storeID)
+    {
         try {
             $sql = "INSERT INTO stocks (store_id, product_id, quentity) VALUES (:store_id, :product_id, :quentity)";
             $stmt = $this->db->prepare($sql);
@@ -124,6 +125,39 @@ class ManagerRepository extends Repository
             return $stmt->execute();
         } catch (Exception $e) {
             throw new Exception("Erreur lors la création du Stock  : " . $e->getMessage());
+        }
+    }
+
+    public function getAllProducts($storeID)
+    {
+        try {
+            $query = "SELECT 
+                    products.product_id, 
+                    products.product_name, 
+                    products.trade_price, 
+                    products.sale_price, 
+                    products.profit, 
+                    stocks.quentity AS product_count,
+                    categories.category_id,
+                    categories.category_name
+                FROM 
+                     products
+                JOIN 
+                    stocks ON products.product_id = stocks.product_id
+                JOIN 
+                    categories ON categories.category_id = products.product_id
+                WHERE 
+                    stocks.store_id = :store_id;";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam("store_id", $storeID);
+            $stmt->execute();
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $productsInstences = DataMapper::productsMapper($products);
+            return $productsInstences;
+
+        } catch (Exception $e) {
+            throw new Exception('Error :' . $e->getMessage());
         }
     }
 

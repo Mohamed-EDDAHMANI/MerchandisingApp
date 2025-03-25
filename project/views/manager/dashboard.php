@@ -12,6 +12,7 @@
 </head>
 
 <body class="bg-gray-100 font-sans">
+
     <!-- Sidebar -->
     <div class="fixed inset-y-0 left-0 w-64 bg-blue-800 text-white shadow-lg z-10">
         <div class="flex items-center justify-center h-16 border-b border-blue-700">
@@ -447,7 +448,7 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                ID</th>
+                                Marge</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Product</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -463,33 +464,50 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded"></div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Smartphone X</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Electronics</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$799</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$999</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                    Low (5)
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i
-                                        class="fas fa-shopping-cart"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
+                        <?php if (isset($data['products'])): ?>
+                            <?php foreach ($data['products'] as $value): ?>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?php echo $value->getProfit() ?> MAD</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded"></div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    <?php echo $value->getProductName() ?></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?php echo $value->getCategoryName() ?></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?php echo $value->getTradePrice() ?> MAD</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?php echo $value->getSalePrice() ?> MAD</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <?php if ($value->getProductCount() <= 300): ?>
+                                            <span
+                                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                Low (<?php echo $value->getProductCount() ?>)
+                                            </span>
+                                        <?php else: ?>
+                                            <span
+                                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                In Stock (<?php echo $value->getProductCount() ?>)
+                                            </span>
+                                        <?php endif; ?>
+
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                                class="fas fa-edit"></i></button>
+                                        <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                                class="fas fa-shopping-cart"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
                             <td class="px-6 py-4 whitespace-nowrap">

@@ -26,7 +26,7 @@
                 class="flex items-center py-3 px-6 text-white hover:bg-blue-700" onclick="switchTab('categories')">
                 <i class="fas fa-tags mr-3"></i> Categories
             </a>
-            <a data-tab="#products" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
+            <a data-tab="#products" id="productsBtn" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
                 onclick="switchTab('products')">
                 <i class="fas fa-box mr-3"></i> Products
             </a>
@@ -296,20 +296,27 @@
                             <?php foreach ($data['categories'] as $category): ?>
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <?php echo $category->getCategoryId() ?></td>
+                                        <?php echo $category->getCategoryId() ?>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">
-                                            <?php echo $category->getCategoryName() ?></div>
+                                            <?php echo $category->getCategoryName() ?>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-500 line-clamp-2 overflow-hidden"><?php echo $category->getDescription() ?></div>
+                                        <div class="text-sm text-gray-500 line-clamp-2 overflow-hidden">
+                                            <?php echo $category->getDescription() ?>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <?php echo $category->getProductCount() ?></td>
+                                        <?php echo $category->getProductCount() ?>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <button class="text-blue-600 hover:text-blue-900 mr-3"
-                                            onclick="showUpdateCategoryModal('categoryUpdateModal', <?php echo $category->getCategoryId() ?> )"><i class="fas fa-edit"></i></button>
-                                        <a href="/manager/category/delete/<?php echo $category->getCategoryId() ?>" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                            onclick="showUpdateCategoryModal('categoryUpdateModal', <?php echo $category->getCategoryId() ?> )"><i
+                                                class="fas fa-edit"></i></button>
+                                        <a href="/manager/category/delete/<?php echo $category->getCategoryId() ?>"
+                                            class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -346,7 +353,8 @@
                         </div>
                     </div>
                     <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
-                        <button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                        <button type="button"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
                             onclick="hideModal('categoryModal')">
                             Cancel
                         </button>
@@ -373,7 +381,8 @@
                             </label>
                             <input
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="categoryNameUpdate" type="text" placeholder="Enter category name" name="category_name" value="">
+                                id="categoryNameUpdate" type="text" placeholder="Enter category name"
+                                name="category_name" value="">
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="categoryDescription">
@@ -386,7 +395,8 @@
                         </div>
                     </div>
                     <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
-                        <button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                        <button type="button"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
                             onclick="hideModal('categoryUpdateModal')">
                             Cancel
                         </button>
@@ -403,7 +413,8 @@
         <div id="products" class="tab-content hidden">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-semibold">Product Inventory</h3>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                    onclick="showModal('productModal')">
                     <i class="fas fa-plus mr-2"></i> New Product
                 </button>
             </div>
@@ -522,6 +533,82 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Product Modal -->
+            <div id="productModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+                    <div class="px-6 py-4 border-b">
+                        <h3 class="text-lg font-semibold titel">Add New Product</h3>
+                        <h5 class="bg-red-500 text-white w-full absolute top-0 left-0 p-2 text-center rounded-t-lg font-semibold hidden" id="errorPrice">Trade Price must be lees then Sale Price</h5>
+                    </div>
+                    <form id="productForm" action="/manager/product/create" method="POST" class="p-6">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                                Product Name
+                            </label>
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="name" name="product_name" type="text" placeholder="Enter product name" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="trade_price">
+                                Trade Price (Wholesale)
+                            </label>
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="trade_price" name="trade_price" type="number" step="0.01"
+                                placeholder="Enter trade price" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="sale_price">
+                                Sale Price
+                            </label>
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="sale_price" name="sale_price" type="number" step="0.01"
+                                placeholder="Enter sale price" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="sale_price">
+                                Profit (La Magre):
+                            </label>
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="profit" name="profit" type="number" step="0.01"
+                                placeholder="" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="category_id">
+                                Category
+                            </label>
+                            <select
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="category_id" name="category_id" required>
+                                <option value="">Select a Category</option>
+                                <?php if (isset($data['categories'])): ?>
+                                    <?php foreach ($data['categories'] as $category): ?>
+                                        <option value="<?php echo $category->getCategoryId() ?>">
+                                            <?php echo $category->getCategoryName() ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                        <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
+                            <button type="button"
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                                onclick="hideModal('productModal')">
+                                Cancel
+                            </button>
+                            <button type="submit" id="productSubmit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Save Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
 
         <!-- Suppliers Tab -->

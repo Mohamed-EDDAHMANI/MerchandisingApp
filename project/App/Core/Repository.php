@@ -4,6 +4,7 @@ namespace App\Core;
 
 use Config\Database;
 use PDO;
+use Exception;
 
 class Repository {
     protected $db;
@@ -30,6 +31,20 @@ class Repository {
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function itemExists($value , $table , $column)
+    {
+        try {
+            $query = "SELECT COUNT(*) FROM `$table` WHERE `$column` = :value";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':value', $value);
+            $stmt->execute();
+
+            return $stmt->fetchColumn() > 0;
+        }catch (Exception $e) {
+            throw new Exception('Error :'. $e->getMessage());
+        }
     }
 
     protected function getById($table, $id ) {

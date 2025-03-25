@@ -1,3 +1,5 @@
+const trade_price = document.getElementById('trade_price')
+const sale_price = document.getElementById('sale_price')
 
 // Hide the message after 5 seconds
 setTimeout(() => {
@@ -15,7 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
     switch (fragment) {
         case 'categories':
             const categoryButton = document.getElementById('categoriesBtn');
+            history.replaceState(null, null, path);
             categoryButton.click();
+            break;
+        case 'products':
+            const productsButton = document.getElementById('productsBtn');
+            history.replaceState(null, null, path);
+            productsButton.click();
             break;
 
         default:
@@ -86,6 +94,31 @@ window.addEventListener('click', function (event) {
         }
     });
 });
+
+trade_price.addEventListener('input',calcProfit)
+sale_price.addEventListener('input',calcProfit)
+
+function calcProfit() {
+    const tradePriceValue = parseFloat(trade_price.value) || 0;
+    const salePriceValue = parseFloat(sale_price.value) || 0;
+    
+    document.getElementById('profit').value = salePriceValue - tradePriceValue
+    if (salePriceValue - tradePriceValue <= 0) {
+        document.getElementById('productSubmit').style.backgroundColor = 'red';
+        document.getElementById('productSubmit').style.cursor = 'not-allowed';
+        document.getElementById('productSubmit').disabled = true;
+        document.getElementById('errorPrice').classList.remove('hidden');
+        setTimeout(() => {
+            document.getElementById('errorPrice').classList.add('hidden');
+        }, 5000);
+    } else {
+        console.log('')
+        document.getElementById('productSubmit').style.backgroundColor = 'blue';
+        document.getElementById('productSubmit').style.cursor = '';
+        document.getElementById('productSubmit').disabled = false;
+        document.getElementById('errorPrice').classList.add('hidden');
+    }
+}
 
 // Generate PDF function
 function generatePDF() {

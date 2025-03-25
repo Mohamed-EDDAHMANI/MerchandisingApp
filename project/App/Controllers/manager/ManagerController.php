@@ -14,7 +14,8 @@ class ManagerController extends BaseController {
 
     public function index() {
         $categories = $this->managerService->getAllCategories();
-        $data = ['categories' => $categories];
+        $products = $this->managerService->getAllProducts();
+        $data = ['categories' => $categories, 'products' => $products];
         return $this->view('manager/dashboard', $data);
     }
 
@@ -31,6 +32,9 @@ class ManagerController extends BaseController {
     }
     public function deleteCategory($id) {
         return $this->managerService->deleteCategory($id);
+    }
+    public function createProduct() {
+        return $this->managerService->createProduct($_POST);
     }
 
 }

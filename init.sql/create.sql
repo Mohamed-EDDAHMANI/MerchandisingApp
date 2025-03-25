@@ -87,9 +87,10 @@ CREATE TABLE IF NOT EXISTS categories (
 -- Create products table
 CREATE TABLE IF NOT EXISTS products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each product
-    name VARCHAR(100) NOT NULL,  -- Name of the product
+    product_name VARCHAR(100) NOT NULL,  -- Name of the product
     trade_price DECIMAL(10, 2) NOT NULL,  -- Price at which the store buys the product (wholesale price)
     sale_price DECIMAL(10, 2) NOT NULL,  -- Price at which the product is sold to customers
+    profit DECIMAL(10, 2) NOT NULL,  -- Price at which the product is sold to customers
     category_id INT NOT NULL,  -- Foreign key referencing the categories table
     FOREIGN KEY (category_id) REFERENCES categories(category_id)  -- Foreign key constraint for category
 );

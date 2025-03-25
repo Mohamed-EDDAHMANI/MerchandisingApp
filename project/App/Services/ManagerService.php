@@ -19,6 +19,9 @@ class ManagerService{
     public function getAllCategories(){
         return $this->managerRepository->getAllCategories();
     }
+    public function getAllProducts(){
+        return $this->managerRepository->getAllProducts();
+    }
 
     public function createCategory($data){
         $result = $this->managerRepository->createCategory($data);
@@ -57,6 +60,15 @@ class ManagerService{
             $this->session->setError('error', 'Error Deleting Category');
         }
         Redirect::to('/manager/dashboard#categories');//i want redirect to this rout and clickon a button with js 
+    }
+    public function createProduct($data){
+        $result = $this->managerRepository->createProduct($data);
+        if ($result) {
+            $this->session->setError('success', 'Product Created successfully');
+        } else {
+            $this->session->setError('error', 'Error creating or name Already Exist!');
+        }
+        Redirect::to('/manager/dashboard#products');//i want redirect to this rout and clickon a button with js 
     }
 }
 

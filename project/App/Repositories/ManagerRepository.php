@@ -14,7 +14,7 @@ class ManagerRepository extends Repository
     {
         try {
 
-            if ($this->categoryExists($data['category_name'])) {
+            if ($this->itemExists($data['category_name'], 'categories', 'category_name')) {
                 return false;
             }
             $sql = "INSERT INTO categories (category_name, description) VALUES (:category_name, :description)";
@@ -26,21 +26,7 @@ class ManagerRepository extends Repository
             throw new Exception("Erreur lors de la création de l'utilisateur : " . $e->getMessage());
         }
     }
-
-    public function categoryExists($categoryName)
-    {
-        try {
-            $query = "SELECT COUNT(*) FROM categories WHERE category_name = :category_name";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':category_name', $categoryName, PDO::PARAM_STR);
-            $stmt->execute();
-
-            return $stmt->fetchColumn() > 0;
-        }catch (Exception $e) {
-            throw new Exception('Error :'. $e->getMessage());
-        }
-    }
-
+    
     public function getAllCategories()
     {
         try {
@@ -55,7 +41,7 @@ class ManagerRepository extends Repository
             $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $categoriesInstences = DataMapper::categoriesMapper($categories);
             return $categoriesInstences;
-
+            
         }catch (Exception $e) {
             throw new Exception('Error :'. $e->getMessage());
         }
@@ -72,7 +58,7 @@ class ManagerRepository extends Repository
             $category = $stmt->fetchAll(PDO::FETCH_ASSOC);
             // $categoryInstences = DataMapper::DataMapper($category, 'Category');
             return $category;
-
+            
         }catch (Exception $e) {
             throw new Exception('Error :'. $e->getMessage());
         }
@@ -88,7 +74,7 @@ class ManagerRepository extends Repository
             $stmt->bindParam("description", $data['description'], PDO::PARAM_STR);
             $stmt->bindParam("category_id", $id, PDO::PARAM_INT);
             return $stmt->execute();
-
+            
         }catch (Exception $e) {
             throw new Exception('Error :'. $e->getMessage());
         }
@@ -102,9 +88,28 @@ class ManagerRepository extends Repository
             $stmt = $this->db->prepare($query);
             $stmt->bindParam("category_id", $id, PDO::PARAM_INT);
             return $stmt->execute();
-
+            
         }catch (Exception $e) {
             throw new Exception('Error :'. $e->getMessage());
+        }
+    }
+    public function createProduct($data)
+    {
+        try {
+
+            if ($this->itemExists($data['product_name'],'products', 'product_name')) {
+                return false;
+            }
+            $sql = "INSERT INTO products (product_name, trade_price, sale_price, profit, category_id ) VALUES (:product_name, :trade_price, :sale_price, :profit, :category_id)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':product_name', $data['product_name']);
+            $stmt->bindParam(':trade_price', $data['trade_price']);
+            $stmt->bindParam(':sale_price', $data['sale_price']);
+            $stmt->bindParam(':profit', $data['profit']);
+            $stmt->bindParam(':category_id', $data['category_id']);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la création de Produit : " . $e->getMessage());
         }
     }
 

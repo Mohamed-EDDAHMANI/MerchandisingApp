@@ -46,5 +46,8 @@ class ManagerController extends BaseController {
     public function createProduct() {
         return $this->managerService->createProduct($_POST);
     }
+    public function sortProduct() {
+        return $this->managerService->sortProduct($_POST);
+    }
 
 }

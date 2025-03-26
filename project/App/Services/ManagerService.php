@@ -52,6 +52,18 @@ class ManagerService{
         echo json_encode($product);
         exit;
     }
+    public function sortProduct($filters)
+    {
+        $userData = $this->session->get('user');
+        $json = file_get_contents("php://input");
+        $filters = json_decode($json, true);
+        $category_id = $filters['categorySelect'] ?? null;
+        $stock = $filters['stockSelect'] ?? null;
+
+        $product = $this->managerRepository->sortProduct($userData->getStoreId() ,$category_id, $stock);
+        echo json_encode($product);
+        exit;
+    }
 
     public function updateCategory($data , $id){
         $result = $this->managerRepository->updateCategory($data, $id);

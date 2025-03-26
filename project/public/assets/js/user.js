@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!response.ok) throw new Error("Failed to fetch users");
 
             const users = await response.json();
-            console.log(users);
+            // console.log(users);
             usersTableBody.innerHTML = "";
 
             (Array.isArray(users) ? users : []).forEach(user => {

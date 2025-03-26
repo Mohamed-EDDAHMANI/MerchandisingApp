@@ -153,7 +153,7 @@ class ManagerRepository extends Repository
             $stmt = $this->db->prepare($query);
             $stmt->bindParam("product_id", $id, PDO::PARAM_INT);
             $stmt->execute();
-            
+
             $this->db->commit();
             return true;
         } catch (Exception $e) {
@@ -225,6 +225,42 @@ class ManagerRepository extends Repository
 
         } catch (Exception $e) {
             throw new Exception('Error :' . $e->getMessage());
+        }
+    }
+
+    public function sortProduct($storeID ,$category_id = null, $stock = null)
+    {
+        $params = [];
+        $sql = 'SELECT products.product_id, 
+                    products.product_name, 
+                    products.trade_price, 
+                    products.sale_price, 
+                    products.profit, 
+                    stocks.quentity AS product_count,
+                    categories.category_id,
+                    categories.category_name
+                FROM products
+                INNER JOIN stocks ON products.product_id = stocks.product_id
+                INNER JOIN categories ON categories.category_id = products.category_id 
+                WHERE stocks.store_id = :store_id';
+
+        if (!is_null($category_id)) {
+            $sql .= ' AND categories.category_id = :category_id';
+            $params[':category_id'] = $category_id;
+        }
+
+        if (!is_null($stock) && in_array(strtoupper($stock), ['ASC', 'DESC'])) {
+            $sql .= ' ORDER BY product_count ' . $stock;
+        }
+        $params[':store_id'] = $storeID;
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $products;
+        } catch (Exception $e) {
+            return ["error" => "Error fetching product: " . $e->getMessage()];
         }
     }
 

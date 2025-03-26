@@ -180,11 +180,9 @@ class AdminRepository extends Repository
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
 
-            // Fetch the results
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $users;
         } catch (PDOException $e) {
-            // Handle any errors
             return ["error" => "Error fetching users: " . $e->getMessage()];
         }
     }

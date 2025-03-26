@@ -435,17 +435,20 @@
                             class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div class="w-full md:w-2/3 flex flex-wrap justify-end space-x-2">
-                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option>All Categories</option>
-                            <option>Electronics</option>
-                            <option>Clothing</option>
-                            <option>Home & Kitchen</option>
+                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" id="categorySelect">
+                            <option value="">All Categories</option>
+                            <?php if (isset($data['categories'])): ?>
+                                <?php foreach ($data['categories'] as $category): ?>
+                                    <option value="<?php echo $category->getCategoryId() ?>">
+                                        <?php echo $category->getCategoryName() ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </select>
-                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option>Sort By: Name</option>
-                            <option>Sort By: Price (Low to High)</option>
-                            <option>Sort By: Price (High to Low)</option>
-                            <option>Sort By: Stock</option>
+                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" id="stockSelect">
+                            <option value="">Sort By:</option>
+                            <option value="ASC">Sort By: Stock (Low to High)</option>
+                            <option value="DESC">Sort By: Stock (High to Low)</option>
                         </select>
                     </div>
                 </div>
@@ -471,7 +474,7 @@
                                 Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-white divide-y divide-gray-200" id="productTableBody">
                         <?php if (isset($data['products'])): ?>
                             <?php foreach ($data['products'] as $value): ?>
                                 <tr>
@@ -520,7 +523,9 @@
                                                 class="fas fa-edit"></i></button>
                                         <button class="text-green-600 hover:text-green-900 mr-3"><i
                                                 class="fas fa-shopping-cart"></i></button>
-                                        <a class="text-red-600 hover:text-red-900" href="/manager/product/delete/<?php echo $value->getProductId() ?>"><i class="fas fa-trash" ></i></a>
+                                        <a class="text-red-600 hover:text-red-900"
+                                            href="/manager/product/delete/<?php echo $value->getProductId() ?>"><i
+                                                class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -1349,6 +1354,7 @@
 
     <!-- JavaScript -->
     <script src="../../public/assets/js/manager.js"></script>
+    <script src="../../public/assets/js/charts.js"></script>
 </body>
 
 </html>

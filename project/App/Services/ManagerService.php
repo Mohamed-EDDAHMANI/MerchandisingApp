@@ -43,15 +43,33 @@ class ManagerService{
         echo json_encode($category);
         exit;
     }
+    public function getProductById($id)
+    {
+        $json = file_get_contents("php://input");
+        $filters = json_decode($json, true);
+        
+        $product = $this->managerRepository->getProductById($id);
+        echo json_encode($product);
+        exit;
+    }
 
-    public function udpateCategory($data , $id){
-        $result = $this->managerRepository->udpateCategory($data, $id);
+    public function updateCategory($data , $id){
+        $result = $this->managerRepository->updateCategory($data, $id);
         if ($result) {
             $this->session->setError('success', 'Category updated successfully');
         } else {
             $this->session->setError('error', 'Category name already exists');
         }
         Redirect::to('/manager/dashboard#categories');//i want redirect to this rout and clickon a button with js 
+    }
+    public function updateProduct($data , $id){
+        $result = $this->managerRepository->updateProduct($data, $id);
+        if ($result) {
+            $this->session->setError('success', 'Product updated successfully');
+        } else {
+            $this->session->setError('error', 'Product name already exists');
+        }
+        Redirect::to('/manager/dashboard#products');//i want redirect to this rout and clickon a button with js 
     }
     public function deleteCategory($id){
         $result = $this->managerRepository->deleteCategory($id);

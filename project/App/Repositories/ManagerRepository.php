@@ -63,7 +63,25 @@ class ManagerRepository extends Repository
             throw new Exception('Error :' . $e->getMessage());
         }
     }
-    public function udpateCategory($data, $id)
+    public function getProductById($id)
+    {
+        try {
+            $query = "SELECT * FROM products
+            INNER JOIN stocks on stocks.product_id = products.product_id
+            WHERE products.product_id = :product_id;";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam("product_id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $product = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // $categoryInstences = DataMapper::DataMapper($category, 'Category');
+            return $product;
+
+        } catch (Exception $e) {
+            throw new Exception('Error :' . $e->getMessage());
+        }
+    }
+    public function updateCategory($data, $id)
     {
         try {
             $query = "UPDATE categories SET category_name = :category_name, description = :description
@@ -73,6 +91,31 @@ class ManagerRepository extends Repository
             $stmt->bindParam("category_name", $data['category_name'], PDO::PARAM_STR);
             $stmt->bindParam("description", $data['description'], PDO::PARAM_STR);
             $stmt->bindParam("category_id", $id, PDO::PARAM_INT);
+            return $stmt->execute();
+
+        } catch (Exception $e) {
+            throw new Exception('Error :' . $e->getMessage());
+        }
+    }
+    public function updateProduct($data, $id)
+    {
+        try {
+            $query = "UPDATE products
+                    SET 
+                        product_name = :product_name,  
+                        trade_price = :trade_price,    
+                        sale_price = :sale_price,      
+                        profit = :profit,              
+                        category_id = :category_id   
+                    WHERE product_id = :product_id;";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(":product_name", $data['product_name'], PDO::PARAM_STR);
+            $stmt->bindParam(":trade_price", $data['trade_price'], PDO::PARAM_STR);
+            $stmt->bindParam(":sale_price", $data['sale_price'], PDO::PARAM_STR);
+            $stmt->bindParam(":profit", $data['profit'], PDO::PARAM_STR);
+            $stmt->bindParam(":category_id", $data['category_id'], PDO::PARAM_INT);
+            $stmt->bindParam(":product_id", $id, PDO::PARAM_INT);
             return $stmt->execute();
 
         } catch (Exception $e) {
@@ -145,7 +188,7 @@ class ManagerRepository extends Repository
                 JOIN 
                     stocks ON products.product_id = stocks.product_id
                 JOIN 
-                    categories ON categories.category_id = products.product_id
+                    categories ON categories.category_id = products.category_id
                 WHERE 
                     stocks.store_id = :store_id;";
 

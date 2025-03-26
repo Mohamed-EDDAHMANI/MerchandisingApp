@@ -26,10 +26,17 @@ class ManagerController extends BaseController {
     public function getCategoryById($id) {
         return $this->managerService->getCategoryById($id);
     }
-
-    public function udpateCategory($id) {
-        return $this->managerService->udpateCategory($_POST , $id);
+    public function getProductById($id) {
+        return $this->managerService->getProductById($id);
     }
+
+    public function updateCategory($id) {
+        return $this->managerService->updateCategory($_POST , $id);
+    }
+    public function updateProduct($id) {
+        return $this->managerService->updateProduct($_POST , $id);
+    }
+
     public function deleteCategory($id) {
         return $this->managerService->deleteCategory($id);
     }

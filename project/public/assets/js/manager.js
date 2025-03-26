@@ -95,8 +95,6 @@ window.addEventListener('click', function (event) {
     });
 });
 
-trade_price.addEventListener('input',calcProfit)
-sale_price.addEventListener('input',calcProfit)
 
 function calcProfit() {
     const tradePriceValue = parseFloat(trade_price.value) || 0;
@@ -120,6 +118,10 @@ function calcProfit() {
     }
 }
 
+trade_price.addEventListener('input',calcProfit)
+sale_price.addEventListener('input',calcProfit)
+
+
 function incrementQuantity() {
     const quantityInput = document.getElementById('quantity');
     quantityInput.value = parseInt(quantityInput.value) + 1;
@@ -130,6 +132,38 @@ function decrementQuantity() {
     const currentValue = parseInt(quantityInput.value);
     if (currentValue > 0) {
         quantityInput.value = currentValue - 1;
+    }
+}
+
+//update Product
+async function updateProduct(productId) {
+    const product = await getProductById(productId); 
+    document.querySelector('#updateProductModal form').action = `/manager/product/update/${productId}`
+    document.getElementById('updateName').value = product.product_name
+    const options = document.querySelectorAll('#category_id option')
+    options.forEach(option => {
+        option.value == product.category_id ? option.selected = true : ''
+    });
+    document.getElementById('trade_price_update').value = product.trade_price
+    document.getElementById('sale_price_update').value = product.sale_price
+    document.getElementById('profit_update').value = product.profit
+    document.getElementById('quantity_update').value = product.quentity
+    showModal('updateProductModal')
+}
+
+async function getProductById(id) {
+    try {
+        const response = await fetch(`/manager/product/getProduct/${id}`, {
+            method: 'GET',
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch category data');
+        }
+        const category = await response.json();
+        return category[0];
+    } catch (error) {
+        console.error('Error fetching category data:', error);
     }
 }
 

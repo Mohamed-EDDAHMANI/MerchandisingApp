@@ -300,8 +300,16 @@
                                         <?php echo $category->getCategoryId() ?>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">
-                                            <?php echo $category->getCategoryName() ?>
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center text-white font-bold text-lg uppercase"
+                                                style="background-color: <?php echo '#' . substr(md5($category->getCategoryName()), 0, 6); ?>">
+                                                <?php echo substr($category->getCategoryName(), 0, 1); ?>
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    <?php echo $category->getCategoryName() ?>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
@@ -468,22 +476,30 @@
                             <?php foreach ($data['products'] as $value): ?>
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <?php echo $value->getProfit() ?> MAD</td>
+                                        <?php echo intval($value->getProfit()) ?> MAD
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded"></div>
+                                            <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center text-white font-bold text-lg uppercase"
+                                                style="background-color: <?php echo '#' . substr(md5($value->getCategoryName()), 0, 6); ?>">
+                                                <?php echo substr($value->getCategoryName(), 0, 1); ?>
+                                            </div>
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
-                                                    <?php echo $value->getProductName() ?></div>
+                                                    <?php echo $value->getProductName() ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <?php echo $value->getCategoryName() ?></td>
+                                        <?php echo $value->getCategoryName() ?>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <?php echo $value->getTradePrice() ?> MAD</td>
+                                        <?php echo intval($value->getTradePrice()) ?> MAD
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <?php echo $value->getSalePrice() ?> MAD</td>
+                                        <?php echo intval($value->getSalePrice()) ?> MAD
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <?php if ($value->getProductCount() <= 300): ?>
                                             <span
@@ -492,14 +508,15 @@
                                             </span>
                                         <?php else: ?>
                                             <span
-                                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                 In Stock (<?php echo $value->getProductCount() ?>)
                                             </span>
                                         <?php endif; ?>
 
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button class="text-blue-600 hover:text-blue-900 mr-3"><i
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3"
+                                            onclick="updateProduct(<?php echo $value->getProductId() ?>)"><i
                                                 class="fas fa-edit"></i></button>
                                         <button class="text-green-600 hover:text-green-900 mr-3"><i
                                                 class="fas fa-shopping-cart"></i></button>
@@ -508,33 +525,6 @@
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded"></div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Laptop Pro</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Electronics</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$1,099</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$1,299</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    In Stock (42)
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i
-                                        class="fas fa-shopping-cart"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
                 <div class="px-6 py-4 border-t flex justify-between items-center">
@@ -613,7 +603,7 @@
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="profit">
                                     Profit (La Marge)
                                 </label>
-                                <input
+                                <input readonly
                                     class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     id="profit" name="profit" type="number" step="0.01" placeholder="Profit" required>
                             </div>
@@ -624,7 +614,7 @@
                                 Initial Quantity
                             </label>
                             <div class="flex items-center">
-                                <button type="button" onclick="decrementQuantity()"
+                                <button type="button" onclick=""
                                     class="bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-3 rounded-l-lg border border-r-0 focus:outline-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
                                         fill="currentColor">
@@ -632,10 +622,10 @@
                                             clip-rule="evenodd" />
                                     </svg>
                                 </button>
-                                <input
+                                <input readonly
                                     class="shadow appearance-none border text-center w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     id="quantity" name="quantity" type="number" min="0" value="0" required>
-                                <button type="button" onclick="incrementQuantity()"
+                                <button type="button" onclick=""
                                     class="bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-3 rounded-r-lg border border-l-0 focus:outline-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
                                         fill="currentColor">
@@ -651,6 +641,118 @@
                             <button type="button"
                                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded transition duration-300 ease-in-out"
                                 onclick="hideModal('productModal')">
+                                Cancel
+                            </button>
+                            <button type="submit" id="productSubmit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition duration-300 ease-in-out">
+                                Save Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Update Product Modal -->
+            <div id="updateProductModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg shadow-2xl w-full max-w-xl mx-4 my-8 max-h-[90vh] overflow-y-auto">
+                    <div class="sticky top-0 bg-white z-10 px-6 py-4 border-b">
+                        <h3 class="text-xl font-bold text-gray-800 titel">Update Product</h3>
+                        <h5 class="bg-red-500 text-white w-full absolute top-full left-0 p-2 text-center rounded-b-lg font-semibold hidden"
+                            id="errorPrice">Trade Price must be less than Sale Price</h5>
+                    </div>
+                    <form id="productForm" action="" method="POST" class="p-6 space-y-6">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                                    Product Name
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="updateName" name="product_name" type="text" placeholder="Enter product name"
+                                    required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="category_id">
+                                    Category
+                                </label>
+                                <select
+                                    class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="category_id" name="category_id" required>
+                                    <option value="">Select a Category</option>
+                                    <?php if (isset($data['categories'])): ?>
+                                        <?php foreach ($data['categories'] as $category): ?>
+                                            <option value="<?php echo $category->getCategoryId() ?>">
+                                                <?php echo $category->getCategoryName() ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="trade_price">
+                                    Trade Price (Wholesale)
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="trade_price_update" name="trade_price" type="number" step="0.01"
+                                    placeholder="Trade price" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="sale_price">
+                                    Sale Price
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="sale_price_update" name="sale_price" type="number" step="0.01"
+                                    placeholder="Sale price" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="profit">
+                                    Profit (La Marge)
+                                </label>
+                                <input readonly
+                                    class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="profit_update" name="profit" type="number" step="0.01" placeholder="Profit"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="quantity">
+                                Initial Quantity
+                            </label>
+                            <div class="flex items-center">
+                                <button type="button"
+                                    class="bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-3 rounded-l-lg border border-r-0 focus:outline-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                                <input readonly
+                                    class="shadow appearance-none border text-center w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="quantity_update" name="quantity" type="number" min="0" value="0" required>
+                                <button type="button"
+                                    class="bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-3 rounded-r-lg border border-l-0 focus:outline-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 flex justify-end space-x-4 p-4 rounded-b-lg">
+                            <button type="button"
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded transition duration-300 ease-in-out"
+                                onclick="hideModal('updateProductModal')">
                                 Cancel
                             </button>
                             <button type="submit" id="productSubmit"

@@ -136,6 +136,30 @@ class ManagerRepository extends Repository
             throw new Exception('Error :' . $e->getMessage());
         }
     }
+    public function deleteProduct($id)
+    {
+        try {
+            $this->db->beginTransaction();
+            $query = "DELETE FROM stocks 
+            WHERE product_id = :product_id  LIMIT 1;";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam("product_id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $query = "DELETE FROM products 
+            WHERE product_id = :product_id  LIMIT 1;";
+
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam("product_id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            throw new Exception('Error :' . $e->getMessage());
+        }
+    }
     public function createProduct($data, $storeID)
     {
         try {

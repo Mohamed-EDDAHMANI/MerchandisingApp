@@ -80,6 +80,15 @@ class ManagerService{
         }
         Redirect::to('/manager/dashboard#categories');//i want redirect to this rout and clickon a button with js 
     }
+    public function deleteProduct($id){
+        $result = $this->managerRepository->deleteProduct($id);
+        if ($result) {
+            $this->session->setError('success', 'Product Deleted successfully');
+        } else {
+            $this->session->setError('error', 'Error Deleting Product');
+        }
+        Redirect::to('/manager/dashboard#products');//i want redirect to this rout and clickon a button with js 
+    }
     public function createProduct($data){
         $userData = $this->session->get('user');
         $result = $this->managerRepository->createProduct($data, $userData->getStoreId());

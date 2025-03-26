@@ -21,7 +21,12 @@ class Rules
     'parking_space' => 'required',
     //categories
     'category_name' => 'required|min:2|max:20|notInt',
-    'description' => 'required|min:2|notInt'
+    'description' => 'required|min:2|notInt',
+    //product
+    'product_name' => 'required|min:2|max:100',
+    'category_id' => 'required|integer',
+    'trade_price' => 'required|integer|min:0',
+    'sale_price' => 'required|integer|min:0',
   ];
 
 

@@ -40,6 +40,9 @@ class ManagerController extends BaseController {
     public function deleteCategory($id) {
         return $this->managerService->deleteCategory($id);
     }
+    public function deleteProduct($id) {
+        return $this->managerService->deleteProduct($id);
+    }
     public function createProduct() {
         return $this->managerService->createProduct($_POST);
     }

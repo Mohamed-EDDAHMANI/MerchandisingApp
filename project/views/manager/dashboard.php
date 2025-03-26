@@ -520,7 +520,7 @@
                                                 class="fas fa-edit"></i></button>
                                         <button class="text-green-600 hover:text-green-900 mr-3"><i
                                                 class="fas fa-shopping-cart"></i></button>
-                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                        <a class="text-red-600 hover:text-red-900" href="/manager/product/delete/<?php echo $value->getProductId() ?>"><i class="fas fa-trash" ></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

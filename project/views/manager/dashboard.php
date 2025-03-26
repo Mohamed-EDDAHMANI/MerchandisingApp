@@ -332,6 +332,19 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
+                <div class="px-6 py-4 border-t flex justify-between items-center">
+                    <p class="text-sm text-gray-700">
+                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span
+                            class="font-medium">97</span> results
+                    </p>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
+                        <button class="px-3 py-1 rounded border bg-blue-500 text-white">1</button>
+                        <button class="px-3 py-1 rounded border">2</button>
+                        <button class="px-3 py-1 rounded border">3</button>
+                        <button class="px-3 py-1 rounded border">Next</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Category Modal -->
@@ -348,7 +361,7 @@
                                 Category Name
                             </label>
                             <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="categoryName" type="text" placeholder="Enter category name" name="category_name">
                         </div>
                         <div class="mb-4">
@@ -532,19 +545,7 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
-                <div class="px-6 py-4 border-t flex justify-between items-center">
-                    <p class="text-sm text-gray-700">
-                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span
-                            class="font-medium">97</span> results
-                    </p>
-                    <div class="flex space-x-2">
-                        <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
-                        <button class="px-3 py-1 rounded border bg-blue-500 text-white">1</button>
-                        <button class="px-3 py-1 rounded border">2</button>
-                        <button class="px-3 py-1 rounded border">3</button>
-                        <button class="px-3 py-1 rounded border">Next</button>
-                    </div>
-                </div>
+                
             </div>
 
             <!-- Product Modal -->

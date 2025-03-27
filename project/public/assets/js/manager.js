@@ -32,20 +32,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// Tab switching
 function switchTab(tabId) {
-    // Hide all tabs
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.add('hidden');
     });
 
-    // Show selected tab
     document.getElementById(tabId).classList.remove('hidden');
 
-    // Update page title
     document.getElementById('page-title').textContent = tabId.charAt(0).toUpperCase() + tabId.slice(1);
 
-    // Update active nav
     document.querySelectorAll('nav a').forEach(link => {
         link.classList.remove('active-nav', 'bg-blue-700');
         if (link.getAttribute('data-tab') === '#' + tabId) {
@@ -54,7 +49,6 @@ function switchTab(tabId) {
     });
 }
 
-// Modal functions
 function showModal(modalId) {
     document.getElementById(modalId).classList.remove('hidden');
 }
@@ -87,7 +81,6 @@ async function getCategories(id) {
     }
 }
 
-// Close modal when clicking outside
 window.addEventListener('click', function (event) {
     document.querySelectorAll('.fixed.inset-0').forEach(modal => {
         if (event.target === modal) {
@@ -136,7 +129,6 @@ function decrementQuantity() {
     }
 }
 
-//update Product
 async function updateProduct(productId) {
     const product = await getProductById(productId);
     document.querySelector('#updateProductModal form').action = `/manager/product/update/${productId}`
@@ -218,7 +210,7 @@ async function sortProducts() {
                                         ${product.category_name}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        ${product.trade_price % 1 === 0 ? Math.floor(product.trade_price) : product.trade_price } MAD
+                                        ${product.trade_price % 1 === 0 ? Math.floor(product.trade_price) : product.trade_price} MAD
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         ${product.sale_price % 1 === 0 ? Math.floor(product.sale_price) : product.sale_price} MAD
@@ -240,7 +232,8 @@ async function sortProducts() {
                                         <button class="text-blue-600 hover:text-blue-900 mr-3"
                                             onclick="updateProduct(${product.product_id})"><i
                                                 class="fas fa-edit"></i></button>
-                                        <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                        <button class="text-green-600 hover:text-green-900 mr-3"
+                                            onclick="genereteOrder(${product.product_id})"><i
                                                 class="fas fa-shopping-cart"></i></button>
                                         <a class="text-red-600 hover:text-red-900"
                                             href="/manager/product/delete/${product.product_id}"><i
@@ -255,6 +248,84 @@ async function sortProducts() {
         console.error('Error fetching category data:', error);
     }
 }
+
+document.getElementById("country").addEventListener("input", async function () {
+    let suggestionsBox = document.getElementById("suggestions");
+    const query = this.value;
+    if (query.length < 2) {
+        suggestionsBox.innerHTML = "";
+        return;
+    }
+
+    const response = await fetch(`https://api.first.org/data/v1/countries`);
+    const data = await response.json();
+    const countries = Object.values(data.data)
+
+    const search = document.getElementById("country").value.toLowerCase();
+
+    const filteredCountries = countries.filter(countryObj =>
+        countryObj.country.toLowerCase().includes(search)
+    );
+
+    suggestionsBox.innerHTML = "";
+
+    filteredCountries.forEach(city => {
+        let div = document.createElement("div");
+        div.className = 'px-2 py-1 text-sm text-gray-700 hover:bg-blue-100 cursor-pointer transition duration-200'
+        div.classList.add("suggestion-item");
+        div.textContent = city.country;
+        console.log(city.country)
+        div.onclick = () => {
+            document.getElementById("country").value = city.country;
+            suggestionsBox.innerHTML = "";
+        };
+        suggestionsBox.appendChild(div);
+    });
+});
+
+document.getElementById("city").addEventListener("input", async function () {
+    let suggestionsCity = document.getElementById("suggestionsCity");
+    let countryName = document.getElementById("country").value;
+    const query = this.value;
+    if (query.length < 2) {
+        suggestionsCity.innerHTML = "";
+        return;
+    }
+
+    const response = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(countryName)}?fields=cca2`);
+    const countryData = await response.json();
+    const countryCode = countryData[0].cca2;
+
+    const username = 'simo99';
+    const citiesResponse = await fetch(
+      `https://secure.geonames.org/searchJSON?country=${countryCode}&featureClass=P&maxRows=10&orderby=population&username=${username}`
+    );
+
+    const citiesData = await citiesResponse.json();
+    // console.log(citiesData.geonames)
+
+    const searchCity = document.getElementById("city").value.toLowerCase();
+
+    const filteredCountries = citiesData.geonames.filter(countryObj =>
+        countryObj.toponymName.toLowerCase().includes(searchCity)
+    );
+    console.log(filteredCountries)
+    suggestionsCity.innerHTML = "";
+
+    filteredCountries.forEach(city => {
+        let div = document.createElement("div");
+        div.className = 'px-2 py-1 text-sm text-gray-700 hover:bg-blue-100 cursor-pointer transition duration-200'
+        div.classList.add("suggestion-item");
+        div.textContent = city.toponymName;
+        console.log(city)
+        div.onclick = () => {
+            document.getElementById("city").value = city.toponymName;
+            document.getElementById("postalCode").value = city.countryId;
+            suggestionsCity.innerHTML = "";
+        };
+        suggestionsCity.appendChild(div);
+    });
+});
 
 document.getElementById('categorySelect').addEventListener('change', sortProducts)
 document.getElementById('stockSelect').addEventListener('change', sortProducts)

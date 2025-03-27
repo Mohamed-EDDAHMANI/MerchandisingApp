@@ -361,7 +361,7 @@
                                 Category Name
                             </label>
                             <input
-                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="categoryName" type="text" placeholder="Enter category name" name="category_name">
                         </div>
                         <div class="mb-4">
@@ -448,7 +448,8 @@
                             class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div class="w-full md:w-2/3 flex flex-wrap justify-end space-x-2">
-                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" id="categorySelect">
+                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            id="categorySelect">
                             <option value="">All Categories</option>
                             <?php if (isset($data['categories'])): ?>
                                 <?php foreach ($data['categories'] as $category): ?>
@@ -458,7 +459,8 @@
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </select>
-                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" id="stockSelect">
+                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            id="stockSelect">
                             <option value="">Sort By:</option>
                             <option value="ASC">Sort By: Stock (Low to High)</option>
                             <option value="DESC">Sort By: Stock (High to Low)</option>
@@ -534,7 +536,8 @@
                                         <button class="text-blue-600 hover:text-blue-900 mr-3"
                                             onclick="updateProduct(<?php echo $value->getProductId() ?>)"><i
                                                 class="fas fa-edit"></i></button>
-                                        <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                        <button class="text-green-600 hover:text-green-900 mr-3"
+                                            onclick="genereteOrder(<?php echo $value->getProductId() ?>)"><i
                                                 class="fas fa-shopping-cart"></i></button>
                                         <a class="text-red-600 hover:text-red-900"
                                             href="/manager/product/delete/<?php echo $value->getProductId() ?>"><i
@@ -545,7 +548,7 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
-                
+
             </div>
 
             <!-- Product Modal -->
@@ -864,63 +867,111 @@
             <!-- Supplier Modal -->
             <div id="supplierModal"
                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-                <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
-                    <div class="px-6 py-4 border-b">
+                <div class="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
+                    <div class="px-6 py-3 border-b">
                         <h3 class="text-lg font-semibold titel">Add New Supplier</h3>
                     </div>
-                    <div class="p-6">
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="supplierName">
-                                Supplier Name
-                            </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="supplierName" type="text" placeholder="Enter supplier name">
+                    <div class="p-4">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="mb-3">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="supplierName">
+                                    Supplier Name *
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                    id="supplierName" type="text" placeholder="Enter supplier name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="supplierStatus">
+                                    Supplier Type *
+                                </label>
+                                <select
+                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                    id="supplierStatus" required>
+                                    <option value="">Select Supplier Type</option>
+                                    <option value="company">Company</option>
+                                    <option value="individual">Individual</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="supplierType">
-                                Supplier Type
+                        <div class="mb-3">
+                            <label class="block text-gray-700 text-sm font-bold mb-1" for="categoryId">
+                                Category
                             </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="supplierType" type="text" placeholder="e.g. Electronics Supplier">
+                            <select
+                                class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                id="categoryId">
+                                <option value="">Select Category (Optional)</option>
+                                <!-- Populate this with dynamic categories from your database -->
+                            </select>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="contactName">
-                                Contact Person
-                            </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="contactName" type="text" placeholder="Enter contact name">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="mb-3">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="contactPhone">
+                                    Phone
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                    id="contactPhone" type="tel" placeholder="Phone number">
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="email">
+                                    Email
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                    id="email" type="email" placeholder="Email address">
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="contactEmail">
-                                Email
-                            </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="contactEmail" type="email" placeholder="Enter email address">
+                        <div class="relative w-full">
+                            <div class="mb-3">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="country">
+                                    Country
+                                </label>
+                                <input id="country" type="text" placeholder="Enter country" autocomplete="off"
+                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:border-blue-500" />
+                                <div id="suggestions"
+                                    class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="contactPhone">
-                                Phone
-                            </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="contactPhone" type="text" placeholder="Enter phone number">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="relative w-full">
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="city">
+                                        City
+                                    </label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                        id="city" type="text" placeholder="City">
+                                    <div id="suggestionsCity"
+                                        class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="postalCode">
+                                    Postal Code
+                                </label>
+                                <input readonly
+                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                    id="postalCode" type="text" placeholder="Postal Code">
+                            </div>
                         </div>
                     </div>
-                    <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
-                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                    <div class="px-6 py-3 bg-gray-50 flex justify-end rounded-b-lg">
+                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1.5 px-3 rounded mr-2"
                             onclick="hideModal('supplierModal')">
                             Cancel
                         </button>
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded"
+                            onclick="saveSupplier()">
                             Save
                         </button>
                     </div>
                 </div>
             </div>
+
         </div>
 
         <!-- Orders Tab -->

@@ -31,7 +31,7 @@
                 onclick="switchTab('products')">
                 <i class="fas fa-box mr-3"></i> Products
             </a>
-            <a data-tab="#suppliers" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
+            <a data-tab="#suppliers" id="suppliersBtn" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
                 onclick="switchTab('suppliers')">
                 <i class="fas fa-truck mr-3"></i> Suppliers
             </a>
@@ -867,489 +867,496 @@
             <!-- Supplier Modal -->
             <div id="supplierModal"
                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-                <div class="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
-                    <div class="px-6 py-3 border-b">
-                        <h3 class="text-lg font-semibold titel">Add New Supplier</h3>
-                    </div>
-                    <div class="p-4">
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="mb-3">
-                                <label class="block text-gray-700 text-sm font-bold mb-1" for="supplierName">
-                                    Supplier Name *
-                                </label>
-                                <input
-                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
-                                    id="supplierName" type="text" placeholder="Enter supplier name" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="block text-gray-700 text-sm font-bold mb-1" for="supplierStatus">
-                                    Supplier Type *
-                                </label>
-                                <select
-                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
-                                    id="supplierStatus" required>
-                                    <option value="">Select Supplier Type</option>
-                                    <option value="company">Company</option>
-                                    <option value="individual">Individual</option>
-                                </select>
-                            </div>
+                <form action="/manager/supplier/create" method="POST">
+                    <div class="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
+                        <div class="px-6 py-3 border-b">
+                            <h3 class="text-lg font-semibold titel">Add New Supplier</h3>
                         </div>
-                        <div class="mb-3">
-                            <label class="block text-gray-700 text-sm font-bold mb-1" for="categoryId">
-                                Category
-                            </label>
-                            <select
-                                class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
-                                id="categoryId">
-                                <option value="">Select Category (Optional)</option>
-                                <!-- Populate this with dynamic categories from your database -->
-                            </select>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="mb-3">
-                                <label class="block text-gray-700 text-sm font-bold mb-1" for="contactPhone">
-                                    Phone
-                                </label>
-                                <input
-                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
-                                    id="contactPhone" type="tel" placeholder="Phone number">
-                            </div>
-                            <div class="mb-3">
-                                <label class="block text-gray-700 text-sm font-bold mb-1" for="email">
-                                    Email
-                                </label>
-                                <input
-                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
-                                    id="email" type="email" placeholder="Email address">
-                            </div>
-                        </div>
-                        <div class="relative w-full">
-                            <div class="mb-3">
-                                <label class="block text-gray-700 text-sm font-bold mb-1" for="country">
-                                    Country
-                                </label>
-                                <input id="country" type="text" placeholder="Enter country" autocomplete="off"
-                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:border-blue-500" />
-                                <div id="suggestions"
-                                    class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="relative w-full">
+                        <div class="p-4">
+                            <div class="grid grid-cols-2 gap-3">
                                 <div class="mb-3">
-                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="city">
-                                        City
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="supplierName">
+                                        Supplier Name *
                                     </label>
                                     <input
                                         class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
-                                        id="city" type="text" placeholder="City">
-                                    <div id="suggestionsCity"
+                                        id="supplierName" type="text" placeholder="Enter supplier name"
+                                        name="supplier_name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="supplierStatus">
+                                        Supplier Type *
+                                    </label>
+                                    <select
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                        id="supplierStatus" name="status" required>
+                                        <option value="">Select Supplier Type</option>
+                                        <option value="company">Company</option>
+                                        <option value="individual">Individual</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="categoryId">
+                                    Category
+                                </label>
+                                <select
+                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                    id="categoryId" name="category_id">
+                                    <option value="">Select Category (Optional)</option>
+                                    <?php if (isset($data['categories'])): ?>
+                                        <?php foreach ($data['categories'] as $category): ?>
+                                            <option value="<?php echo $category->getCategoryId() ?>">
+                                                <?php echo $category->getCategoryName() ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="contactPhone">
+                                        Phone
+                                    </label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                        id="contactPhone" type="tel" placeholder="Phone number" name="contact_phone"
+                                        name="phone">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="email">
+                                        Email
+                                    </label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                        id="email" type="email" placeholder="Email address" name="email">
+                                </div>
+                            </div>
+                            <div class="relative w-full">
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="country">
+                                        Country
+                                    </label>
+                                    <input id="country" type="text" placeholder="Enter country" autocomplete="off"
+                                        name="country"
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:border-blue-500" />
+                                    <div id="suggestions"
                                         class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label class="block text-gray-700 text-sm font-bold mb-1" for="postalCode">
-                                    Postal Code
-                                </label>
-                                <input readonly
-                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
-                                    id="postalCode" type="text" placeholder="Postal Code">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="relative w-full">
+                                    <div class="mb-3">
+                                        <label class="block text-gray-700 text-sm font-bold mb-1" for="city">
+                                            City
+                                        </label>
+                                        <input
+                                            class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                            id="city" type="text" placeholder="City" name="city">
+                                        <div id="suggestionsCity"
+                                            class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="postalCode">
+                                        Postal Code
+                                    </label>
+                                    <input readonly
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                        id="postalCode" type="text" placeholder="Postal Code" name="postal_code">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="px-6 py-3 bg-gray-50 flex justify-end rounded-b-lg">
-                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1.5 px-3 rounded mr-2"
-                            onclick="hideModal('supplierModal')">
-                            Cancel
-                        </button>
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded"
-                            onclick="saveSupplier()">
-                            Save
-                        </button>
-                    </div>
-                </div>
+                        <div class="px-6 py-3 bg-gray-50 flex justify-end rounded-b-lg">
+                            <button
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1.5 px-3 rounded mr-2"
+                                onclick="hideModal('supplierModal')">
+                                Cancel
+                            </button>
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded"
+                                onclick="saveSupplier()">
+                                Save
+                            </button>
+                        </div>
+                </form>
             </div>
-
         </div>
 
-        <!-- Orders Tab -->
-        <div id="orders" class="tab-content hidden">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-semibold">Orders Management</h3>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-                    onclick="showModal('orderModal')">
-                    <i class="fas fa-plus mr-2"></i> New Order
-                </button>
-            </div>
+    </div>
 
-            <div class="bg-white rounded-lg shadow mb-6 p-4">
-                <div class="flex flex-wrap items-center">
-                    <div class="w-full md:w-1/3 mb-4 md:mb-0">
-                        <input type="text" placeholder="Search orders..."
-                            class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div class="w-full md:w-2/3 flex flex-wrap justify-end space-x-2">
-                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option>All Suppliers</option>
-                            <option>TechSupply Inc.</option>
-                            <option>Fashion World</option>
-                        </select>
-                        <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option>All Status</option>
-                            <option>Pending</option>
-                            <option>Completed</option>
-                        </select>
-                    </div>
+    <!-- Orders Tab -->
+    <div id="orders" class="tab-content hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-semibold">Orders Management</h3>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                onclick="showModal('orderModal')">
+                <i class="fas fa-plus mr-2"></i> New Order
+            </button>
+        </div>
+
+        <div class="bg-white rounded-lg shadow mb-6 p-4">
+            <div class="flex flex-wrap items-center">
+                <div class="w-full md:w-1/3 mb-4 md:mb-0">
+                    <input type="text" placeholder="Search orders..."
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Order ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Supplier</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Product</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Quantity</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ORD-001</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">TechSupply Inc.</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Smartphone X</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">50</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                    Pending
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-eye"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
-                                        class="fas fa-file-pdf"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ORD-002</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Fashion World</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">T-shirts (Assorted)</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">100</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Completed
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-eye"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
-                                        class="fas fa-file-pdf"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="px-6 py-4 border-t flex justify-between items-center">
-                    <p class="text-sm text-gray-700">
-                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span
-                            class="font-medium">24</span> results
-                    </p>
-                    <div class="flex space-x-2">
-                        <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
-                        <button class="px-3 py-1 rounded border bg-blue-500 text-white">1</button>
-                        <button class="px-3 py-1 rounded border">2</button>
-                        <button class="px-3 py-1 rounded border">3</button>
-                        <button class="px-3 py-1 rounded border">Next</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Order Modal -->
-            <div id="orderModal"
-                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-                <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
-                    <div class="px-6 py-4 border-b">
-                        <h3 class="text-lg font-semibold">Create New Order</h3>
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="orderSupplier">
-                                Supplier
-                            </label>
-                            <select
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="orderSupplier">
-                                <option value="">Select Supplier</option>
-                                <option value="1">TechSupply Inc.</option>
-                                <option value="2">Fashion World</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="orderProduct">
-                                Product
-                            </label>
-                            <select
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="orderProduct">
-                                <option value="">Select Product</option>
-                                <option value="1">Smartphone X</option>
-                                <option value="2">Laptop Pro</option>
-                                <option value="3">T-shirts (Assorted)</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="orderQuantity">
-                                Quantity
-                            </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="orderQuantity" type="number" min="1" placeholder="Enter quantity">
-                        </div>
-                    </div>
-                    <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
-                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
-                            onclick="hideModal('orderModal')">
-                            Cancel
-                        </button>
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Place Order
-                        </button>
-                    </div>
+                <div class="w-full md:w-2/3 flex flex-wrap justify-end space-x-2">
+                    <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option>All Suppliers</option>
+                        <option>TechSupply Inc.</option>
+                        <option>Fashion World</option>
+                    </select>
+                    <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option>All Status</option>
+                        <option>Pending</option>
+                        <option>Completed</option>
+                    </select>
                 </div>
             </div>
         </div>
 
-        <!-- Employees Tab -->
-        <div id="employees" class="tab-content hidden">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-semibold">Employee Management</h3>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                    <i class="fas fa-plus mr-2"></i> New Employee
-                </button>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
-                        <h3 class="text-lg font-semibold">Jane Smith</h3>
-                        <p class="text-gray-500 mb-2">Senior Sales Associate</p>
-                        <div class="flex mb-4">
-                            <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Top
-                                Performer</span>
-                        </div>
-                        <div class="w-full mt-2">
-                            <div class="flex justify-between mb-1">
-                                <span class="text-sm font-medium">Performance</span>
-                                <span class="text-sm font-medium text-green-600">97.5%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-green-500 h-2 rounded-full" style="width: 97.5%"></div>
-                            </div>
-                        </div>
-                        <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
-                            <div>
-                                <p class="text-gray-500 text-sm">Sales</p>
-                                <p class="font-semibold">$24,568</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-sm">Items Sold</p>
-                                <p class="font-semibold">214</p>
-                            </div>
-                        </div>
-                        <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                            View Profile
-                        </button>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg shadow p-6">
-                    <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
-                        <h3 class="text-lg font-semibold">Mike Johnson</h3>
-                        <p class="text-gray-500 mb-2">Sales Associate</p>
-                        <div class="flex mb-4">
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Order ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Supplier</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Product</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Quantity</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ORD-001</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">TechSupply Inc.</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Smartphone X</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">50</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <span
-                                class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Regular</span>
-                        </div>
-                        <div class="w-full mt-2">
-                            <div class="flex justify-between mb-1">
-                                <span class="text-sm font-medium">Performance</span>
-                                <span class="text-sm font-medium text-blue-600">85.2%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-blue-500 h-2 rounded-full" style="width: 85.2%"></div>
-                            </div>
-                        </div>
-                        <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
-                            <div>
-                                <p class="text-gray-500 text-sm">Sales</p>
-                                <p class="font-semibold">$17,462</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-sm">Items Sold</p>
-                                <p class="font-semibold">176</p>
-                            </div>
-                        </div>
-                        <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                            View Profile
-                        </button>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg shadow p-6">
-                    <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
-                        <h3 class="text-lg font-semibold">Lisa Chen</h3>
-                        <p class="text-gray-500 mb-2">Junior Sales Associate</p>
-                        <div class="flex mb-4">
-                            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">New
-                                Hire</span>
-                        </div>
-                        <div class="w-full mt-2">
-                            <div class="flex justify-between mb-1">
-                                <span class="text-sm font-medium">Performance</span>
-                                <span class="text-sm font-medium text-yellow-600">76.8%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 76.8%"></div>
-                            </div>
-                        </div>
-                        <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
-                            <div>
-                                <p class="text-gray-500 text-sm">Sales</p>
-                                <p class="font-semibold">$9,845</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-sm">Items Sold</p>
-                                <p class="font-semibold">98</p>
-                            </div>
-                        </div>
-                        <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                            View Profile
-                        </button>
-                    </div>
+                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                Pending
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                            <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
+                                    class="fas fa-file-pdf"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ORD-002</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Fashion World</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">T-shirts (Assorted)</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">100</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Completed
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                            <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
+                                    class="fas fa-file-pdf"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="px-6 py-4 border-t flex justify-between items-center">
+                <p class="text-sm text-gray-700">
+                    Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span
+                        class="font-medium">24</span> results
+                </p>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
+                    <button class="px-3 py-1 rounded border bg-blue-500 text-white">1</button>
+                    <button class="px-3 py-1 rounded border">2</button>
+                    <button class="px-3 py-1 rounded border">3</button>
+                    <button class="px-3 py-1 rounded border">Next</button>
                 </div>
             </div>
+        </div>
 
-            <div class="bg-white rounded-lg shadow mb-8">
+        <!-- Order Modal -->
+        <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
                 <div class="px-6 py-4 border-b">
-                    <h3 class="text-lg font-semibold">Employee Performance Chart</h3>
+                    <h3 class="text-lg font-semibold">Create New Order</h3>
                 </div>
                 <div class="p-6">
-                    <canvas id="employeePerformanceChart" height="300"></canvas>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="orderSupplier">
+                            Supplier
+                        </label>
+                        <select
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="orderSupplier">
+                            <option value="">Select Supplier</option>
+                            <option value="1">TechSupply Inc.</option>
+                            <option value="2">Fashion World</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="orderProduct">
+                            Product
+                        </label>
+                        <select
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="orderProduct">
+                            <option value="">Select Product</option>
+                            <option value="1">Smartphone X</option>
+                            <option value="2">Laptop Pro</option>
+                            <option value="3">T-shirts (Assorted)</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="orderQuantity">
+                            Quantity
+                        </label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="orderQuantity" type="number" min="1" placeholder="Enter quantity">
+                    </div>
                 </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow">
-                <div class="px-6 py-4 border-b flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Employee List</h3>
-                    <input type="text" placeholder="Search employees..."
-                        class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
+                    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                        onclick="hideModal('orderModal')">
+                        Cancel
+                    </button>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Place Order
+                    </button>
                 </div>
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Employee</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Position</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Performance</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Salary</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full"></div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Jane Smith</div>
-                                        <div class="text-sm text-gray-500">jane.smith@example.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Senior Sales Associate</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
-                                        <div class="bg-green-500 h-2 rounded-full" style="width: 97.5%"></div>
-                                    </div>
-                                    <span class="text-sm text-green-600 font-medium">97.5%</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$45,000</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Active
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i
-                                        class="fas fa-chart-line"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full"></div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Mike Johnson</div>
-                                        <div class="text-sm text-gray-500">mike.johnson@example.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sales Associate</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
-                                        <div class="bg-blue-500 h-2 rounded-full" style="width: 85.2%"></div>
-                                    </div>
-                                    <span class="text-sm text-blue-600 font-medium">85.2%</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$38,000</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Active
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-green-600 hover:text-green-900 mr-3"><i
-                                        class="fas fa-chart-line"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
+    </div>
+
+    <!-- Employees Tab -->
+    <div id="employees" class="tab-content hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-semibold">Employee Management</h3>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                <i class="fas fa-plus mr-2"></i> New Employee
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex flex-col items-center">
+                    <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
+                    <h3 class="text-lg font-semibold">Jane Smith</h3>
+                    <p class="text-gray-500 mb-2">Senior Sales Associate</p>
+                    <div class="flex mb-4">
+                        <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Top
+                            Performer</span>
+                    </div>
+                    <div class="w-full mt-2">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium">Performance</span>
+                            <span class="text-sm font-medium text-green-600">97.5%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 97.5%"></div>
+                        </div>
+                    </div>
+                    <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
+                        <div>
+                            <p class="text-gray-500 text-sm">Sales</p>
+                            <p class="font-semibold">$24,568</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Items Sold</p>
+                            <p class="font-semibold">214</p>
+                        </div>
+                    </div>
+                    <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                        View Profile
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex flex-col items-center">
+                    <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
+                    <h3 class="text-lg font-semibold">Mike Johnson</h3>
+                    <p class="text-gray-500 mb-2">Sales Associate</p>
+                    <div class="flex mb-4">
+                        <span
+                            class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Regular</span>
+                    </div>
+                    <div class="w-full mt-2">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium">Performance</span>
+                            <span class="text-sm font-medium text-blue-600">85.2%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 85.2%"></div>
+                        </div>
+                    </div>
+                    <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
+                        <div>
+                            <p class="text-gray-500 text-sm">Sales</p>
+                            <p class="font-semibold">$17,462</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Items Sold</p>
+                            <p class="font-semibold">176</p>
+                        </div>
+                    </div>
+                    <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                        View Profile
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex flex-col items-center">
+                    <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
+                    <h3 class="text-lg font-semibold">Lisa Chen</h3>
+                    <p class="text-gray-500 mb-2">Junior Sales Associate</p>
+                    <div class="flex mb-4">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">New
+                            Hire</span>
+                    </div>
+                    <div class="w-full mt-2">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium">Performance</span>
+                            <span class="text-sm font-medium text-yellow-600">76.8%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 76.8%"></div>
+                        </div>
+                    </div>
+                    <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
+                        <div>
+                            <p class="text-gray-500 text-sm">Sales</p>
+                            <p class="font-semibold">$9,845</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Items Sold</p>
+                            <p class="font-semibold">98</p>
+                        </div>
+                    </div>
+                    <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                        View Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow mb-8">
+            <div class="px-6 py-4 border-b">
+                <h3 class="text-lg font-semibold">Employee Performance Chart</h3>
+            </div>
+            <div class="p-6">
+                <canvas id="employeePerformanceChart" height="300"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b flex justify-between items-center">
+                <h3 class="text-lg font-semibold">Employee List</h3>
+                <input type="text" placeholder="Search employees..."
+                    class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Employee</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Position</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Performance</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Salary</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full"></div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">Jane Smith</div>
+                                    <div class="text-sm text-gray-500">jane.smith@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Senior Sales Associate</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 97.5%"></div>
+                                </div>
+                                <span class="text-sm text-green-600 font-medium">97.5%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$45,000</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
+                            <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                    class="fas fa-chart-line"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full"></div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">Mike Johnson</div>
+                                    <div class="text-sm text-gray-500">mike.johnson@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sales Associate</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 85.2%"></div>
+                                </div>
+                                <span class="text-sm text-blue-600 font-medium">85.2%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$38,000</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
+                            <button class="text-green-600 hover:text-green-900 mr-3"><i
+                                    class="fas fa-chart-line"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     </div>
 

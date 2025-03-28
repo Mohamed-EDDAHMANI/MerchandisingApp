@@ -2,14 +2,14 @@ USE merchandisingDB;
 
 -- Create suppliers table
 CREATE TABLE IF NOT EXISTS suppliers (
-    supplier_id INT PRIMARY KEY,                  -- Unique identifier for the supplier
+    supplier_id INT PRIMARY KEY ,                  -- Unique identifier for the supplier
     supplier_name VARCHAR(100) NOT NULL,          -- Name of the supplier
     contact_phone VARCHAR(100),          -- Contact person's name
     city VARCHAR(100),                   -- City of the supplier
     postal_code VARCHAR(20),             -- Postal code of the supplier
     country VARCHAR(100),                -- Country of the supplier
     phone VARCHAR(20),                   -- Phone number of the supplier
-    email VARCHAR(100)                   -- Email address of the supplier
+    email VARCHAR(100),                   -- Email address of the supplier
     status ENUM('company', 'individual') NOT NULL,  -- Supplier type (company or individual)
     category_id INT,                                -- Foreign key to categories table
     CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES categories(category_id) 

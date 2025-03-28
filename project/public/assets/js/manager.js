@@ -26,6 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
             history.replaceState(null, null, path);
             productsButton.click();
             break;
+        case 'suppliers':
+            const suppliersButton = document.getElementById('suppliersBtn');
+            history.replaceState(null, null, path);
+            suppliersButton.click();
+            break;
 
         default:
             break;

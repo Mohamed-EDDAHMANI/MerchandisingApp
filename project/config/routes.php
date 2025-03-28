@@ -57,5 +57,6 @@ $router->post('/manager/product/update/{id}', 'ManagerController@updateProduct')
 $router->get('/manager/product/delete/{id}', 'ManagerController@deleteProduct'); //get Category By Id
 $router->post('/manager/product/sort', 'ManagerController@sortProduct'); // sort
 
+$router->post('/manager/supplier/create', 'SupplierController@createSupplier'); // sort
 
 ?>

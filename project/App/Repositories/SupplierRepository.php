@@ -53,41 +53,9 @@ class SupplierRepository extends Repository
             return ["error" => "Error fetching suppliers: " . $e->getMessage()];
         }
     }
-    public function updateSupplier($data, $id)
+    public function deleteSupplier($id)
     {
-        try {
-            $sql = 'UPDATE suppliers 
-                    SET supplier_name = :supplier_name, 
-                        contact_phone = :contact_phone, 
-                        city = :city, 
-                        postal_code = :postal_code, 
-                        country = :country, 
-                        phone = :phone, 
-                        email = :email, 
-                        status = :status, 
-                        category_id = :category_id
-                    WHERE supplier_id = :id';
-
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':supplier_name', $data['supplier_name']);
-            $stmt->bindParam(':contact_phone', $data['contact_phone']);
-            $stmt->bindParam(':city', $data['city']);
-            $stmt->bindParam(':postal_code', $data['postal_code']);
-            $stmt->bindParam(':country', $data['country']);
-            $stmt->bindParam(':phone', $data['contact_phone']);
-            $stmt->bindParam(':email', $data['email']);
-            $stmt->bindParam(':status', $data['status']);
-            $stmt->bindParam(':category_id', $data['category_id']);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-            if ($stmt->execute()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception $e) {
-            return ["error" => "Error updating supplier: " . $e->getMessage()];
-        }
+        return $this->deleteById('suppliers', 'supplier_id', $id);
     }
 
 

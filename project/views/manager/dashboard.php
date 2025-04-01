@@ -841,7 +841,7 @@
                                         <button class="text-blue-600 hover:text-blue-900 mr-3"
                                             onclick="showUpdateSupplierModal(<?php echo $value->getId() ?>)"><i
                                                 class="fas fa-edit"></i></button>
-                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                        <a class="text-red-600 hover:text-red-900" href="/manager/supplier/delete/<?php echo $value->getId() ?>"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -948,7 +948,7 @@
                                     <label class="block text-gray-700 text-sm font-bold mb-1" for="postalCode">
                                         Postal Code
                                     </label>
-                                    <input readonly
+                                    <input 
                                         class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
                                         id="postalCode" type="text" placeholder="Postal Code" name="postal_code">
                                 </div>

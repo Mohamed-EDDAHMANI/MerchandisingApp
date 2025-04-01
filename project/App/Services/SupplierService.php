@@ -22,8 +22,8 @@ class SupplierService
         return $this->supplierRepository->getSupplierById($id);
     }
 
-    public function updateSupplier($data, $id){
-        return $this->supplierRepository->updateSupplier($data, $id);
+    public function deleteSupplier($id){
+        return $this->supplierRepository->deleteSupplier($id);
     }
 
 

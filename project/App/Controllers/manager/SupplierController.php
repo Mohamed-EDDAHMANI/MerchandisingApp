@@ -42,4 +42,13 @@ class SupplierController extends BaseController {
         }
         Redirect::to('/manager/dashboard#suppliers');
     }
+    public function deleteSupplier($id){
+        $result =  $this->supplierService->deleteSupplier($id);
+        if ($result === true) {
+            $this->session->setError('success', 'Supplier Deleted successfully');
+        } else {
+            $this->session->setError('error', 'Error Deleting Supplier !!');
+        }
+        Redirect::to('/manager/dashboard#suppliers');
+    }
 }

@@ -6,21 +6,25 @@ use Config\Database;
 use PDO;
 use Exception;
 
-class Repository {
+class Repository
+{
     protected $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getConnection();
     }
 
-    protected function query($sql, $params = []) {
+    protected function query($sql, $params = [])
+    {
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         return $stmt;
     }
 
 
-    protected function getAll($table, $columns = '*', $where = '', $params = []) {
+    protected function getAll($table, $columns = '*', $where = '', $params = [])
+    {
         $sql = "SELECT $columns FROM `$table`";
         if (!empty($where)) {
             $sql .= " WHERE $where";
@@ -33,7 +37,7 @@ class Repository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function itemExists($value , $table , $column)
+    public function itemExists($value, $table, $column)
     {
         try {
             $query = "SELECT COUNT(*) FROM `$table` WHERE `$column` = :value";
@@ -42,12 +46,13 @@ class Repository {
             $stmt->execute();
 
             return $stmt->fetchColumn() > 0;
-        }catch (Exception $e) {
-            throw new Exception('Error :'. $e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception('Error :' . $e->getMessage());
         }
     }
 
-    protected function getById($table, $id ) {
+    protected function getById($table, $id)
+    {
         $sql = "SELECT * FROM `$table`
         WHERE id = :id  LIMIT 1";
         $stmt = $this->db->prepare($sql);
@@ -56,11 +61,16 @@ class Repository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    protected function deleteById($table, $id ) {
-        $sql = "DELETE FROM `$table` WHERE id = :id LIMIT 1";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+    protected function deleteById($table, $id_name, $id_value )
+    {
+        try {
+            $sql = "DELETE FROM `$table` WHERE `$id_name` = :id LIMIT 1";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id_value);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            throw new Exception('Error :' . $e->getMessage());
+        }
     }
 }
 ?>

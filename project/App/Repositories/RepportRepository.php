@@ -44,7 +44,7 @@ class RepportRepository extends Repository
     }
     public function deleteRepport($id)
     {
-        return $this->deleteById('merchandising_data', $id);
+        return $this->deleteById('merchandising_data', 'id', $id);
     }
     public function deleteUserRepport($id)
     {

@@ -360,7 +360,7 @@ async function showUpdateSupplierModal(id) {
 
 async function getSupplier(id) {
     try {
-        const response = await fetch(`/manager/category/getSupplier/${id}`, {
+        const response = await fetch(`/manager/supplier/${id}`, {
             method: 'GET',
         });
 
@@ -373,3 +373,40 @@ async function getSupplier(id) {
         console.error('Error fetching supplier data:', error);
     }
 }
+
+// order 
+
+const input = document.getElementById('orderProductName');
+    const customDropdown = document.getElementById('customDropdown');
+    const dropdownOptions = document.getElementById('dropdownOptions');
+    const options = Array.from(dropdownOptions.children); // All the dropdown options
+    
+    input.addEventListener('input', function() {
+        const searchTerm = input.value.toLowerCase();
+        
+        if (searchTerm.length > 0) {
+            customDropdown.classList.remove('hidden');
+        } else {
+            customDropdown.classList.add('hidden');
+        }
+
+        const filteredOptions = options.filter(option => 
+            option.textContent.toLowerCase().includes(searchTerm)
+        );
+
+        dropdownOptions.innerHTML = '';
+        filteredOptions.forEach(option => dropdownOptions.appendChild(option));
+
+        filteredOptions.sort((a, b) => {
+            if (a.textContent.toLowerCase().startsWith(searchTerm)) return -1;
+            if (b.textContent.toLowerCase().startsWith(searchTerm)) return 1;
+            return a.textContent.localeCompare(b.textContent);
+        });
+    });
+
+    dropdownOptions.addEventListener('click', function(event) {
+        if (event.target.tagName === 'LI') {
+            input.value = event.target.textContent;
+            customDropdown.classList.add('hidden');
+        }
+    });

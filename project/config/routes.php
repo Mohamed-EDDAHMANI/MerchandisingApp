@@ -58,8 +58,15 @@ $router->get('/manager/product/delete/{id}', 'ManagerController@deleteProduct');
 $router->post('/manager/product/sort', 'ManagerController@sortProduct'); // 
 
 $router->post('/manager/supplier/create', 'SupplierController@createSupplier'); // 
-$router->get('/manager/category/getSupplier/{id}', 'SupplierController@getSupplierById'); // 
+$router->get('/manager/supplier/{id}', 'SupplierController@getSupplierById'); // 
 $router->post('/manager/supplier/update/{id}', 'SupplierController@updateSupplier'); // 
 $router->get('/manager/supplier/delete/{id}', 'SupplierController@deleteSupplier'); // 
+
+$router->get('/manager/order/create', 'OrderController@createOrder'); // 
+
+
+
+
+
 
 ?>

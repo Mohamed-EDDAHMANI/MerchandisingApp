@@ -841,7 +841,9 @@
                                         <button class="text-blue-600 hover:text-blue-900 mr-3"
                                             onclick="showUpdateSupplierModal(<?php echo $value->getId() ?>)"><i
                                                 class="fas fa-edit"></i></button>
-                                        <a class="text-red-600 hover:text-red-900" href="/manager/supplier/delete/<?php echo $value->getId() ?>"><i class="fas fa-trash"></i></a>
+                                        <a class="text-red-600 hover:text-red-900"
+                                            href="/manager/supplier/delete/<?php echo $value->getId() ?>"><i
+                                                class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -948,7 +950,7 @@
                                     <label class="block text-gray-700 text-sm font-bold mb-1" for="postalCode">
                                         Postal Code
                                     </label>
-                                    <input 
+                                    <input
                                         class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
                                         id="postalCode" type="text" placeholder="Postal Code" name="postal_code">
                                 </div>
@@ -960,7 +962,8 @@
                                 onclick="hideModal('supplierModal')">
                                 Cancel
                             </button>
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded">
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded">
                                 Save
                             </button>
                         </div>
@@ -1079,7 +1082,8 @@
                                 onclick="hideModal('updateSupplierModal')">
                                 Cancel
                             </button>
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded" >
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded">
                                 Save
                             </button>
                         </div>
@@ -1172,7 +1176,7 @@
                             <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
                             <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
                                     class="fas fa-file-pdf"></i></button>
-                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
+                            <button class="text-green-600 hover:text-green-900"><i class="fas fa-check"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -1207,22 +1211,29 @@
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="orderSupplier">
                             <option value="">Select Supplier</option>
-                            <option value="1">TechSupply Inc.</option>
-                            <option value="2">Fashion World</option>
+                            <option value="1">Fashion World</option>
+                            <option value="2">TechSupply Inc.</option>
                         </select>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="orderProduct">
-                            Product
+                    <div class="mb-4 relative">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="orderProductName">
+                            Product Name
                         </label>
-                        <select
+                        <input
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="orderProduct">
-                            <option value="">Select Product</option>
-                            <option value="1">Smartphone X</option>
-                            <option value="2">Laptop Pro</option>
-                            <option value="3">T-shirts (Assorted)</option>
-                        </select>
+                            id="orderProductName" type="text" placeholder="Enter product name">
+                        <div id="customDropdown"
+                            class="absolute top-full left-0 w-full border border-gray-300 rounded bg-white shadow-md mt-1 z-10 hidden">
+                            <ul id="dropdownOptions" class="py-1 max-h-60 overflow-y-auto">
+                                <?php if (isset($data['products'])): ?>
+                                    <?php foreach ($data['products'] as $value): ?>
+                                        <li data-value="<?php echo $value->getProductId() ?>"
+                                            class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-gray-700">
+                                            <?php echo $value->getProductName() ?></li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="orderQuantity">

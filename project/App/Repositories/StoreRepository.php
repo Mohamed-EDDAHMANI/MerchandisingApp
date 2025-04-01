@@ -28,8 +28,6 @@ class StoreRepository extends Repository
             $stmt->bindParam(':city', $data['city'], PDO::PARAM_STR);
             $stmt->bindParam(':status', $data['status'], PDO::PARAM_STR);
             $stmt->bindParam(':parking_space', $parkingSpace, PDO::PARAM_BOOL);
-            var_dump($stmt->execute());
-            exit;
             return $stmt->execute();
 
         } catch (PDOException $e) {
@@ -87,7 +85,7 @@ class StoreRepository extends Repository
         try {
             $parkingSpace = isset($data['parkingSpace']) && $data['parkingSpace'] == 'on' ? 1 : 0;
             $sql = "UPDATE stores 
-                    SET name = :name, 
+                    SET store_name = :store_name, 
                         address = :address, 
                         city = :city,
                         status = :status,
@@ -96,14 +94,12 @@ class StoreRepository extends Repository
 
             $stmt = $this->db->prepare($sql);
 
-            $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
+            $stmt->bindParam(':store_name', $data['store_name'], PDO::PARAM_STR);
             $stmt->bindParam(':address', $data['address'], PDO::PARAM_STR);
             $stmt->bindParam(':city', $data['city'], PDO::PARAM_STR);
             $stmt->bindParam(':status', $data['status'], PDO::PARAM_STR);
             $stmt->bindParam(':parking_space', $parkingSpace, PDO::PARAM_INT);
             $stmt->bindParam(':store_id', $id, PDO::PARAM_INT);
-
-            return $stmt->execute();
         } catch (PDOException $e) {
             return "Error :" . $e->getMessage();
         }
@@ -143,7 +139,7 @@ class StoreRepository extends Repository
     public function recherchPointsDeVente($key)
     {
         try {
-            $sql = "SELECT * FROM stores WHERE name LIKE :key OR city LIKE :key";
+            $sql = "SELECT * FROM stores WHERE store_name LIKE :key OR city LIKE :key";
 
             $stmt = $this->db->prepare($sql);
 

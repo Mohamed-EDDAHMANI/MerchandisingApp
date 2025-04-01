@@ -76,10 +76,10 @@ async function updateModel(storeId) {
     const action = `/admin/points-de-vente/update/${storeId}`
     document.getElementById('update-store-form').action = action;
 
-    document.getElementById('update-store-name').value = store.name || '';
+    document.getElementById('update-store-name').value = store.store_name || '';
     document.getElementById('update-store-address').value = store.address || '';
     document.getElementById('update-store-city').value = store.city || '';
-    document.getElementById('update-store-status').value = store.status || 'active';
+    document.getElementById('update-store-status').value = store.status || null;
     document.getElementById('update-store-parking').checked = store.parking_space || false;
 }
 

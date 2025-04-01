@@ -87,7 +87,7 @@ class AdminRepository extends Repository
         users.role_id,
         roles.role_name,
         stores.store_id,
-        stores.name AS store_name,
+        stores.store_name,
         managers.is_valid AS manager_valid,
         managers.salary AS manager_salary,
         managers.manager_id,
@@ -128,7 +128,7 @@ class AdminRepository extends Repository
             users.first_name,
             users.last_name,
             roles.role_name,
-            stores.name AS store_name,
+            stores.store_name,
             managers.is_valid AS manager_valid,
             managers.salary AS manager_salary,
             managers.manager_id,
@@ -163,7 +163,7 @@ class AdminRepository extends Repository
         }
 
         if ($store) {
-            $conditions[] = "stores.name = :store";
+            $conditions[] = "stores.store_name = :store";
             $params[':store'] = $store;
         }
 
@@ -196,7 +196,7 @@ class AdminRepository extends Repository
         users.first_name,
         users.last_name,
         roles.role_name,
-        stores.name AS store_name,
+        stores.store_name,
         managers.is_valid AS manager_valid,
         managers.salary AS manager_salary,
         employees.employee_id,

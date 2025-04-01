@@ -25,4 +25,21 @@ class SupplierController extends BaseController {
         }
         Redirect::to('/manager/dashboard#suppliers');
     }
+
+    public function getSupplierById($id){
+        $json = file_get_contents("php://input");
+        $supplier =  $this->supplierService->getSupplierById($id);
+        echo json_encode($supplier);
+        exit;
+    }
+
+    public function updateSupplier($id){
+        $result =  $this->supplierService->updateSupplier($_POST, $id);
+        if ($result === true) {
+            $this->session->setError('success', 'Supplier Update successfully');
+        } else {
+            $this->session->setError('error', 'Error Updating Supplier !!');
+        }
+        Redirect::to('/manager/dashboard#suppliers');
+    }
 }

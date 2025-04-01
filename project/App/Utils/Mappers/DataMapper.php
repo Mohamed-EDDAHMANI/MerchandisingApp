@@ -11,6 +11,7 @@ use App\Models\Employee;
 use App\Models\Role;
 use App\Models\Product;
 use App\Models\MerchandisingData;
+use App\Models\Supplier;
 
 
 class dataMapper
@@ -72,7 +73,7 @@ class dataMapper
         $datas = [];
         foreach ($dataArray as $data) {
             $instence = new MerchandisingData($data);
-            $instence->setStoreName($data['name']);
+            $instence->setStoreName($data['store_name']);
             $datas[] = $instence;
         }
         return $datas;
@@ -105,6 +106,15 @@ class dataMapper
             $instence = new Product($data);
             $instence->setProductCount($data['product_count']);
             $instence->setCategoryName($data['category_name']);
+            $datas[] = $instence;
+        }
+        return $datas;
+    }
+    public static function supplierMapper(array $dataArray)
+    {
+        $datas = [];
+        foreach ($dataArray as $data) {
+            $instence = new Supplier($data);
             $datas[] = $instence;
         }
         return $datas;

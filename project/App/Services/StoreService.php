@@ -21,7 +21,6 @@ class StoreService
     public function createPointDeVente($data)
     {
         $result = $this->storeRepository->createPointDeVente($data);
-
         if ($result) {
             $this->session->setError('success', 'Store created successfully');
         } else {

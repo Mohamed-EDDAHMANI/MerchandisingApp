@@ -19,15 +19,17 @@ class StoreRepository extends Repository
     {
         try {
             $parkingSpace = ($data['parkingSpace'] ?? 'on' == 'on') ? 1 : 0;
-            $query = "INSERT INTO stores (name, address, city, status, parking_space, created_at, updated_at) 
-                  VALUES (:name, :address, :city, :status, :parking_space, NOW(), NOW())";
+            $query = "INSERT INTO stores (store_name, address, city, status, parking_space, created_at, updated_at) 
+                  VALUES (:store_name, :address, :city, :status, :parking_space, NOW(), NOW())";
 
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
+            $stmt->bindParam(':store_name', $data['store_name'], PDO::PARAM_STR);
             $stmt->bindParam(':address', $data['address'], PDO::PARAM_STR);
             $stmt->bindParam(':city', $data['city'], PDO::PARAM_STR);
             $stmt->bindParam(':status', $data['status'], PDO::PARAM_STR);
             $stmt->bindParam(':parking_space', $parkingSpace, PDO::PARAM_BOOL);
+            var_dump($stmt->execute());
+            exit;
             return $stmt->execute();
 
         } catch (PDOException $e) {

@@ -46,7 +46,10 @@
         </nav>
         <div class="absolute bottom-0 w-full border-t border-blue-700 p-4">
             <div class="flex items-center">
-                <img src="https://via.placeholder.com/40" alt="User" class="rounded-full mr-3">
+                <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center text-white font-bold text-lg uppercase mr-3"
+                    style="background-color: <?php echo '#' . substr(md5('money'), 0, 6); ?>">
+                    <?php echo substr('money', 0, 1); ?>
+                </div>
                 <div>
                     <p class="font-semibold">John Doe</p>
                     <p class="text-sm text-blue-300">Store Manager</p>
@@ -661,6 +664,7 @@
                 </div>
             </div>
 
+
             <!-- Update Product Modal -->
             <div id="updateProductModal"
                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
@@ -776,7 +780,7 @@
         </div>
 
         <!-- Suppliers Tab -->
-        <div id="suppliers" class="tab-content hidden">
+        <div id="suppliers" class="tab-content ">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-semibold">Suppliers</h3>
                 <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
@@ -790,13 +794,13 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                ID</th>
+                                Postal Code</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Supplier</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Contact</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Products</th>
+                                City</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Status</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -804,69 +808,51 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">TechSupply Inc.</div>
-                                        <div class="text-sm text-gray-500">Electronics Supplier</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">John Smith</div>
-                                <div class="text-sm text-gray-500">john.smith@techsupply.com</div>
-                                <div class="text-sm text-gray-500">+1 (555) 123-4567</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">35</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Active
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Fashion World</div>
-                                        <div class="text-sm text-gray-500">Clothing Supplier</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Sarah Johnson</div>
-                                <div class="text-sm text-gray-500">sarah@fashionworld.com</div>
-                                <div class="text-sm text-gray-500">+1 (555) 987-6543</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Active
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-blue-600 hover:text-blue-900 mr-3"><i
-                                        class="fas fa-edit"></i></button>
-                                <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
+                        <?php if (isset($data['suppliers'])): ?>
+                            <?php foreach ($data['suppliers'] as $value): ?>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?php echo $value->getPostalCode() ?>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900"><?php echo $value->getName() ?>
+                                                </div>
+                                                <div class="text-sm text-gray-500"><?php echo $value->getCategoryName() ?>
+                                                    Supplier</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500"><?php echo $value->getEmail() ?></div>
+                                        <div class="text-sm text-gray-500"><?php echo $value->getPhone() ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <?php echo $value->getCity() ?>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span
+                                            class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            <?php echo $value->getStatus() ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3"
+                                            onclick="showUpdateSupplierModal(<?php echo $value->getId() ?>)"><i
+                                                class="fas fa-edit"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
 
             <!-- Supplier Modal -->
             <div id="supplierModal"
-                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20 hidden">
                 <form action="/manager/supplier/create" method="POST">
                     <div class="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
                         <div class="px-6 py-3 border-b">
@@ -920,8 +906,7 @@
                                     </label>
                                     <input
                                         class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
-                                        id="contactPhone" type="tel" placeholder="Phone number" name="contact_phone"
-                                        name="phone">
+                                        id="contactPhone" type="tel" placeholder="Phone number" name="contact_phone">
                                 </div>
                                 <div class="mb-3">
                                     <label class="block text-gray-700 text-sm font-bold mb-1" for="email">
@@ -970,13 +955,131 @@
                             </div>
                         </div>
                         <div class="px-6 py-3 bg-gray-50 flex justify-end rounded-b-lg">
-                            <button
+                            <button type="button"
                                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1.5 px-3 rounded mr-2"
                                 onclick="hideModal('supplierModal')">
                                 Cancel
                             </button>
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded"
-                                onclick="saveSupplier()">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Update Supplier Modal -->
+            <div id="updateSupplierModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <form action="/manager/supplier/update/" method="POST">
+                    <div class="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
+                        <div class="px-6 py-3 border-b">
+                            <h3 class="text-lg font-semibold titel">Update Supplier</h3>
+                        </div>
+                        <div class="p-4">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="supplierName">
+                                        Supplier Name *
+                                    </label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                        id="supplierNameUpdate" type="text" placeholder="Enter supplier name"
+                                        name="supplier_name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="supplierStatus">
+                                        Supplier Type *
+                                    </label>
+                                    <select
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                        id="supplierStatusUpdate" name="status" required>
+                                        <option value="">Select Supplier Type</option>
+                                        <option value="company">Company</option>
+                                        <option value="individual">Individual</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="categoryId">
+                                    Category
+                                </label>
+                                <select
+                                    class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                    id="categoryIdUpdate" name="category_id">
+                                    <option value="">Select Category (Optional)</option>
+                                    <?php if (isset($data['categories'])): ?>
+                                        <?php foreach ($data['categories'] as $category): ?>
+                                            <option value="<?php echo $category->getCategoryId() ?>">
+                                                <?php echo $category->getCategoryName() ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="contactPhone">
+                                        Phone
+                                    </label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                        id="contactPhoneUpdate" type="tel" placeholder="Phone number"
+                                        name="contact_phone">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="email">
+                                        Email
+                                    </label>
+                                    <input
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                        id="emailUpdate" type="email" placeholder="Email address" name="email">
+                                </div>
+                            </div>
+                            <div class="relative w-full">
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="country">
+                                        Country
+                                    </label>
+                                    <input id="countryUpdate" type="text" placeholder="Enter country" autocomplete="off"
+                                        name="country"
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:border-blue-500" />
+                                    <div id="suggestions"
+                                        class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="relative w-full">
+                                    <div class="mb-3">
+                                        <label class="block text-gray-700 text-sm font-bold mb-1" for="city">
+                                            City
+                                        </label>
+                                        <input
+                                            class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                            id="cityUpdate" type="text" placeholder="City" name="city">
+                                        <div id="suggestionsCity"
+                                            class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 text-sm font-bold mb-1" for="postalCode">
+                                        Postal Code
+                                    </label>
+                                    <input readonly
+                                        class="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline"
+                                        id="postalCodeUpdate" type="text" placeholder="Postal Code" name="postal_code">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 py-3 bg-gray-50 flex justify-end rounded-b-lg">
+                            <button type="button"
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1.5 px-3 rounded mr-2"
+                                onclick="hideModal('updateSupplierModal')">
+                                Cancel
+                            </button>
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded" >
                                 Save
                             </button>
                         </div>

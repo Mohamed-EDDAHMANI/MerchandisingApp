@@ -55,8 +55,10 @@ $router->post('/manager/product/create', 'ManagerController@createProduct'); //g
 $router->get('/manager/product/getProduct/{id}', 'ManagerController@getProductById'); //get Category By Id
 $router->post('/manager/product/update/{id}', 'ManagerController@updateProduct'); //get Category By Id
 $router->get('/manager/product/delete/{id}', 'ManagerController@deleteProduct'); //get Category By Id
-$router->post('/manager/product/sort', 'ManagerController@sortProduct'); // sort
+$router->post('/manager/product/sort', 'ManagerController@sortProduct'); // 
 
-$router->post('/manager/supplier/create', 'SupplierController@createSupplier'); // sort
+$router->post('/manager/supplier/create', 'SupplierController@createSupplier'); // 
+$router->get('/manager/category/getSupplier/{id}', 'SupplierController@getSupplierById'); // 
+$router->post('/manager/supplier/update/{id}', 'SupplierController@updateSupplier'); // 
 
 ?>

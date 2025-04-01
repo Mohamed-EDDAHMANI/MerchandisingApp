@@ -27,6 +27,12 @@ class Rules
     'category_id' => 'required|integer',
     'trade_price' => 'required|integer|min:0',
     'sale_price' => 'required|integer|min:0',
+    //supplier
+    'supplier_name' => 'required|min:3|max:20|notInt',
+    'contact_phone' => 'required|min:10|max:20|integer',
+    'country' => 'required|min:3|max:20|notInt',
+    'postal_code' => 'required|integer',
+
   ];
 
 

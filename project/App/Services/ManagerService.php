@@ -111,6 +111,9 @@ class ManagerService{
         }
         Redirect::to('/manager/dashboard#products');//i want redirect to this rout and clickon a button with js 
     }
+    public function getAllSuppliersWithCategories(){
+        return $this->managerRepository->getAllSuppliersWithCategories();
+    }
     
 }
 

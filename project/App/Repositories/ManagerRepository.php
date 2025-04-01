@@ -264,4 +264,22 @@ class ManagerRepository extends Repository
         }
     }
 
+
+    public function getAllSuppliersWithCategories() {
+        try {
+            $sql = 'SELECT s.supplier_id, s.supplier_name, s.contact_phone, s.city, s.postal_code, 
+                           s.country, s.phone, s.email, s.status, c.category_name 
+                    FROM suppliers s
+                    JOIN categories c ON s.category_id = c.category_id';
+    
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $supplier =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $supplierInstences = DataMapper::supplierMapper($supplier);
+            return $supplierInstences;
+        } catch (Exception $e) {
+            return ["error" => "Error fetching suppliers: " . $e->getMessage()];
+        }
+    }
+
 }

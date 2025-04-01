@@ -11,7 +11,6 @@ setTimeout(() => {
     }
 }, 5000);
 
-
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = window.location.href;
     const [path, fragment] = urlParams.split("#");
@@ -62,13 +61,6 @@ function hideModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
 }
 
-async function showUpdateCategoryModal(modalId, id) {
-    category = await getCategories(id);
-    document.querySelector('#categoryUpdateModal form').action = `/manager/category/update/${id}`
-    document.getElementById('categoryNameUpdate').value = category.category_name || null;
-    document.getElementById('categoryDescriptionUpdate').value = category.description || null;
-    document.getElementById(modalId).classList.remove('hidden');
-}
 
 async function getCategories(id) {
     try {
@@ -84,6 +76,13 @@ async function getCategories(id) {
     } catch (error) {
         console.error('Error fetching category data:', error);
     }
+}
+async function showUpdateCategoryModal(modalId, id) {
+    category = await getCategories(id);
+    document.querySelector('#categoryUpdateModal form').action = `/manager/category/update/${id}`
+    document.getElementById('categoryNameUpdate').value = category.category_name || null;
+    document.getElementById('categoryDescriptionUpdate').value = category.description || null;
+    document.getElementById(modalId).classList.remove('hidden');
 }
 
 window.addEventListener('click', function (event) {
@@ -303,7 +302,7 @@ document.getElementById("city").addEventListener("input", async function () {
 
     const username = 'simo99';
     const citiesResponse = await fetch(
-      `https://secure.geonames.org/searchJSON?country=${countryCode}&featureClass=P&maxRows=10&orderby=population&username=${username}`
+        `https://secure.geonames.org/searchJSON?country=${countryCode}&featureClass=P&maxRows=10&orderby=population&username=${username}`
     );
 
     const citiesData = await citiesResponse.json();
@@ -332,5 +331,45 @@ document.getElementById("city").addEventListener("input", async function () {
     });
 });
 
+
 document.getElementById('categorySelect').addEventListener('change', sortProducts)
 document.getElementById('stockSelect').addEventListener('change', sortProducts)
+
+async function showUpdateSupplierModal(id) {
+    supplier = await getSupplier(id);
+    console.log(supplier)
+    document.getElementById('supplierNameUpdate').value = supplier.supplier_name || null;
+    document.getElementById('supplierStatusUpdate').value = supplier.description || null;
+    document.getElementById('contactPhoneUpdate').value = supplier.contact_phone || null;
+    document.getElementById('emailUpdate').value = supplier.email || null;
+    document.getElementById('countryUpdate').value = supplier.country || null;
+    document.getElementById('cityUpdate').value = supplier.city || null;
+    document.getElementById('postalCodeUpdate').value = supplier.postal_code || null;
+    document.querySelector('#updateSupplierModal form').action += supplier.supplier_id || null;
+    const options = document.querySelectorAll('#supplierStatusUpdate option')
+    options.forEach(option => {
+        option.value == supplier.status ? option.selected = true : ''
+    });
+    const optionsC = document.querySelectorAll('#categoryIdUpdate option')
+    optionsC.forEach(option => {
+        option.value == supplier.category_id ? option.selected = true : ''
+    });
+    document.getElementById('updateSupplierModal').classList.remove('hidden');
+
+}
+
+async function getSupplier(id) {
+    try {
+        const response = await fetch(`/manager/category/getSupplier/${id}`, {
+            method: 'GET',
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch supplier data');
+        }
+        const supplier = await response.json();
+        return supplier[0];
+    } catch (error) {
+        console.error('Error fetching supplier data:', error);
+    }
+}

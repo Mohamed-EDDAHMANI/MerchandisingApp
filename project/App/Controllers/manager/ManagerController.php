@@ -4,18 +4,23 @@ namespace App\Controllers\manager;
 
 use App\Services\ManagerService;
 use App\Controllers\BaseController;
+use App\Utils\Sessions\Session;
 
 class ManagerController extends BaseController {
 
     private $managerService ;
+    private $session ;
     public function __construct(){
         $this->managerService = new ManagerService();
+        // $this->session = new Session();
     }
 
     public function index() {
         $categories = $this->managerService->getAllCategories();
         $products = $this->managerService->getAllProducts();
-        $data = ['categories' => $categories, 'products' => $products];
+        $suppliers = $this->managerService->getAllSuppliersWithCategories();
+        // $user = $this->session->get();
+        $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers];
         return $this->view('manager/dashboard', $data);
     }
 

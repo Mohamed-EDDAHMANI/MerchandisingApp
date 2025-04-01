@@ -13,7 +13,8 @@ class ErrorMessage {
     'max'       => ":field must be less than :value characters!",
     'email'     => ":field Invalid email address!",
     'nullabel'  => ":field able to be empty but not less than 6 or at least 20 !",
-    'notInt'  => ":field include numbers !"
+    'notInt'  => ":field include numbers !",
+    'more'  => ":field must be more then :value !"
   ];
 
 

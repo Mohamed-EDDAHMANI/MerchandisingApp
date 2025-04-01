@@ -32,6 +32,10 @@ class Rules
     'contact_phone' => 'required|min:10|max:20|integer',
     'country' => 'required|min:3|max:20|notInt',
     'postal_code' => 'required|integer',
+    //order
+    'orderSupplier' => 'required|integer',
+    'product_id' => 'required|integer',
+    'orderQuantity' => 'required|integer|more:500',
 
   ];
 

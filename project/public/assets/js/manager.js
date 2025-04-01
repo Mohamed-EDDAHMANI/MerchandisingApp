@@ -30,6 +30,11 @@ document.addEventListener("DOMContentLoaded", function () {
             history.replaceState(null, null, path);
             suppliersButton.click();
             break;
+        case 'orders':
+            const ordersBtn = document.getElementById('ordersBtn');
+            history.replaceState(null, null, path);
+            ordersBtn.click();
+            break;
 
         default:
             break;
@@ -379,6 +384,7 @@ async function getSupplier(id) {
 const input = document.getElementById('orderProductName');
     const customDropdown = document.getElementById('customDropdown');
     const dropdownOptions = document.getElementById('dropdownOptions');
+    const product_id = document.getElementById('product_id');
     const options = Array.from(dropdownOptions.children); // All the dropdown options
     
     input.addEventListener('input', function() {
@@ -407,6 +413,7 @@ const input = document.getElementById('orderProductName');
     dropdownOptions.addEventListener('click', function(event) {
         if (event.target.tagName === 'LI') {
             input.value = event.target.textContent;
+            product_id.value = event.target.getAttribute('data-value');
             customDropdown.classList.add('hidden');
         }
     });

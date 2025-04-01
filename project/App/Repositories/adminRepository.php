@@ -88,8 +88,8 @@ class AdminRepository extends Repository
         roles.role_name,
         stores.store_id,
         stores.store_name,
-        managers.is_valid AS manager_valid,
-        managers.salary AS manager_salary,
+        managers.manager_valid,
+        managers.manager_salary,
         managers.manager_id,
         employees.employee_id,
         employees.is_valid AS employee_valid,
@@ -129,8 +129,8 @@ class AdminRepository extends Repository
             users.last_name,
             roles.role_name,
             stores.store_name,
-            managers.is_valid AS manager_valid,
-            managers.salary AS manager_salary,
+            managers.manager_valid,
+            managers.manager_salary,
             managers.manager_id,
             employees.employee_id,
             employees.is_valid AS employee_valid,
@@ -197,8 +197,8 @@ class AdminRepository extends Repository
         users.last_name,
         roles.role_name,
         stores.store_name,
-        managers.is_valid AS manager_valid,
-        managers.salary AS manager_salary,
+        managers.manager_valid,
+        managers.manager_salary,
         employees.employee_id,
         employees.is_valid AS employee_valid,
         employees.salary AS employee_salary,
@@ -272,8 +272,13 @@ class AdminRepository extends Repository
             $role = $data['role'];
             $table = $role . 's';
 
-            $sql = "UPDATE $table SET is_valid = :is_valid,salary = :salary 
+            if ($table === 'managers') {
+                $sql = "UPDATE $table SET manager_valid = :is_valid ,manager_salary = :salary 
                     WHERE user_id = :id";
+            }else{
+                $sql = "UPDATE $table SET is_valid = :is_valid ,salary = :salary 
+                    WHERE user_id = :id";
+            }
 
             $stmt = $this->db->prepare($sql);
             $is_valid = isset($data['is_valid']) ? 1 : 0;

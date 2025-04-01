@@ -12,8 +12,8 @@ class OrderService {
         $this->orderRepository = new OrderRepository();
     }
 
-    public function createOrder($data){
-        return $this->orderRepository->createOrder($data);
+    public function createOrder($data, $manager_id){
+        return $this->orderRepository->createOrder($data, $manager_id);
     }
 
 }

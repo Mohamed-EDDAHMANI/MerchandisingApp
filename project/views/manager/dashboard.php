@@ -35,7 +35,7 @@
                 onclick="switchTab('suppliers')">
                 <i class="fas fa-truck mr-3"></i> Suppliers
             </a>
-            <a data-tab="#orders" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
+            <a data-tab="#orders" id="ordersBtn" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
                 onclick="switchTab('orders')">
                 <i class="fas fa-shopping-cart mr-3"></i> Orders
             </a>
@@ -1199,62 +1199,71 @@
         <!-- Order Modal -->
         <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
-                <div class="px-6 py-4 border-b">
-                    <h3 class="text-lg font-semibold">Create New Order</h3>
-                </div>
-                <div class="p-6">
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="orderSupplier">
-                            Supplier
-                        </label>
-                        <select
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="orderSupplier">
-                            <option value="">Select Supplier</option>
-                            <option value="1">Fashion World</option>
-                            <option value="2">TechSupply Inc.</option>
-                        </select>
+                <form action="/manager/order/create" method="POST">
+                    <div class="px-6 py-4 border-b">
+                        <h3 class="text-lg font-semibold">Create New Order</h3>
                     </div>
-                    <div class="mb-4 relative">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="orderProductName">
-                            Product Name
-                        </label>
-                        <input
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="orderProductName" type="text" placeholder="Enter product name">
-                        <div id="customDropdown"
-                            class="absolute top-full left-0 w-full border border-gray-300 rounded bg-white shadow-md mt-1 z-10 hidden">
-                            <ul id="dropdownOptions" class="py-1 max-h-60 overflow-y-auto">
-                                <?php if (isset($data['products'])): ?>
-                                    <?php foreach ($data['products'] as $value): ?>
-                                        <li data-value="<?php echo $value->getProductId() ?>"
-                                            class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-gray-700">
-                                            <?php echo $value->getProductName() ?></li>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="orderSupplier">
+                                Supplier
+                            </label>
+                            <select
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="orderSupplier" name="orderSupplier">
+                                <option value="">Select supplier</option>
+                                <?php if (isset($data['suppliers'])): ?>
+                                    <?php foreach ($data['suppliers'] as $value): ?>
+                                        <option value="<?php echo $value->getId() ?>"><?php echo $value->getName() ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
-                            </ul>
+                            </select>
+                        </div>
+                        <div class="mb-4 relative">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="orderProductName">
+                                Product Name
+                            </label>
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="orderProductName" type="text" placeholder="Enter product name"
+                                name="orderProductName">
+                            <input class="hidden" id="product_id" name="product_id">
+                            <div id="customDropdown"
+                                class="absolute top-full left-0 w-full border border-gray-300 rounded bg-white shadow-md mt-1 z-10 hidden">
+                                <ul id="dropdownOptions" class="py-1 max-h-60 overflow-y-auto">
+                                    <?php if (isset($data['products'])): ?>
+                                        <?php foreach ($data['products'] as $value): ?>
+                                            <li data-value="<?php echo $value->getProductId() ?>"
+                                                class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"><?php echo $value->getProductName() ?></li>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="orderQuantity">
+                                Quantity
+                            </label>
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="orderQuantity" name="orderQuantity" type="number" min="500"
+                                placeholder="Enter quantity">
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="orderQuantity">
-                            Quantity
-                        </label>
-                        <input
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="orderQuantity" type="number" min="1" placeholder="Enter quantity">
+                    <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
+                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                            type="button" onclick="hideModal('orderModal')">
+                            Cancel
+                        </button>
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            type="submit">
+                            Place Order
+                        </button>
                     </div>
-                </div>
-                <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
-                    <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
-                        onclick="hideModal('orderModal')">
-                        Cancel
-                    </button>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Place Order
-                    </button>
-                </div>
+                </form>
             </div>
         </div>
+
     </div>
 
     <!-- Employees Tab -->

@@ -98,6 +98,11 @@ class Validator
             }
           }
           break;
+        case 'more:500':
+          if ($value < 500) {
+            $this->addError($field, explode(':', $rule)[0], explode(':', $rule)[1]);
+          }
+          break;
       }
     }
   }

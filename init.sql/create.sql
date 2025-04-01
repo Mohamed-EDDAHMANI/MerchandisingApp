@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS users (
 -- Create managers table
 CREATE TABLE IF NOT EXISTS managers (
     manager_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each manager
-    is_valid BOOLEAN NOT NULL DEFAULT TRUE,  -- Boolean field to indicate if the manager is valid
-    salary DECIMAL(10, 2) NOT NULL,  -- Salary of the manager
+    manager_valid BOOLEAN NOT NULL DEFAULT TRUE,  -- Boolean field to indicate if the manager is valid
+    manager_salary DECIMAL(10, 2) NOT NULL,  -- Salary of the manager
     user_id INT NOT NULL,  -- Foreign key referencing the users table
     FOREIGN KEY (user_id) REFERENCES users(id)  -- Foreign key constraint
 );
@@ -116,6 +116,8 @@ CREATE TABLE IF NOT EXISTS orders (
     product_id INT NOT NULL,  -- Foreign key referencing the products table
     quantity INT NOT NULL,  -- Quantity of the product ordered
     is_done BOOLEAN NOT NULL DEFAULT FALSE,  -- Boolean field to indicate if the order is completed
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    date_of_affect TIMESTAMP NULL,
     FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id),  -- Foreign key constraint for supplier
     FOREIGN KEY (manager_id) REFERENCES managers(manager_id),  -- Foreign key constraint for manager
     FOREIGN KEY (product_id) REFERENCES products(product_id)  -- Foreign key constraint for product

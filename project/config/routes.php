@@ -62,7 +62,7 @@ $router->get('/manager/supplier/{id}', 'SupplierController@getSupplierById'); //
 $router->post('/manager/supplier/update/{id}', 'SupplierController@updateSupplier'); // 
 $router->get('/manager/supplier/delete/{id}', 'SupplierController@deleteSupplier'); // 
 
-$router->get('/manager/order/create', 'OrderController@createOrder'); // 
+$router->post('/manager/order/create', 'OrderController@createOrder'); // 
 
 
 

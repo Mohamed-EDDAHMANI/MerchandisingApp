@@ -18,13 +18,14 @@ class OrderController extends BaseController{
     }
 
     public function createOrder(){
-        $result = $this->orderService->createOrder($_POST);
+        $userData = $this->session->get('data');
+        $result = $this->orderService->createOrder($_POST ,$userData->getId());
         if ($result === true) {
-            $this->session->setError('success', 'Supplier created successfully');
+            $this->session->setError('success', 'Order created successfully');
         } else {
-            $this->session->setError('error', 'Error creating Supplier !!');
+            $this->session->setError('error', 'Error creating Order !!');
         }
-        Redirect::to('/manager/dashboard#suppliers');
+        Redirect::to('/manager/dashboard#orders');
     }
 }
 

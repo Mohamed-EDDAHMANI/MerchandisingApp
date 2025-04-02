@@ -19,8 +19,9 @@ class ManagerController extends BaseController {
         $categories = $this->managerService->getAllCategories();
         $products = $this->managerService->getAllProducts();
         $suppliers = $this->managerService->getAllSuppliersWithCategories();
+        $orders = $this->managerService->getAllOrdersWithSupplierAndProduct();
         // $user = $this->session->get();
-        $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers];
+        $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers, 'orders' => $orders];
         return $this->view('manager/dashboard', $data);
     }
 

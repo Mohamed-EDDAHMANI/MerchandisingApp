@@ -1129,7 +1129,7 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Order ID</th>
+                            Date</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Supplier</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -1143,42 +1143,41 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ORD-001</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">TechSupply Inc.</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Smartphone X</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">50</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span
-                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                Pending
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
-                            <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
-                                    class="fas fa-file-pdf"></i></button>
-                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ORD-002</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Fashion World</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">T-shirts (Assorted)</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">100</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span
-                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Completed
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
-                            <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
-                                    class="fas fa-file-pdf"></i></button>
-                            <button class="text-green-600 hover:text-green-900"><i class="fas fa-check"></i></button>
-                        </td>
-                    </tr>
+                    <?php if (isset($data['orders'])): ?>
+                        <?php foreach ($data['orders'] as $value): ?>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <?php echo $value->getCreatedAt() ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <?php echo $value->getSupplierName() ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <?php echo $value->getProductName() ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <?php echo $value->getQuantity() ?></td>
+                                <?php if ($value->isDone()): ?>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span
+                                            class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Completed
+                                        </span>
+                                    </td>
+                                <?php else: ?>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span
+                                            class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Pending
+                                        </span>
+                                    </td>
+                                <?php endif; ?>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                                    <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
+                                            class="fas fa-file-pdf"></i></button>
+                                    <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
             <div class="px-6 py-4 border-t flex justify-between items-center">
@@ -1234,7 +1233,9 @@
                                     <?php if (isset($data['products'])): ?>
                                         <?php foreach ($data['products'] as $value): ?>
                                             <li data-value="<?php echo $value->getProductId() ?>"
-                                                class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"><?php echo $value->getProductName() ?></li>
+                                                class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-gray-700">
+                                                <?php echo $value->getProductName() ?>
+                                            </li>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </ul>

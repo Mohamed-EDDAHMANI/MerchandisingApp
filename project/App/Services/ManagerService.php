@@ -114,6 +114,9 @@ class ManagerService{
     public function getAllSuppliersWithCategories(){
         return $this->managerRepository->getAllSuppliersWithCategories();
     }
+    public function getAllOrdersWithSupplierAndProduct(){
+        return $this->managerRepository->getAllOrdersWithSupplierAndProduct();
+    }
     
 }
 

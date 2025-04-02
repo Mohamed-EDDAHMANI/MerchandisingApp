@@ -12,6 +12,7 @@ use App\Models\Role;
 use App\Models\Product;
 use App\Models\MerchandisingData;
 use App\Models\Supplier;
+use App\Models\Order;
 
 
 class dataMapper
@@ -115,6 +116,18 @@ class dataMapper
         $datas = [];
         foreach ($dataArray as $data) {
             $instence = new Supplier($data);
+            $datas[] = $instence;
+        }
+        return $datas;
+    }
+
+    public static function orderMapper(array $dataArray)
+    {
+        $datas = [];
+        foreach ($dataArray as $data) {
+            $instence = new Order($data);
+            $instence->setProductName($data['product_name']);
+            $instence->setSupplierName($data['supplier_name']);
             $datas[] = $instence;
         }
         return $datas;

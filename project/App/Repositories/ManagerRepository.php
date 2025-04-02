@@ -281,5 +281,21 @@ class ManagerRepository extends Repository
             return ["error" => "Error fetching suppliers: " . $e->getMessage()];
         }
     }
+    public function getAllOrdersWithSupplierAndProduct() {
+        try {
+            $sql = 'SELECT o.*, p.product_name , s.supplier_name
+                    FROM orders o
+                    JOIN suppliers s ON s.supplier_id = o.supplier_id
+                    JOIN products p ON p.product_id = o.product_id';
+    
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $orders =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $ordersInstentes = DataMapper::orderMapper($orders);
+            return $ordersInstentes;
+        } catch (Exception $e) {
+            return ["error" => "Error fetching orders: " . $e->getMessage()];
+        }
+    }
 
 }

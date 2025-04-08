@@ -19,10 +19,15 @@ class EmployeeController extends BaseController{
         return  $this->view('employee/home', ['products' => $products]);
     }
 
-    public function getEmployeeById($id)
+    public function getProducts($keyword = null)
     {
-        // Logic to get employee by ID
-        return view('employee/employeeDetails', ['id' => $id]);
+        $json = file_get_contents("php://input");
+        $filters = json_decode($json, true);
+        $keyword = isset($filters['name']) ? $filters['name'] : null;
+
+        $products = $this->employeeService->getProductsSorted($keyword);
+        echo json_encode($products);
+        exit;
     }
 
     public function createEmployee()

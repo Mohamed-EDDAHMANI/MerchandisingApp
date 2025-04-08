@@ -20,18 +20,38 @@ const pendingSales = document.getElementById('pendingSales');
 const validateAllSales = document.getElementById('validateAllSales');
 const pendingTotal = document.getElementById('pendingTotal');
 const productNameInput = document.getElementById('productName');
+const productSelectTwo = document.querySelector('select');
 
 
 async function getProductSelectByName(name) {
     try {
-        const response = await fetch('/api/products');
+        const response = await fetch(`/employee/products`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name })
+        });
         const products = await response.json();
-        const product = products.find(product => product.name.toLowerCase() === name.toLowerCase());
+        console.log('Fetched products:', products);
         if (product) {
-            productSelect.value = product.id;
-            productSelect.dispatchEvent(new Event('change'));
+            productSelectTwo.innerHTML = '';
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '-- Sélectionner un produit --';
+            productSelectTwo.appendChild(defaultOption);
+
+            products.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product.product_id;
+                option.textContent = product.product_name;
+                if (product.sale_price) {
+                    option.setAttribute('data-price', product.sale_price);
+                }
+                productSelectTwo.appendChild(option);
+            });
+
         }
-        return productSelect;
     } catch (error) {
         console.error('Error fetching products:', error);
         return null;
@@ -44,8 +64,7 @@ productNameInput.addEventListener('input', function () {
         document.getElementById('product').classList.add('hidden');
         return;
     }
-    console.log('Input value:', productNameInput.value);
-    const productSelect = getProductSelectByName(productNameInput.value);
+    getProductSelectByName(productNameInput.value);
 
     document.getElementById('product').classList.remove('hidden');
 });
@@ -201,6 +220,7 @@ saleForm.addEventListener('submit', function (event) {
         productSelect.value = '';
         quantityInput.value = '1';
         totalInput.value = '';
+        productNameInput.value = '';
     }
 });
 

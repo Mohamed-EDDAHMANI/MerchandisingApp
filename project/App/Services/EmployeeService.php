@@ -22,4 +22,8 @@ class EmployeeService
         $products = $this->employeeRepository->getProductList();
         return $products;
     }
+    public function getProductsSorted($keyword)
+    {
+        return $this->employeeRepository->getProductsSorted($keyword);
+    }
 }

@@ -277,7 +277,7 @@
                     Produit</label>
                   <input type="text" id="productName"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white cursor-pointer"
-                     placeholder="Cliquez pour sélectionner un produit">
+                    placeholder="Cliquez pour sélectionner un produit">
                   <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400 mt-6">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd"
@@ -289,12 +289,12 @@
                     class="w-full absolute left-0 top-full mt-1 px-3 py-2 border border-gray-300 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white z-20 hidden">
                     <option value="">-- Sélectionner un produit --</option>
                     <?php if (isset($data['products'])): ?>
-                                <?php foreach ($data['products'] as $value): ?>
-                                    <option value="<?php echo $value->getvalueId() ?>">
-                                        <?php echo $value->getCategoryName() ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
+                      <?php foreach ($data['products'] as $value): ?>
+                        <option value="<?php echo $value->getProductId() ?>">
+                          <?php echo $value->getProductName() ?>
+                        </option>
+                      <?php endforeach; ?>
+                    <?php endif; ?>
                     <option value="1" data-price="550.00">Smartphone X1</option>
                     <option value="2" data-price="899.99">Ordinateur Portable Pro</option>
                     <option value="3" data-price="349.50">Écouteurs Sans Fil</option>

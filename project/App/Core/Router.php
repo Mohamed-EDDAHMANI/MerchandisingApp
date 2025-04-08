@@ -35,6 +35,7 @@ class Router
 
     public function dispatch($method, $uri)
     {
+        // var_dump($this->routes);
         // var_dump($this->routes[$method][$uri]);
         // exit;
         //validate the request
@@ -47,21 +48,23 @@ class Router
             $this->callAction($this->routes[$method][$uri]);
             return;
         }
+        if (is_array($this->routes[$method])) {
+            foreach ($this->routes[$method] as $route => $controllerAction) {
+                // Convert route to a regex pattern to match dynamic parameters
 
-        foreach ($this->routes[$method] as $route => $controllerAction) {
-            // Convert route to a regex pattern to match dynamic parameters
+                $pattern = self::convertRouteToPattern($route);
 
-            $pattern = self::convertRouteToPattern($route);
+                // Check if the URI matches the route pattern
+                if (preg_match($pattern, $uri, $matches)) {
 
-            // Check if the URI matches the route pattern
-            if (preg_match($pattern, $uri, $matches)) {
+                    array_shift($matches);
 
-                array_shift($matches);
-
-                $this->callAction($controllerAction, ['id' => $matches['id']]);
-                return;
+                    $this->callAction($controllerAction, ['id' => $matches['id']]);
+                    return;
+                }
             }
         }
+
 
         // No matching route found
         header("HTTP/1.0 404 Not Found");
@@ -84,7 +87,7 @@ class Router
 
         //check if the user have the permission to call this method 
         $roleFolder = $this->gateMiddleware->handlePolicis($action);
-        $controller = 'App\\Controllers\\' . $roleFolder . '\\'. $controller;
+        $controller = 'App\\Controllers\\' . $roleFolder . '\\' . $controller;
 
         $controllerInstance = new $controller();
 

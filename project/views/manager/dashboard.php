@@ -780,7 +780,7 @@
         </div>
 
         <!-- Suppliers Tab -->
-        <div id="suppliers" class="tab-content ">
+        <div id="suppliers" class="tab-content hidden">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-semibold">Suppliers</h3>
                 <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
@@ -1147,13 +1147,17 @@
                         <?php foreach ($data['orders'] as $value): ?>
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <?php echo $value->getCreatedAt() ?></td>
+                                    <?php echo $value->getCreatedAt() ?>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    <?php echo $value->getSupplierName() ?></td>
+                                    <?php echo $value->getSupplierName() ?>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    <?php echo $value->getProductName() ?></td>
+                                    <?php echo $value->getProductName() ?>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <?php echo $value->getQuantity() ?></td>
+                                    <?php echo $value->getQuantity() ?>
+                                </td>
                                 <?php if ($value->isDone()): ?>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span
@@ -1163,16 +1167,16 @@
                                     </td>
                                 <?php else: ?>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span
-                                            class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        <a href="/manager/order/confirm/<?php echo $value->getOrderId() ?>"
+                                            class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 cursor-pointer">
                                             Pending
-                                        </span>
+                                        </a>
                                     </td>
                                 <?php endif; ?>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
-                                    <button class="text-green-600 hover:text-green-900 mr-3" onclick="generatePDF()"><i
-                                            class="fas fa-file-pdf"></i></button>
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3"
+                                        onclick="showOrderModal(<?php echo $value->getOrderId() ?>)"><i
+                                            class="fas fa-eye"></i></button>
                                     <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
                                 </td>
                             </tr>
@@ -1234,7 +1238,7 @@
                                         <?php foreach ($data['products'] as $value): ?>
                                             <li data-value="<?php echo $value->getProductId() ?>"
                                                 class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-gray-700">
-                                                <?php echo $value->getProductName() ?>
+                                                <?php echo $value->getProductName(); ?>
                                             </li>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
@@ -1264,6 +1268,61 @@
                 </form>
             </div>
         </div>
+
+        <!-- Order Display Modal -->
+        <div id="viewOrderModal"
+            class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-opacity duration-300">
+            <div
+                class="bg-white rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-100 mx-4">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-800">Order Details</h3>
+                </div>
+                <div class="p-6 space-y-5">
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Order ID:</span>
+                        <span id="viewOrderId" class="text-gray-700 font-medium col-span-2"></span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Supplier:</span>
+                        <span id="viewOrderSupplier" class="text-gray-700 font-medium col-span-2"></span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Product:</span>
+                        <span id="viewOrderProduct" class="text-gray-700 font-medium col-span-2"></span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Quantity:</span>
+                        <span id="viewOrderQuantity" class="text-gray-700 font-medium col-span-2"></span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Status:</span>
+                        <span id="viewOrderStatus"
+                            class="font-medium px-2 py-1 rounded-full text-sm col-span-2 bg-blue-100 text-blue-800 inline-block w-fit"></span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Created At:</span>
+                        <span id="viewOrderCreatedAt" class="text-gray-700 font-medium col-span-2"></span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Date of Effect:</span>
+                        <span id="viewOrderDateOfAffect" class="text-gray-700 font-medium col-span-2"></span>
+                    </div>
+                </div>
+                <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg border-t border-gray-100">
+                    <button id="markCompleteBtn"
+                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg mr-2 hidden transition-colors duration-200 shadow-sm"
+                        type="button">
+                        Mark Complete
+                    </button>
+                    <button
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors duration-200 shadow-sm"
+                        type="button" onclick="hideModal('viewOrderModal')">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
@@ -1537,6 +1596,7 @@
 
     <!-- JavaScript -->
     <script src="../../public/assets/js/manager.js"></script>
+    <script src="../../public/assets/js/order.js"></script>
     <script src="../../public/assets/js/charts.js"></script>
 </body>
 

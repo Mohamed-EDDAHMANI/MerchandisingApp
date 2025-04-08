@@ -20,12 +20,29 @@ class OrderController extends BaseController{
     public function createOrder(){
         $userData = $this->session->get('data');
         $result = $this->orderService->createOrder($_POST ,$userData->getId());
-        if ($result === true) {
+        if ($result) {
             $this->session->setError('success', 'Order created successfully');
         } else {
             $this->session->setError('error', 'Error creating Order !!');
         }
         Redirect::to('/manager/dashboard#orders');
+    }
+    public function confirmOrder($id){
+        $result = $this->orderService->confirmOrder($id);
+        if ($result) {
+            $this->session->setError('success', 'Order confirmed successfully');
+        } else {
+            $this->session->setError('error', 'Error creating Order !!');
+        }
+        Redirect::to('/manager/dashboard#orders');
+    }
+    public function getOrder($id){
+        $json = file_get_contents("php://input");
+        $filters = json_decode($json, true);
+        
+        $order = $this->orderService->getOrderByid($id);
+        echo json_encode($order);
+        exit;
     }
 }
 

@@ -12,16 +12,17 @@ class ManagerController extends BaseController {
     private $session ;
     public function __construct(){
         $this->managerService = new ManagerService();
-        // $this->session = new Session();
+        $this->session = new Session();
     }
 
     public function index() {
+        $user = $this->session->get('user');
         $categories = $this->managerService->getAllCategories();
         $products = $this->managerService->getAllProducts();
         $suppliers = $this->managerService->getAllSuppliersWithCategories();
         $orders = $this->managerService->getAllOrdersWithSupplierAndProduct();
-        // $user = $this->session->get();
-        $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers, 'orders' => $orders];
+        $employees = $this->managerService->getEmployees($user->getId());
+        $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers, 'orders' => $orders, 'employees' => $employees];
         return $this->view('manager/dashboard', $data);
     }
 

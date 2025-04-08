@@ -13,6 +13,7 @@ use App\Models\Product;
 use App\Models\MerchandisingData;
 use App\Models\Supplier;
 use App\Models\Order;
+use App\Models\Sale;
 
 
 class dataMapper
@@ -39,6 +40,7 @@ class dataMapper
 
             if (!empty($data['employee_salary'])) {
                 $user->setEmployee(new Employee($data));
+                $user->setSale(new Sale($data));
             }
             
             $user->setRole(new Role($data));
@@ -73,9 +75,9 @@ class dataMapper
     {
         $datas = [];
         foreach ($dataArray as $data) {
-            $instence = new MerchandisingData($data);
-            $instence->setStoreName($data['store_name']);
-            $datas[] = $instence;
+            $instance = new MerchandisingData($data);
+            $instance->setStoreName($data['store_name']);
+            $datas[] = $instance;
         }
         return $datas;
     }
@@ -83,10 +85,10 @@ class dataMapper
     {
         $datas = [];
         foreach ($dataArray as $data) {
-            $instence = new Report($data);
-            $instence->setUserName($data['first_name'], $data['last_name']);
-            $instence->setUserEmail($data['email']);
-            $datas[] = $instence;
+            $instance = new Report($data);
+            $instance->setUserName($data['first_name'], $data['last_name']);
+            $instance->setUserEmail($data['email']);
+            $datas[] = $instance;
         }
         return $datas;
     }
@@ -94,9 +96,9 @@ class dataMapper
     {
         $datas = [];
         foreach ($dataArray as $data) {
-            $instence = new Category($data);
-            $instence->setProductCount($data['product_count']);
-            $datas[] = $instence;
+            $instance = new Category($data);
+            $instance->setProductCount($data['product_count']);
+            $datas[] = $instance;
         }
         return $datas;
     }
@@ -104,10 +106,15 @@ class dataMapper
     {
         $datas = [];
         foreach ($dataArray as $data) {
-            $instence = new Product($data);
-            $instence->setProductCount($data['product_count']);
-            $instence->setCategoryName($data['category_name']);
-            $datas[] = $instence;
+            $instance = new Product($data);
+            if (isset($data['product_count'])) {
+                $instance->setProductCount($data['product_count']);
+            }
+    
+            if (isset($data['category_name'])) {
+                $instance->setCategoryName($data['category_name']);
+            }
+            $datas[] = $instance;
         }
         return $datas;
     }
@@ -115,8 +122,8 @@ class dataMapper
     {
         $datas = [];
         foreach ($dataArray as $data) {
-            $instence = new Supplier($data);
-            $datas[] = $instence;
+            $instance = new Supplier($data);
+            $datas[] = $instance;
         }
         return $datas;
     }
@@ -125,10 +132,21 @@ class dataMapper
     {
         $datas = [];
         foreach ($dataArray as $data) {
-            $instence = new Order($data);
-            $instence->setProductName($data['product_name']);
-            $instence->setSupplierName($data['supplier_name']);
-            $datas[] = $instence;
+            $instance = new Order($data);
+            $instance->setProductName($data['product_name']);
+            $instance->setSupplierName($data['supplier_name']);
+            $datas[] = $instance;
+        }
+        return $datas;
+    }
+    public static function productMapper(array $dataArray)
+    {
+        $datas = [];
+        foreach ($dataArray as $data) {
+            $instance = new Order($data);
+            $instance->setProductName($data['product_name']);
+            $instance->setSupplierName($data['supplier_name']);
+            $datas[] = $instance;
         }
         return $datas;
     }

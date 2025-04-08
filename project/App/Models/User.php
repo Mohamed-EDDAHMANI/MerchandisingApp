@@ -17,6 +17,7 @@ class User
     private $employee;
     private $role;
     private $store;
+    private $sale;
 
     // Constructor
     public function __construct($user){
@@ -34,6 +35,9 @@ class User
 
     public function setStore(Store $store) {
         $this->store = $store;
+    }
+    public function setSale(Sale $sale) {
+        $this->sale = $sale;
     }
 
     public function setManager(Manager $manager) {

@@ -1103,27 +1103,6 @@
             </button>
         </div>
 
-        <div class="bg-white rounded-lg shadow mb-6 p-4">
-            <div class="flex flex-wrap items-center">
-                <div class="w-full md:w-1/3 mb-4 md:mb-0">
-                    <input type="text" placeholder="Search orders..."
-                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div class="w-full md:w-2/3 flex flex-wrap justify-end space-x-2">
-                    <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>All Suppliers</option>
-                        <option>TechSupply Inc.</option>
-                        <option>Fashion World</option>
-                    </select>
-                    <select class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>All Status</option>
-                        <option>Pending</option>
-                        <option>Completed</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
         <div class="bg-white rounded-lg shadow overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -1177,7 +1156,6 @@
                                     <button class="text-blue-600 hover:text-blue-900 mr-3"
                                         onclick="showOrderModal(<?php echo $value->getOrderId() ?>)"><i
                                             class="fas fa-eye"></i></button>
-                                    <button class="text-red-600 hover:text-red-900"><i class="fas fa-times"></i></button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -1330,12 +1308,46 @@
     <div id="employees" class="tab-content hidden">
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-semibold">Employee Management</h3>
-            <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                <i class="fas fa-plus mr-2"></i> New Employee
-            </button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <?php if($data['employees']): ?>
+                <?php foreach ($data['employees'] as $value): ?>
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex flex-col items-center">
+                            <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
+                            <h3 class="text-lg font-semibold"><?php echo $value->getFullName() ?></h3>
+                            <p class="text-gray-500 mb-2"><?php echo $value->getStore()->getName() ?></p>
+                            <div class="flex mb-4">
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Employee</span>
+                            </div>
+                            <div class="w-full mt-2">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium">Performance</span>
+                                    <span class="text-sm font-medium text-blue-600"><?php echo $value->getEmployee()->getPerformance() ?>%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: <?php echo $value->getEmployee()->getPerformance() ?>%"></div>
+                                </div>
+                            </div>
+                            <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Sales</p>
+                                    <p class="font-semibold">$<?php echo number_format($value->getSales(), 2) ?></p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500 text-sm">Items Sold</p>
+                                    <p class="font-semibold"><?php echo $value->getItemsSold() ?></p>
+                                </div>
+                            </div>
+                            <button
+                                class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">View
+                                Profile</button>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
             <div class="bg-white rounded-lg shadow p-6">
                 <div class="flex flex-col items-center">
                     <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>

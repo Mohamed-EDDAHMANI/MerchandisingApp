@@ -25,7 +25,7 @@ class Redirect
                 self::to("/manager/dashboard");
                 break;
             case "employee":
-                self::to("/employee/platform");
+                self::to("/employee/home");
                 break;
             default:
                 self::to("/notFound");

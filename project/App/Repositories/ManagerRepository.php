@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use LDAP\Result;
 use PDO;
 use App\Core\Repository;
 use App\Utils\Mappers\dataMapper;
@@ -295,6 +296,43 @@ class ManagerRepository extends Repository
             return $ordersInstentes;
         } catch (Exception $e) {
             return ["error" => "Error fetching orders: " . $e->getMessage()];
+        }
+    }
+    public function getEmployees($id) {
+        try {
+            $result = $this->getStoreId($id);
+            if ($result) {
+                $storeId = $result['store_id'];
+            } else {
+                return false;
+            }
+            $sql = 'SELECT u.* , e.* , s.* , se.*
+                    FROM users u
+                    JOIN employees e ON e.user_id = u.id
+                    JOIN stores s ON u.store_id = s.store_id
+                    LEFT JOIN sales se ON e.employee_id = se.employee_id
+                    WHERE s.store_id = :store_id ';
+    
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':store_id', $storeId, PDO::PARAM_INT);
+            $stmt->execute();
+            $users =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $usersInstentes = DataMapper::UserMapper($users);
+            return $usersInstentes;
+        } catch (Exception $e) {
+            return ["error" => "Error fetching orders: " . $e->getMessage()];
+        }
+    }
+
+    public function getStoreId($id) {
+        try {
+            $sql = 'SELECT store_id FROM users WHERE id = :id';
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return ["error" => "Error fetching store ID: " . $e->getMessage()];
         }
     }
 

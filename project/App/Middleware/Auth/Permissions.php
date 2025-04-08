@@ -11,7 +11,7 @@ class Permissions
     
     'manager' => 'createCategory|getCategoryById|getProductList|createProduct|index|updateCategory|getProductById|deleteCategory|logout|updateProduct|deleteProduct|sortProduct|createSupplier|getSupplierById|updateSupplier|deleteSupplier|createOrder|confirmOrder|getOrder',
     
-    'employee' => 'getPointsDeVente|getPointsDeVenteById|sortPointsDeVente|dashboard|comparaisonVilles|analyseDemographique|analyseConcurrence|calculRentabilite|estimationMarge',
+    'employee' => 'index',
     
     'public' => 'getLoginPage|login|getSignupPage|signup|logout|index'
 ];

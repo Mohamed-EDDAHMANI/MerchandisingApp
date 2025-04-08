@@ -117,6 +117,9 @@ class ManagerService{
     public function getAllOrdersWithSupplierAndProduct(){
         return $this->managerRepository->getAllOrdersWithSupplierAndProduct();
     }
+    public function getEmployees($id){
+        return $this->managerRepository->getEmployees($id);
+    }
     
 }
 

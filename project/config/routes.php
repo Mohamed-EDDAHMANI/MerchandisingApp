@@ -68,6 +68,7 @@ $router->get('/manager/order/confirm/{id}', 'OrderController@confirmOrder'); //
 
 $router->get('/employee/home', 'EmployeeController@index'); // 
 $router->post('/employee/products', 'EmployeeController@getProducts'); // 
+$router->post('/employee/sale/create', 'EmployeeController@createSales'); // 
 
 
 

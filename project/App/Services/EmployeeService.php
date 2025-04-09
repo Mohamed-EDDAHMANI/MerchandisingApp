@@ -26,4 +26,10 @@ class EmployeeService
     {
         return $this->employeeRepository->getProductsSorted($keyword);
     }
+    public function createSales($salesData): mixed
+    {
+        $userId = $this->session->get('user')->getId();
+        $employeeId = $this->session->get('data')->getId();
+        return $this->employeeRepository->createSales($salesData, $userId, $employeeId);
+    }
 }

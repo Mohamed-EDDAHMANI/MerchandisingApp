@@ -4,13 +4,16 @@ namespace App\Controllers\employee;
 
 use App\Controllers\BaseController;
 use App\Services\EmployeeService;
+use App\Utils\Sessions\Session;
 
 class EmployeeController extends BaseController{
 
     private $employeeService;
+    private $session;
 
     public function __construct() {
         $this->employeeService = new EmployeeService();
+        $this->session = new Session();
     }
 
     public function index()
@@ -30,10 +33,20 @@ class EmployeeController extends BaseController{
         exit;
     }
 
-    public function createEmployee()
+    public function createSales()
     {
-        // Logic to create a new employee
-        return view('employee/createEmployee');
+        $json = file_get_contents("php://input");
+        $filters = json_decode($json, true);
+        $sales = isset($filters['sales']) ? $filters['sales'] : null;
+
+        $res = $this->employeeService->createSales($sales);
+        echo json_encode($res);
+        if ($res === true) {
+            $this->session->setError('success', 'Supplier Deleted successfully');
+        } else {
+            $this->session->setError('error', 'Error Deleting Supplier !!');
+        }
+        exit;
     }
 
     public function updateEmployee($id)

@@ -34,7 +34,7 @@ async function getProductSelectByName(name) {
         });
         const products = await response.json();
         console.log('Fetched products:', products);
-        if (product) {
+        if (products) {
             productSelectTwo.innerHTML = '';
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
@@ -179,6 +179,9 @@ window.removePendingSale = function (index) {
     updatePendingSalesTable();
 };
 
+
+
+
 // Handle form submission to add to pending sales
 saleForm.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -224,8 +227,25 @@ saleForm.addEventListener('submit', function (event) {
     }
 });
 
+async function sendSales(sales) {
+    console.log('Sales to send:', sales);
+    try {
+        const response = await fetch(`/employee/sale/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ sales })
+        });
+        console.log('Affect sales secces : ', response);
+        return true;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        return null;
+    }
+}
 // Validate all sales
-validateAllSales.addEventListener('click', function () {
+validateAllSales.addEventListener('click', async function () {
     if (pendingSalesArray.length === 0) return;
 
     // Calculate totals
@@ -236,61 +256,9 @@ validateAllSales.addEventListener('click', function () {
         totalQuantity += sale.quantity;
         totalAmount += sale.total;
     });
+    const result = await sendSales(pendingSalesArray)
 
-    // Add sales to the table
-    const now = new Date();
-    const dateStr = now.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/\./g, '');
-
-    pendingSalesArray.forEach(sale => {
-        // Create icon based on product type
-        let iconBg = 'bg-blue-100';
-        let iconColor = 'text-blue-600';
-        let iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>';
-
-        if (sale.productName.includes('Ordinateur')) {
-            iconBg = 'bg-emerald-100';
-            iconColor = 'text-emerald-600';
-            iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>';
-        } else if (sale.productName.includes('Écouteurs')) {
-            iconBg = 'bg-indigo-100';
-            iconColor = 'text-indigo-600';
-            iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>';
-        }
-
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${dateStr}</td>
-      <td class="px-6 py-4 whitespace-nowrap">
-        <div class="flex items-center">
-          <div class="flex-shrink-0 h-8 w-8 rounded-full ${iconBg} flex items-center justify-center ${iconColor}">
-            ${iconSvg}
-          </div>
-          <div class="ml-3">
-            <p class="text-sm font-medium text-gray-900">${sale.productName}</p>
-          </div>
-        </div>
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${sale.quantity}</td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${sale.total.toFixed(2)} MAD</td>
-    `;
-
-        salesHistory.insertBefore(newRow, salesHistory.firstChild);
-    });
-
-    // Update performance
-    const currentProducts = parseInt(productCount.textContent);
-    const currentSalesAmount = parseInt(totalSales.textContent.replace(/\s/g, ''));
-
-    const newProductCount = currentProducts + totalQuantity;
-    const newSalesTotal = currentSalesAmount + totalAmount;
-
-    productCount.textContent = newProductCount;
-    totalSales.textContent = newSalesTotal.toLocaleString('fr-FR').replace(/,/g, ' ');
-    currentProgress.textContent = newProductCount;
-
-    // Update progress bar
-    const progressPercentage = Math.min((newProductCount / 30) * 100, 100);
-    progressBar.style.width = `${progressPercentage}%`;
+    if (!result) return;
 
     // Show success message
     saleSuccess.classList.remove('hidden');

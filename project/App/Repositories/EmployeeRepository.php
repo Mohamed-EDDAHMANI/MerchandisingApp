@@ -50,6 +50,7 @@ class EmployeeRepository extends Repository
                 return false;
             }
         }
+        // $this->UpdatePerformance($employeeId, $salesData);
         $this->db->commit();
 
         return true;

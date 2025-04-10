@@ -303,6 +303,8 @@ class ManagerRepository extends Repository
             $result = $this->getStoreId($id);
             if ($result) {
                 $storeId = $result['store_id'];
+                var_dump($storeId);
+                die;
             } else {
                 return false;
             }

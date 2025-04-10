@@ -22,6 +22,10 @@ class ManagerController extends BaseController {
         $suppliers = $this->managerService->getAllSuppliersWithCategories();
         $orders = $this->managerService->getAllOrdersWithSupplierAndProduct();
         $employees = $this->managerService->getEmployees($user->getId());
+        echo "<pre>";
+        var_dump($employees);
+        echo "</pre>";
+        die;
         $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers, 'orders' => $orders, 'employees' => $employees];
         return $this->view('manager/dashboard', $data);
     }

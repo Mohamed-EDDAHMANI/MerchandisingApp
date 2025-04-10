@@ -120,6 +120,9 @@ class ManagerService{
     public function getEmployees($id){
         return $this->managerRepository->getEmployees($id);
     }
+    public function getObjectifs(){
+        return $this->managerRepository->getObjectifs();
+    }
     
 }
 

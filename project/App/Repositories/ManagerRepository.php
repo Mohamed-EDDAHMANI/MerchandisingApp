@@ -372,4 +372,17 @@ GROUP BY
         }
     }
 
+    public function getObjectifs(){
+        try {
+            $sql = 'SELECT * FROM objectifs';
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $objectifs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $objectifsInstences = DataMapper::DataMapper($objectifs, 'Objectif');
+            return $objectifsInstences;
+        } catch (Exception $e) {
+            return ["error" => "Error fetching objectifs: " . $e->getMessage()];
+        }
+    }
+
 }

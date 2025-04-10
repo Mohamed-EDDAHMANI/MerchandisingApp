@@ -22,7 +22,9 @@ class ManagerController extends BaseController {
         $suppliers = $this->managerService->getAllSuppliersWithCategories();
         $orders = $this->managerService->getAllOrdersWithSupplierAndProduct();
         $employees = $this->managerService->getEmployees($user->getId());
-        $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers, 'orders' => $orders, 'employees' => $employees];
+        $objectifs = $this->managerService->getObjectifs();
+        $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers, 'orders' => $orders, 'employees' => $employees, 'objectifs' => $objectifs];
+        // $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers, 'orders' => $orders, 'employees' => $employees];
         // foreach ($employees as $value) {
         //     var_dump($value->getStore());
         // }

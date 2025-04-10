@@ -67,9 +67,7 @@ class dataMapper
         foreach ($dataArray as $data) {
             $classPath = 'App\Models\\' . $class;  
             $datas[] = new $classPath($data);
-            exit;
         }
-
         return $datas;
     }
 

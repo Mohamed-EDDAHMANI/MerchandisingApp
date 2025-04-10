@@ -39,6 +39,10 @@
                 onclick="switchTab('orders')">
                 <i class="fas fa-shopping-cart mr-3"></i> Orders
             </a>
+            <a data-tab="#objectives" id="objectivesBtn"
+                class="flex items-center py-3 px-6 text-white hover:bg-blue-700" onclick="switchTab('objectives')">
+                <i class="fas fa-bullseye mr-3"></i> Objectifs
+            </a>
             <a data-tab="#employees" class="flex items-center py-3 px-6 text-white hover:bg-blue-700"
                 onclick="switchTab('employees')">
                 <i class="fas fa-users mr-3"></i> Employees
@@ -58,7 +62,7 @@
         </div>
     </div>
 
-    
+
     <!-- Main Content -->
     <div class="ml-64 p-8">
         <!-- Header -->
@@ -1305,148 +1309,317 @@
 
     </div>
 
+    <!-- objectives Tab -->
+    <div id="objectives" class="tab-content hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-semibold">Objectives Management</h3>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                onclick="showModal('objectiveModal')">
+                <i class="fas fa-plus mr-2"></i> New Objective
+            </button>
+        </div>
+
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Frequency</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Target</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Created At</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            1
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                Daily
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            Product Quantity
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            50 units
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            2025-04-08
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3" onclick="showObjectiveModal(1)"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            2
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                                Weekly
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            Total Amount
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            $5,000
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            2025-04-05
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3" onclick="showObjectiveModal(2)"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            3
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                Daily
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            Product Quantity
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            75 units
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            2025-04-01
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3" onclick="showObjectiveModal(3)"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            4
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                                Weekly
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            Total Amount
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            $8,500
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            2025-03-28
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3" onclick="showObjectiveModal(4)"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="px-6 py-4 border-t flex justify-between items-center">
+                <p class="text-sm text-gray-700">
+                    Showing <span class="font-medium">1</span> to <span class="font-medium">4</span> of <span
+                        class="font-medium">4</span> results
+                </p>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
+                    <button class="px-3 py-1 rounded border bg-blue-500 text-white">1</button>
+                    <button class="px-3 py-1 rounded border">2</button>
+                    <button class="px-3 py-1 rounded border">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Objective Modal -->
+        <div id="objectiveModal"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+                <form action="/manager/objective/create" method="POST">
+                    <div class="px-6 py-4 border-b">
+                        <h3 class="text-lg font-semibold">Create New Objective</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="frequency">
+                                Frequency
+                            </label>
+                            <select
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="frequency" name="frequency">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="type">
+                                Type
+                            </label>
+                            <select
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="type" name="type">
+                                <option value="quantity_product">Product Quantity</option>
+                                <option value="montant_total">Total Amount</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="target">
+                                Target Value
+                            </label>
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="target" name="target" type="number" min="1" placeholder="Enter target value">
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
+                        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                            type="button" onclick="hideModal('objectiveModal')">
+                            Cancel
+                        </button>
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            type="submit">
+                            Save Objective
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- View Objective Modal -->
+        <div id="viewObjectiveModal"
+            class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-opacity duration-300">
+            <div
+                class="bg-white rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-100 mx-4">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-800">Objective Details</h3>
+                </div>
+                <div class="p-6 space-y-5">
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">ID:</span>
+                        <span id="viewObjectiveId" class="text-gray-700 font-medium col-span-2">2</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Frequency:</span>
+                        <span id="viewObjectiveFrequency" class="text-gray-700 font-medium col-span-2">
+                            <span
+                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                                Weekly
+                            </span>
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Type:</span>
+                        <span id="viewObjectiveType" class="text-gray-700 font-medium col-span-2">Total Amount</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Target:</span>
+                        <span id="viewObjectiveTarget" class="text-gray-700 font-medium col-span-2">$5,000</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Created At:</span>
+                        <span id="viewObjectiveCreatedAt" class="text-gray-700 font-medium col-span-2">2025-04-05</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 items-center">
+                        <span class="text-gray-700 font-bold">Manager:</span>
+                        <span id="viewObjectiveManager" class="text-gray-700 font-medium col-span-2">John Doe</span>
+                    </div>
+                </div>
+                <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg border-t border-gray-100">
+                    <button
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mr-2 transition-colors duration-200 shadow-sm"
+                        type="button" onclick="editObjective(2)">
+                        Edit
+                    </button>
+                    <button
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors duration-200 shadow-sm"
+                        type="button" onclick="hideModal('viewObjectiveModal')">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Employees Tab -->
     <div id="employees" class="tab-content hidden">
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-semibold">Employee Management</h3>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <?php if($data['employees']): ?>
-                <?php foreach ($data['employees'] as $value): ?>
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <div class="flex flex-col items-center">
-                            <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
-                            <h3 class="text-lg font-semibold"><?php echo $value->getFullName() ?></h3>
-                            <p class="text-gray-500 mb-2"><?php echo $value->getStore()->getName() ?></p>
-                            <div class="flex mb-4">
-                                <span
-                                    class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Employee</span>
+        <div class="overflow-x-auto pr-2 mb-8">
+            <div class="grid grid-flow-col auto-cols-[300px] gap-6 mb-8">
+                <?php if ($data['employees']): ?>
+                    <?php foreach ($data['employees'] as $value): ?>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex flex-col items-center">
+                                <div
+                                    class="w-24 h-24 bg-gray-200 rounded-full mb-4 flex items-center justify-center text-2xl font-bold text-gray-600">
+                                    <?php
+                                    $name = $value->getFullName();
+                                    $nameArray = explode(" ", $name);
+                                    $firstInitial = !empty($nameArray[0]) ? substr($nameArray[0], 0, 1) : "";
+                                    $lastInitial = !empty($nameArray[count($nameArray) - 1]) ? substr($nameArray[count($nameArray) - 1], 0, 1) : "";
+                                    echo strtoupper($firstInitial . $lastInitial);
+                                    ?>
+                                </div>
+                                <h3 class="text-lg font-semibold"><?php echo $value->getFullName() ?></h3>
+                                <p class="text-gray-500 mb-2"><?php echo $value->getStore()->getName() ?></p>
+                                <div class="flex mb-4">
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Employee</span>
+                                </div>
+                                <div class="w-full mt-2">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm font-medium">Performance</span>
+                                        <span
+                                            class="text-sm font-medium <?php echo ($value->getEmployee()->getPerformance() ?: 0) > 50 ? 'text-green-500' : 'text-blue-500' ?>"><?php echo $value->getEmployee()->getPerformance() ?: 0 ?>%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="<?php echo ($value->getEmployee()->getPerformance() ?: 0) > 50 ? 'bg-green-500' : 'bg-blue-500' ?> h-2 rounded-full"
+                                            style="width: <?php echo $value->getEmployee()->getPerformance() ?: 0 ?>%"></div>
+                                    </div>
+                                </div>
+                                <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Sales</p>
+                                        <p class="font-semibold">
+                                            $<?php echo number_format($value->getEmployee()->getMontantTotal() ?? 0, 2) ?></p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Items Sold</p>
+                                        <p class="font-semibold">
+                                            <?php echo $value->getEmployee()->getQuantityTotal() ?? 0 ?> units
+                                        </p>
+                                    </div>
+                                </div>
+                                <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">View
+                                    Profile</button>
                             </div>
-                            <div class="w-full mt-2">
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-sm font-medium">Performance</span>
-                                    <span class="text-sm font-medium text-blue-600"><?php echo $value->getEmployee()->getPerformance() ?>%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-blue-500 h-2 rounded-full" style="width: <?php echo $value->getEmployee()->getPerformance() ?>%"></div>
-                                </div>
-                            </div>
-                            <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
-                                <div>
-                                    <p class="text-gray-500 text-sm">Sales</p>
-                                    <p class="font-semibold">$<?php echo number_format($value->getSales(), 2) ?></p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 text-sm">Items Sold</p>
-                                    <p class="font-semibold"><?php echo $value->getItemsSold() ?></p>
-                                </div>
-                            </div>
-                            <button
-                                class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">View
-                                Profile</button>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex flex-col items-center">
-                    <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
-                    <h3 class="text-lg font-semibold">Jane Smith</h3>
-                    <p class="text-gray-500 mb-2">Senior Sales Associate</p>
-                    <div class="flex mb-4">
-                        <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Top
-                            Performer</span>
-                    </div>
-                    <div class="w-full mt-2">
-                        <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium">Performance</span>
-                            <span class="text-sm font-medium text-green-600">97.5%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 97.5%"></div>
-                        </div>
-                    </div>
-                    <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
-                        <div>
-                            <p class="text-gray-500 text-sm">Sales</p>
-                            <p class="font-semibold">$24,568</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-500 text-sm">Items Sold</p>
-                            <p class="font-semibold">214</p>
-                        </div>
-                    </div>
-                    <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        View Profile
-                    </button>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex flex-col items-center">
-                    <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
-                    <h3 class="text-lg font-semibold">Mike Johnson</h3>
-                    <p class="text-gray-500 mb-2">Sales Associate</p>
-                    <div class="flex mb-4">
-                        <span
-                            class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Regular</span>
-                    </div>
-                    <div class="w-full mt-2">
-                        <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium">Performance</span>
-                            <span class="text-sm font-medium text-blue-600">85.2%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-blue-500 h-2 rounded-full" style="width: 85.2%"></div>
-                        </div>
-                    </div>
-                    <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
-                        <div>
-                            <p class="text-gray-500 text-sm">Sales</p>
-                            <p class="font-semibold">$17,462</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-500 text-sm">Items Sold</p>
-                            <p class="font-semibold">176</p>
-                        </div>
-                    </div>
-                    <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        View Profile
-                    </button>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex flex-col items-center">
-                    <div class="w-24 h-24 bg-gray-200 rounded-full mb-4"></div>
-                    <h3 class="text-lg font-semibold">Lisa Chen</h3>
-                    <p class="text-gray-500 mb-2">Junior Sales Associate</p>
-                    <div class="flex mb-4">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">New
-                            Hire</span>
-                    </div>
-                    <div class="w-full mt-2">
-                        <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium">Performance</span>
-                            <span class="text-sm font-medium text-yellow-600">76.8%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 76.8%"></div>
-                        </div>
-                    </div>
-                    <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
-                        <div>
-                            <p class="text-gray-500 text-sm">Sales</p>
-                            <p class="font-semibold">$9,845</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-500 text-sm">Items Sold</p>
-                            <p class="font-semibold">98</p>
-                        </div>
-                    </div>
-                    <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        View Profile
-                    </button>
-                </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
 

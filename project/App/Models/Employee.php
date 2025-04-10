@@ -9,6 +9,8 @@ class Employee
     private $salary;
     private $performance;
     private $userId;
+    private $montantTotal;
+    private $quantityTotal;
 
     // Constructor
     public function __construct($employee){
@@ -45,6 +47,14 @@ class Employee
     {
         return $this->userId;
     }
+    public function getMontantTotal()
+    {
+        return $this->montantTotal;
+    }
+    public function getQuantityTotal()
+    {
+        return $this->quantityTotal;
+    }
 
     // Setters
     public function setId($id)
@@ -70,6 +80,14 @@ class Employee
     public function setUserId($userId)
     {
         $this->userId = $userId;
+    }
+    public function setMontantTotal($montantTotal)
+    {
+        $this->montantTotal = $montantTotal;
+    }
+    public function setQuantityTotal($quantityTotal)
+    {
+        $this->quantityTotal = $quantityTotal;
     }
 }
 

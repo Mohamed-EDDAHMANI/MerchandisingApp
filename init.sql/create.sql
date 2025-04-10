@@ -161,6 +161,9 @@ CREATE TABLE IF NOT EXISTS objectifs (
     objectif_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each objective
     frequency ENUM('daily', 'weekly') NOT NULL,  -- Enum for daily or weekly
     type ENUM('quantity_product', 'montant_total') NOT NULL,  -- Enum for quantity or maintenance
+    target INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expiration_date DATE,
     manager_id INT NOT NULL,  -- Foreign key referencing the managers table
     FOREIGN KEY (manager_id) REFERENCES managers(manager_id)  -- Foreign key constraint
 );

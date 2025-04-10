@@ -32,6 +32,7 @@ class dataMapper
     {
         $users = [];
         foreach ($usersData as $data) {
+
             $user = new User($data);
             
             if (!empty($data['manager_salary'])) {
@@ -40,7 +41,8 @@ class dataMapper
 
             if (!empty($data['employee_salary'])) {
                 $user->setEmployee(new Employee($data));
-                $user->setSale(new Sale($data));
+                $user->getEmployee()->setMontantTotal($data['montant_total']);
+                $user->getEmployee()->setQuantityTotal($data['quantity_total']);
             }
             
             $user->setRole(new Role($data));

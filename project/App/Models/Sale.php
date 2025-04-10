@@ -16,11 +16,11 @@ class Sale
     public function __construct($sale)
     {
         $this->saleId = $sale['sale_id'] ?? null;
-        $this->productId = $sale['product_id'];
-        $this->employeeId = $sale['employee_id'];
-        $this->storeId = $sale['store_id'];
-        $this->quantity = $sale['quantity'];
-        $this->total = $sale['total'];
+        $this->productId = $sale['product_id']?? null;
+        $this->employeeId = $sale['employee_id']?? null;
+        $this->storeId = $sale['store_id']?? null;
+        $this->quantity = $sale['quantity']?? null;
+        $this->total = $sale['total']?? null;
         $this->date = $sale['date'] ?? null;
     }
 

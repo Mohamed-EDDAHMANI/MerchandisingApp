@@ -14,6 +14,7 @@ setTimeout(() => {
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = window.location.href;
     const [path, fragment] = urlParams.split("#");
+    console.log(fragment)
     switch (fragment) {
         case 'categories':
             const categoryButton = document.getElementById('categoriesBtn');
@@ -34,6 +35,11 @@ document.addEventListener("DOMContentLoaded", function () {
             const ordersBtn = document.getElementById('ordersBtn');
             history.replaceState(null, null, path);
             ordersBtn.click();
+            break;
+        case 'objectives':
+            const objectivesBtn = document.getElementById('objectivesBtn');
+            history.replaceState(null, null, path);
+            objectivesBtn.click();
             break;
 
         default:

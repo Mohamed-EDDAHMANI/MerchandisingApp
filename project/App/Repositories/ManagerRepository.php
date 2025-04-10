@@ -229,7 +229,7 @@ class ManagerRepository extends Repository
         }
     }
 
-    public function sortProduct($storeID ,$category_id = null, $stock = null)
+    public function sortProduct($storeID, $category_id = null, $stock = null)
     {
         $params = [];
         $sql = 'SELECT products.product_id, 
@@ -266,67 +266,101 @@ class ManagerRepository extends Repository
     }
 
 
-    public function getAllSuppliersWithCategories() {
+    public function getAllSuppliersWithCategories()
+    {
         try {
             $sql = 'SELECT s.supplier_id, s.supplier_name, s.contact_phone, s.city, s.postal_code, 
                            s.country, s.phone, s.email, s.status, c.category_name 
                     FROM suppliers s
                     JOIN categories c ON s.category_id = c.category_id';
-    
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
-            $supplier =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $supplier = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $supplierInstences = DataMapper::supplierMapper($supplier);
             return $supplierInstences;
         } catch (Exception $e) {
             return ["error" => "Error fetching suppliers: " . $e->getMessage()];
         }
     }
-    public function getAllOrdersWithSupplierAndProduct() {
+    public function getAllOrdersWithSupplierAndProduct()
+    {
         try {
             $sql = 'SELECT o.*, p.product_name , s.supplier_name
                     FROM orders o
                     JOIN suppliers s ON s.supplier_id = o.supplier_id
                     JOIN products p ON p.product_id = o.product_id';
-    
+
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
-            $orders =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $ordersInstentes = DataMapper::orderMapper($orders);
             return $ordersInstentes;
         } catch (Exception $e) {
             return ["error" => "Error fetching orders: " . $e->getMessage()];
         }
     }
-    public function getEmployees($id) {
+    public function getEmployees($id)
+    {
         try {
             $result = $this->getStoreId($id);
             if ($result) {
                 $storeId = $result['store_id'];
-                var_dump($storeId);
-                die;
             } else {
                 return false;
             }
-            $sql = 'SELECT u.* , e.* , s.* , se.*
-                    FROM users u
-                    JOIN employees e ON e.user_id = u.id
-                    JOIN stores s ON u.store_id = s.store_id
-                    LEFT JOIN sales se ON e.employee_id = se.employee_id
-                    WHERE s.store_id = :store_id ';
-    
+            $sql = 'SELECT 
+    employees.employee_id,
+    employees.is_valid,
+    employees.salary as employee_salary,
+    employees.performance,
+    users.id,
+    users.password,
+    users.email,
+    users.first_name,
+    users.last_name,
+    users.store_id,
+    users.role_id,
+    users.created_at,
+    users.updated_at,
+    stores.store_name,
+    SUM(sales.total) AS montant_total,
+    SUM(sales.quantity) AS quantity_total
+FROM employees
+JOIN users ON employees.user_id = users.id
+JOIN stores ON users.store_id = stores.store_id
+LEFT JOIN sales ON employees.employee_id = sales.employee_id
+WHERE users.store_id = :store_id 
+GROUP BY 
+    employees.employee_id,
+    employees.is_valid,
+    employees.salary,
+    employees.performance,
+    users.id,
+    users.password,
+    users.email,
+    users.first_name,
+    users.last_name,
+    users.store_id,
+    users.role_id,
+    users.created_at,
+    users.updated_at;';
+
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':store_id', $storeId, PDO::PARAM_INT);
             $stmt->execute();
-            $users =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $usersInstentes = DataMapper::UserMapper($users);
+
             return $usersInstentes;
         } catch (Exception $e) {
             return ["error" => "Error fetching orders: " . $e->getMessage()];
         }
     }
 
-    public function getStoreId($id) {
+    public function getStoreId($id)
+    {
         try {
             $sql = 'SELECT store_id FROM users WHERE id = :id';
             $stmt = $this->db->prepare($sql);

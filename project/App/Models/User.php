@@ -69,6 +69,9 @@ class User
     public function getFullName() {
         return $this->firstName . ' ' . $this->lastName;
     }
+    public function getSale() {
+        return $this->sale;
+    }
 
     // Getters
     public function getId()

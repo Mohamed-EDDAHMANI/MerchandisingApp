@@ -21,4 +21,11 @@ class ObjectifRepository extends Repository
         $stmt->bindValue(':expiration_date', $dateExperation, PDO::PARAM_STR);
         return $stmt->execute();
     }
+    public function deleteObjectifs($id): bool
+    {
+        $sql = "DELETE FROM objectifs WHERE objectif_id = :objectif_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':objectif_id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }

@@ -25,4 +25,13 @@ class ObjectifController extends BaseController {
         }
         Redirect::to('/manager/dashboard#objectives');
     }
+    public function deleteObjectifs($id){
+        $res = $this->objectifService->deleteObjectifs($id);
+        if($res === true){
+            $this->session->setError('success', 'Objectif Deleted successfully');
+        }else {
+            $this->session->setError('error', 'Error Deleting Objectif !!');
+        }
+        Redirect::to('/manager/dashboard#objectives');
+    }
 }

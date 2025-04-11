@@ -9,7 +9,7 @@ class Permissions
   public static $permissions = [
     'admin' => 'getPointsDeVente|getPointsDeVenteById|sortPointsDeVente|createPointDeVente|updatePointDeVente|deletePointDeVente|dashboard|getUsers|getUserById|sortUsers|updateUser|createUser|toggleUserStatus|deleteUser|getRapports|getMerchandising|analysePotentiel|deleteRepport|getRepports|logout|exportPDF|exportExcel|deleteUserRepport|getRepportsById',
     
-    'manager' => 'createCategory|getCategoryById|getProductList|createProduct|index|updateCategory|getProductById|deleteCategory|logout|updateProduct|deleteProduct|sortProduct|createSupplier|getSupplierById|updateSupplier|deleteSupplier|createOrder|confirmOrder|getOrder|store',
+    'manager' => 'createCategory|getCategoryById|getProductList|createProduct|index|updateCategory|getProductById|deleteCategory|logout|updateProduct|deleteProduct|sortProduct|createSupplier|getSupplierById|updateSupplier|deleteSupplier|createOrder|confirmOrder|getOrder|store|deleteObjectifs',
     
     'employee' => 'index|getProducts|createSales',
     

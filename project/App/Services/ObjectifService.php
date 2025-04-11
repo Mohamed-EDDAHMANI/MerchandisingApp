@@ -25,4 +25,7 @@ class ObjectifService{
         }
         return $this->objectifRepository->createObjectif($data , $managerId, $dateExperation);
     }
+    public function deleteObjectifs($id){
+        return $this->objectifRepository->deleteObjectifs($id);
+    }
 }

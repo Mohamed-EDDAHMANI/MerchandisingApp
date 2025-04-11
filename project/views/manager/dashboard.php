@@ -1373,7 +1373,7 @@
                                     <?php echo $value->getExpirationDate() ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    <a href="/manager/objective/delete/<?php echo $value->getObjectifId() ?>" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

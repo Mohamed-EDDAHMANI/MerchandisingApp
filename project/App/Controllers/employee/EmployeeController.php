@@ -18,8 +18,11 @@ class EmployeeController extends BaseController{
 
     public function index()
     {
+        $userId = $this->session->get('data')->getId();
         $products = $this->employeeService->getProductList();
-        return  $this->view('employee/home', ['products' => $products]);
+        $objectifs = $this->employeeService->getObjectifsList($userId);
+
+        return  $this->view('employee/home', ['products' => $products, 'objectifs' => $objectifs]);
     }
 
     public function getProducts($keyword = null)

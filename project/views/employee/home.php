@@ -386,37 +386,78 @@
             </h2>
             <div class="objectives-container space-y-5">
               <!-- Weekly Sales Objective -->
-              <div
-                class="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-6 rounded-lg transition-all duration-300 hover:shadow-md">
-                <div class="flex items-center justify-between mb-2">
-                  <h3 class="text-md font-medium text-gray-900">Objectif de Vente Hebdomadaire</h3>
-                  <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">En Cours</span>
-                </div>
-                <p class="text-gray-700 mb-3">Vendre 30 produits cette semaine (Actuel: <span id="currentProgress"
-                    class="font-semibold">24</span>)</p>
-                <div class="relative pt-1">
-                  <div class="flex mb-2 items-center justify-between">
-                    <div>
-                      <span class="text-xs font-semibold inline-block text-blue-800">
-                        80% Complété
-                      </span>
+              <?php if (isset($data['objectifs'])): ?>
+                <?php foreach ($data['objectifs'] as $value): ?>
+                  <?php if ($value->getFrequency() === 'weekly'): ?>
+                    <div
+                      class="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-6 rounded-lg transition-all duration-300 hover:shadow-md">
+                      <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-md font-medium text-gray-900">Objectif de Vente Hebdomadaire
+                        </h3>
+                        <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">En Cours</span>
+                      </div>
+                      <p class="text-gray-700 mb-3">Vendre <?php echo $value->getTarget() ?>
+                      <?php echo ($value->getType() === 'quantity_product') ? 'produits' : 'DH' ?>
+                        cette semaine (Actuel: <span id="currentProgress"
+                          class="font-semibold">24 / <?php echo $value->getTarget() ?></span>)</p>
+                      <div class="relative pt-1">
+                        <div class="flex mb-2 items-center justify-between">
+                          <div>
+                            <span class="text-xs font-semibold inline-block text-blue-800">
+                              80% Complété
+                            </span>
+                          </div>
+                          <div class="text-right">
+                            <span class="text-xs font-semibold inline-block text-blue-800">
+                              Objectif: <?php echo $value->getTarget() ?> <?php echo ($value->getType() === 'quantity_product') ? 'Unity' : 'DH' ?>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded-full bg-blue-200">
+                          <div style="width: 80%"
+                            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600 transition-all duration-500">
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="text-right">
-                      <span class="text-xs font-semibold inline-block text-blue-800">
-                        Objectif: 30
-                      </span>
+                  <?php else: ?>
+                    <div
+                      class="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 p-6 rounded-lg transition-all duration-300 hover:shadow-md">
+                      <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-md font-medium text-gray-900">Objectif de Vente Quotidien
+                        </h3>
+                        <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">En Cours</span>
+                      </div>
+                      <p class="text-gray-700 mb-3">Vendre <?php echo $value->getTarget() ?>
+                      <?php echo ($value->getType() === 'quantity_product') ? 'produits' : 'DH' ?>
+                        cette journe (Actuel: <span id="currentProgress"
+                          class="font-semibold">24 / <?php echo $value->getTarget() ?></span>)</p>
+                      <div class="relative pt-1">
+                        <div class="flex mb-2 items-center justify-between">
+                          <div>
+                            <span class="text-xs font-semibold inline-block text-blue-800">
+                              80% Complété
+                            </span>
+                          </div>
+                          <div class="text-right">
+                            <span class="text-xs font-semibold inline-block text-blue-800">
+                              Objectif: <?php echo $value->getTarget() ?> <?php echo ($value->getType() === 'quantity_product') ? 'Unity' : 'DH' ?>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded-full bg-blue-200">
+                          <div style="width: 80%"
+                            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600 transition-all duration-500">
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div class="overflow-hidden h-2 mb-4 text-xs flex rounded-full bg-blue-200">
-                    <div style="width: 80%"
-                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600 transition-all duration-500">
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              <?php endif; ?>
 
               <!-- Revenue Objective -->
-              <div
+              <!-- <div
                 class="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 p-6 rounded-lg transition-all duration-300 hover:shadow-md">
                 <div class="flex items-center justify-between mb-2">
                   <h3 class="text-md font-medium text-gray-900">Objectif de Chiffre d'Affaires</h3>
@@ -443,10 +484,10 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <!-- Customer Satisfaction -->
-              <div
+              <!-- <div
                 class="bg-gradient-to-r from-emerald-50 to-green-50 border-l-4 border-emerald-500 p-6 rounded-lg transition-all duration-300 hover:shadow-md">
                 <div class="flex items-center justify-between mb-2">
                   <h3 class="text-md font-medium text-gray-900">Satisfaction Client</h3>
@@ -474,10 +515,10 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <!-- Product Training -->
-              <div
+              <!-- <div
                 class="bg-gradient-to-r from-purple-50 to-violet-50 border-l-4 border-purple-500 p-6 rounded-lg transition-all duration-300 hover:shadow-md">
                 <div class="flex items-center justify-between mb-2">
                   <h3 class="text-md font-medium text-gray-900">Formation Produit</h3>
@@ -505,7 +546,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

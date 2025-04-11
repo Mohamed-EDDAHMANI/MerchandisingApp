@@ -32,4 +32,8 @@ class EmployeeService
         $employeeId = $this->session->get('data')->getId();
         return $this->employeeRepository->createSales($salesData, $userId, $employeeId);
     }
+    public function getObjectifsList($userId)
+    {
+        return $this->employeeRepository->getObjectifsList($userId);
+    }
 }

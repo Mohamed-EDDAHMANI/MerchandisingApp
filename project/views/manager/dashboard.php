@@ -340,19 +340,6 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
-                <div class="px-6 py-4 border-t flex justify-between items-center">
-                    <p class="text-sm text-gray-700">
-                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span
-                            class="font-medium">97</span> results
-                    </p>
-                    <div class="flex space-x-2">
-                        <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
-                        <button class="px-3 py-1 rounded border bg-blue-500 text-white">1</button>
-                        <button class="px-3 py-1 rounded border">2</button>
-                        <button class="px-3 py-1 rounded border">3</button>
-                        <button class="px-3 py-1 rounded border">Next</button>
-                    </div>
-                </div>
             </div>
 
             <!-- Category Modal -->
@@ -527,7 +514,7 @@
                                         <?php echo intval($value->getSalePrice()) ?> MAD
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <?php if ($value->getProductCount() <= 300): ?>
+                                        <?php if ($value->getProductCount() > 300): ?>
                                             <span
                                                 class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                                 Low (<?php echo $value->getProductCount() ?>)
@@ -538,7 +525,6 @@
                                                 In Stock (<?php echo $value->getProductCount() ?>)
                                             </span>
                                         <?php endif; ?>
-
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <button class="text-blue-600 hover:text-blue-900 mr-3"
@@ -1167,19 +1153,6 @@
                     <?php endif; ?>
                 </tbody>
             </table>
-            <div class="px-6 py-4 border-t flex justify-between items-center">
-                <p class="text-sm text-gray-700">
-                    Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span
-                        class="font-medium">24</span> results
-                </p>
-                <div class="flex space-x-2">
-                    <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
-                    <button class="px-3 py-1 rounded border bg-blue-500 text-white">1</button>
-                    <button class="px-3 py-1 rounded border">2</button>
-                    <button class="px-3 py-1 rounded border">3</button>
-                    <button class="px-3 py-1 rounded border">Next</button>
-                </div>
-            </div>
         </div>
 
         <!-- Order Modal -->
@@ -1373,25 +1346,14 @@
                                     <?php echo $value->getExpirationDate() ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="/manager/objective/delete/<?php echo $value->getObjectifId() ?>" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                    <a href="/manager/objective/delete/<?php echo $value->getObjectifId() ?>"
+                                        class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
             </table>
-            <div class="px-6 py-4 border-t flex justify-between items-center">
-                <p class="text-sm text-gray-700">
-                    Showing <span class="font-medium">1</span> to <span class="font-medium">4</span> of <span
-                        class="font-medium">4</span> results
-                </p>
-                <div class="flex space-x-2">
-                    <button class="px-3 py-1 rounded border bg-gray-100">Previous</button>
-                    <button class="px-3 py-1 rounded border bg-blue-500 text-white">1</button>
-                    <button class="px-3 py-1 rounded border">2</button>
-                    <button class="px-3 py-1 rounded border">Next</button>
-                </div>
-            </div>
         </div>
 
         <!-- New Objective Modal -->

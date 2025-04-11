@@ -231,7 +231,7 @@ async function sortProducts() {
                                         ${product.sale_price % 1 === 0 ? Math.floor(product.sale_price) : product.sale_price} MAD
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        ${product.sale_price < 300 ? `
+                                        ${product.product_count < 300 ? `
                                             <span
                                                 class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                                 Low (${product.product_count})

@@ -1,0 +1,63 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.objectives-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.objectives-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.objectives-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.objectives-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.objectives-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.sale-form-container {
+  min-height: 500px;
+}
+
+.pending-sales-container {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.pending-sales-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pending-sales-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.pending-sales-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.pending-sales-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

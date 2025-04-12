@@ -8,71 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f9fafb;
-    }
-
-    .gradient-bg {
-      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-    }
-
-    .card-hover:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    .objectives-container {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    .objectives-container::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .objectives-container::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 10px;
-    }
-
-    .objectives-container::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 10px;
-    }
-
-    .objectives-container::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-
-    .sale-form-container {
-      min-height: 500px;
-    }
-
-    .pending-sales-container {
-      max-height: 200px;
-      overflow-y: auto;
-    }
-
-    .pending-sales-container::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .pending-sales-container::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 10px;
-    }
-
-    .pending-sales-container::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 10px;
-    }
-
-    .pending-sales-container::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-  </style>
+  <link rel="stylesheet" href="../../public/assets/css/employee.css">
 </head>
 
 <body class="bg-gray-50">
@@ -97,38 +33,38 @@
           </div>
         </div>
         <nav class="space-y-1">
-          <a href="#" class="flex items-center px-2 py-3 text-sm font-medium rounded-md bg-blue-50 text-blue-700">
+          <button onclick="switchTab('home')" data-tab="#home" class="flex items-center px-2 py-3 text-sm font-medium rounded-md bg-blue-50 text-blue-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
             Tableau de Bord
-          </a>
+          </button>
           <a href="#"
             class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400" fill="none" viewBox="0 0 24 24"
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
             Rapports
           </a>
-          <a href="#"
+          <button onclick="switchTab('sales-section')" data-tab="#sales-section"
             class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400" fill="none" viewBox="0 0 24 24"
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Ventes
-          </a>
+          </button>
         </nav>
       </div>
     </div>
 
     <!-- Main Content -->
-    <div class="lg:pl-64">
+    <div class="lg:pl-64 tab-content" id="home">
       <!-- Top Navigation -->
       <div class="bg-white shadow-sm sticky top-0 z-10">
         <div class="flex items-center justify-between h-16 px-4 md:px-8">
@@ -476,98 +412,178 @@
           </div>
         </div>
 
-        <!-- Recent Sales History -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mt-6">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold text-gray-900 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-              Historique des Ventes Récentes
-            </h2>
-            <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800">Voir Tout</a>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead>
-                <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produit
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantité
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200" id="salesHistory">
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">8 Avr, 2025</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div
-                        class="flex-shrink-0 h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <div class="ml-3">
-                        <p class="text-sm font-medium text-gray-900">Smartphone X1</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1 100 MAD</td>
-                </tr>
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">7 Avr, 2025</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div
-                        class="flex-shrink-0 h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                        </svg>
-                      </div>
-                      <div class="ml-3">
-                        <p class="text-sm font-medium text-gray-900">Écouteurs Sans Fil</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1 048,50 MAD</td>
-                </tr>
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">7 Avr, 2025</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div
-                        class="flex-shrink-0 h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                        </svg>
-                      </div>
-                      <div class="ml-3">
-                        <p class="text-sm font-medium text-gray-900">Ordinateur Portable Pro</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">899,99 MAD</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </main>
     </div>
+
+    <!-- Sales Section -->
+    <section id="sales-section" class="lg:pl-64 hidden tab-content">
+      <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Historique des Ventes
+        </h2>
+
+
+
+        <div class="mb-4 flex justify-between items-center">
+          <h3 class="text-md font-medium text-gray-900">Transactions Récentes</h3>
+          <div class="flex space-x-2">
+            <div class="relative">
+              <input type="text" placeholder="Rechercher..."
+                class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute right-3 top-2.5 text-gray-400" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <select
+              class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+              <option>Tous les produits</option>
+              <option>Smartphone X1</option>
+              <option>Ordinateur Portable Pro</option>
+              <option>Écouteurs Sans Fil</option>
+              <option>Montre Connectée</option>
+              <option>Enceinte Bluetooth</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-hidden border border-gray-200 rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ID
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Produit</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Quantité</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Montant</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Statut</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-042</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12/04/2025</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Smartphone X1</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">1,100.00 MAD</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Complétée
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-041</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11/04/2025</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Ordinateur Portable Pro</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">899.99 MAD</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Complétée
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-040</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10/04/2025</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Écouteurs Sans Fil</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">1,048.50 MAD</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Complétée
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-039</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">09/04/2025</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Montre Connectée</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">259.98 MAD</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    En attente
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-038</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">08/04/2025</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Enceinte Bluetooth</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">4</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">318.00 MAD</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Complétée
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-4 flex justify-between items-center">
+          <div class="text-sm text-gray-700">
+            Affichage de <span class="font-medium">1</span> à <span class="font-medium">5</span> sur <span
+              class="font-medium">42</span> résultats
+          </div>
+          <div class="flex space-x-2">
+            <button
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Précédent</button>
+            <button
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">1</button>
+            <button
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">2</button>
+            <button
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">3</button>
+            <button
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Suivant</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 
   <!-- Report Modal -->
@@ -613,101 +629,61 @@
     </div>
   </div>
 
-  <!-- Main Report Template (Hidden, used for PDF generation) -->
-  <div id="reportTemplate" class="hidden">
-    <div id="reportContent" class="p-8 max-w-2xl mx-auto bg-white">
-      <div class="text-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-900">Rapport de Performance des Ventes</h1>
-        <p class="text-gray-600" id="reportDate"></p>
-      </div>
-      <div class="mb-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-2" id="reportSubjectDisplay"></h2>
-        <p class="text-gray-600" id="reportMessageDisplay"></p>
-      </div>
-      <div class="mb-6">
-        <h3 class="text-lg font-medium text-gray-800 mb-2">Résumé de Performance</h3>
-        <p class="text-gray-700">Employé: <strong>Ahmed</strong></p>
-        <p class="text-gray-700">Produits Vendus Cette Semaine: <strong><span id="reportProductCount">24</span></strong>
-        </p>
-        <p class="text-gray-700">Montant Total des Ventes: <strong><span id="reportTotalSales">5 800</span> MAD</strong>
-        </p>
-        <p class="text-gray-700">Progression Vers l'Objectif: <strong><span id="reportProgress">80</span>%</strong></p>
-      </div>
-      <div class="mb-6">
-        <h3 class="text-lg font-medium text-gray-800 mb-2">Objectifs Actuels</h3>
-        <p class="text-gray-700">Objectif de Vente Hebdomadaire: <strong>30 produits</strong></p>
-        <p class="text-gray-700">Statut Actuel: <strong><span id="reportStatus">En Bonne Voie</span></strong></p>
-      </div>
-      <div>
-        <h3 class="text-lg font-medium text-gray-800 mb-2">Ventes Récentes</h3>
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Produit</th>
-              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Quantité</th>
-              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200" id="reportSalesTable">
-            <!-- Sales data will be populated here via JavaScript -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
 
 
-    <!-- error modal -->
-    <?php if (isset($_SESSION['error'])): ?>
-        <?php
-        $isSuccess = $_SESSION['error']['type'] === 'success';
-        $bgColor = $isSuccess ? 'bg-emerald-50' : 'bg-rose-50';
-        $textColor = $isSuccess ? 'text-emerald-800' : 'text-rose-800';
-        $borderColor = $isSuccess ? 'border-emerald-200' : 'border-rose-200';
-        $iconBgColor = $isSuccess ? 'bg-emerald-100' : 'bg-rose-100';
-        ?>
-        <div id="alert-message" class="message fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fadeIn
+
+
+
+  <!-- error modal -->
+  <?php if (isset($_SESSION['error'])): ?>
+    <?php
+    $isSuccess = $_SESSION['error']['type'] === 'success';
+    $bgColor = $isSuccess ? 'bg-emerald-50' : 'bg-rose-50';
+    $textColor = $isSuccess ? 'text-emerald-800' : 'text-rose-800';
+    $borderColor = $isSuccess ? 'border-emerald-200' : 'border-rose-200';
+    $iconBgColor = $isSuccess ? 'bg-emerald-100' : 'bg-rose-100';
+    ?>
+    <div id="alert-message" class="message fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fadeIn
                 flex items-center gap-3 w-auto max-w-md
                 <?php echo "$bgColor $textColor $borderColor"; ?> 
                 px-4 py-3 rounded-lg shadow-lg border">
 
-            <!-- Icon container with circular background -->
-            <div class="<?php echo $iconBgColor; ?> p-2 rounded-full flex-shrink-0">
-                <?php if ($isSuccess): ?>
-                    <!-- Success icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd" />
-                    </svg>
-                <?php else: ?>
-                    <!-- Error icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                            clip-rule="evenodd" />
-                    </svg>
-                <?php endif; ?>
-            </div>
+      <!-- Icon container with circular background -->
+      <div class="<?php echo $iconBgColor; ?> p-2 rounded-full flex-shrink-0">
+        <?php if ($isSuccess): ?>
+          <!-- Success icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd" />
+          </svg>
+        <?php else: ?>
+          <!-- Error icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd" />
+          </svg>
+        <?php endif; ?>
+      </div>
 
-            <!-- Message content -->
-            <div class="flex-1">
-                <p class="font-medium"><?php echo htmlspecialchars($_SESSION['error']['message']); ?></p>
-            </div>
+      <!-- Message content -->
+      <div class="flex-1">
+        <p class="font-medium"><?php echo htmlspecialchars($_SESSION['error']['message']); ?></p>
+      </div>
 
-            <!-- Close button -->
-            <button onclick="this.parentElement.remove()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clip-rule="evenodd" />
-                </svg>
-            </button>
+      <!-- Close button -->
+      <button onclick="this.parentElement.remove()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
 
-            <?php unset($_SESSION['error']); ?>
-        </div>
-    <?php endif; ?>
+      <?php unset($_SESSION['error']); ?>
+    </div>
+  <?php endif; ?>
 
   <script src="../../public/assets/js/employee.js"></script>
 </body>

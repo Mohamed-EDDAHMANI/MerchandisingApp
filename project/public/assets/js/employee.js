@@ -30,6 +30,57 @@ setTimeout(() => {
     }
 }, 5000);
 
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = window.location.href;
+    const [path, fragment] = urlParams.split("#");
+    console.log(fragment)
+    switch (fragment) {
+        case 'categories':
+            const categoryButton = document.getElementById('categoriesBtn');
+            history.replaceState(null, null, path);
+            categoryButton.click();
+            break;
+        case 'products':
+            const productsButton = document.getElementById('productsBtn');
+            history.replaceState(null, null, path);
+            productsButton.click();
+            break;
+        case 'suppliers':
+            const suppliersButton = document.getElementById('suppliersBtn');
+            history.replaceState(null, null, path);
+            suppliersButton.click();
+            break;
+        case 'orders':
+            const ordersBtn = document.getElementById('ordersBtn');
+            history.replaceState(null, null, path);
+            ordersBtn.click();
+            break;
+        case 'objectives':
+            const objectivesBtn = document.getElementById('objectivesBtn');
+            history.replaceState(null, null, path);
+            objectivesBtn.click();
+            break;
+
+        default:
+            break;
+    }
+});
+
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.add('hidden');
+    });
+
+    document.getElementById(tabId).classList.remove('hidden');
+
+    document.querySelectorAll('nav button').forEach(link => {
+        link.classList.remove('bg-blue-50', 'text-blue-700');
+        if (link.getAttribute('data-tab') === '#' + tabId) {
+            link.classList.add('bg-blue-50', 'text-blue-700');
+        }
+    });
+}
+
 async function getProductSelectByName(name) {
     try {
         const response = await fetch(`/employee/products`, {

@@ -9,7 +9,6 @@ const quantityError = document.getElementById('quantityError');
 const productCount = document.getElementById('productCount');
 const totalSales = document.getElementById('totalSales');
 const currentProgress = document.getElementById('currentProgress');
-const progressBar = document.getElementById('progressBar');
 const reportBtn = document.getElementById('reportBtn');
 const reportModal = document.getElementById('reportModal');
 const closeModal = document.getElementById('closeModal');
@@ -20,6 +19,11 @@ const validateAllSales = document.getElementById('validateAllSales');
 const pendingTotal = document.getElementById('pendingTotal');
 const productNameInput = document.getElementById('productName');
 const productSelectTwo = document.querySelector('select');
+const searchSales = document.querySelector('#searchSales');
+const previeseBtn = document.querySelector('.previeseBtn');
+const nextBtn = document.querySelector('.nextBtn');
+const currentPageDisplay = document.querySelector('.currentPageDisplay');
+const totalPages = document.querySelector('.totalPages');
 
 // Hide the message after 5 seconds
 setTimeout(() => {
@@ -30,41 +34,6 @@ setTimeout(() => {
     }
 }, 5000);
 
-document.addEventListener("DOMContentLoaded", function () {
-    const urlParams = window.location.href;
-    const [path, fragment] = urlParams.split("#");
-    console.log(fragment)
-    switch (fragment) {
-        case 'categories':
-            const categoryButton = document.getElementById('categoriesBtn');
-            history.replaceState(null, null, path);
-            categoryButton.click();
-            break;
-        case 'products':
-            const productsButton = document.getElementById('productsBtn');
-            history.replaceState(null, null, path);
-            productsButton.click();
-            break;
-        case 'suppliers':
-            const suppliersButton = document.getElementById('suppliersBtn');
-            history.replaceState(null, null, path);
-            suppliersButton.click();
-            break;
-        case 'orders':
-            const ordersBtn = document.getElementById('ordersBtn');
-            history.replaceState(null, null, path);
-            ordersBtn.click();
-            break;
-        case 'objectives':
-            const objectivesBtn = document.getElementById('objectivesBtn');
-            history.replaceState(null, null, path);
-            objectivesBtn.click();
-            break;
-
-        default:
-            break;
-    }
-});
 
 function switchTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => {
@@ -147,10 +116,8 @@ document.getElementById('product').addEventListener('change', function () {
     }
 });
 
-// Pending sales array
 let pendingSalesArray = [];
 
-// Calculate total when product or quantity changes
 function calculateTotal() {
     const selectedOption = productSelect.options[productSelect.selectedIndex];
     if (selectedOption.value) {
@@ -166,7 +133,6 @@ function calculateTotal() {
 productSelect.addEventListener('change', calculateTotal);
 quantityInput.addEventListener('input', calculateTotal);
 
-// Update pending sales table
 function updatePendingSalesTable() {
     if (pendingSalesArray.length === 0) {
         pendingSales.innerHTML = `
@@ -187,7 +153,6 @@ function updatePendingSalesTable() {
     pendingSalesArray.forEach((sale, index) => {
         totalAmount += sale.total;
 
-        // Create icon based on product type
         let iconBg = 'bg-blue-100';
         let iconColor = 'text-blue-600';
         let iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>';
@@ -231,7 +196,6 @@ function updatePendingSalesTable() {
     pendingTotal.textContent = totalAmount.toFixed(2) + " MAD";
 }
 
-// Remove pending sale
 window.removePendingSale = function (index) {
     pendingSalesArray.splice(index, 1);
     updatePendingSalesTable();
@@ -240,11 +204,9 @@ window.removePendingSale = function (index) {
 
 
 
-// Handle form submission to add to pending sales
 saleForm.addEventListener('submit', function (event) {
     event.preventDefault();
 
-    // Simple validation
     let valid = true;
 
     if (!productSelect.value) {
@@ -267,7 +229,6 @@ saleForm.addEventListener('submit', function (event) {
         const productName = selectedOption.text;
         const total = parseFloat(totalInput.value);
 
-        // Add to pending sales
         pendingSalesArray.push({
             productId: selectedOption.value,
             productName: productName,
@@ -277,7 +238,6 @@ saleForm.addEventListener('submit', function (event) {
 
         updatePendingSalesTable();
 
-        // Reset form
         productSelect.value = '';
         quantityInput.value = '1';
         totalInput.value = '';
@@ -285,51 +245,91 @@ saleForm.addEventListener('submit', function (event) {
     }
 });
 
-async function sendSales(sales) {
-    console.log('Sales to send:', sales);
+
+async function fetchData(key = null, page = 1) {
     try {
-        const response = await fetch(`/employee/sale/create`, {
+        const response = await fetch(`/employee/sales`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify({ sales })
+            body: JSON.stringify({key})
         });
-        console.log('Affect sales secces : ', response);
-        return true;
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const pagination = paginateData(data, page);
+        currentPageDisplay.textContent = pagination.currentPage;
+        totalPages.textContent = pagination.totalPages;
+
+        console.log('Fetched data:', pagination.items);
+        const saleTbody = document.getElementById('saleTbody');
+        hundlePaginationNumbers(pagination);
+        saleTbody.innerHTML = '';
+        pagination.items.forEach(sale => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-${sale.sale_id}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${sale.date}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${sale.product_name}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${sale.quantity}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">${sale.total} MAD</td>
+            `;
+            saleTbody.appendChild(row);
+        });
+        return data;
     } catch (error) {
-        console.error('Error fetching products:', error);
-        return null;
+        console.error('Error fetching data:', error);
+        throw error;
     }
 }
-// Validate all sales
-validateAllSales.addEventListener('click', async function () {
-    if (pendingSalesArray.length === 0) return;
 
-    // Calculate totals
-    let totalQuantity = 0;
-    let totalAmount = 0;
 
-    pendingSalesArray.forEach(sale => {
-        totalQuantity += sale.quantity;
-        totalAmount += sale.total;
-    });
-    const result = await sendSales(pendingSalesArray)
+function paginateData(data, currentPage = 1) {
+    const itemsPerPage = 7; 
 
-    if (!result) return;
+    // Calculate pagination values
+    const totalItems = data.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 
-    // Show success message
-    saleSuccess.classList.remove('hidden');
-    setTimeout(() => {
-        saleSuccess.classList.add('hidden');
-    }, 3000);
+    // Get paginated items
+    const paginatedItems = data.slice(startIndex, endIndex);
 
-    // Clear pending sales
-    pendingSalesArray = [];
-    updatePendingSalesTable();
-});
+    return {
+        currentPage,
+        itemsPerPage,
+        totalItems,
+        totalPages,
+        hasNextPage: currentPage < totalPages,
+        hasPreviousPage: currentPage > 1,
+        items: paginatedItems
+    };
+}
 
-// Report modal functionality
+function hundlePaginationNumbers(pagination) {
+    const paginationNumbers = document.querySelector('.pagination-numbers');
+    paginationNumbers.innerHTML = '';
+
+    for (let i = 1; i <= pagination.totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.classList.add('px-4', 'py-2', 'mx-1', 'border', 'rounded-md', 'text-sm', 'font-medium', 'text-gray-700', 'bg-white', 'hover:bg-gray-100');
+        pageButton.addEventListener('click', function () {
+            fetchData(null, i);
+        });
+        if (i === pagination.currentPage) {
+            pageButton.classList.add('bg-blue-500', 'text-white');
+        }
+        paginationNumbers.appendChild(pageButton);
+    }
+}
+
+
 reportBtn.addEventListener('click', function () {
     reportModal.classList.remove('hidden');
 });
@@ -342,6 +342,33 @@ cancelReport.addEventListener('click', function () {
     reportModal.classList.add('hidden');
 });
 
+previeseBtn.addEventListener('click', function () {
+    const currentPage = parseInt(currentPageDisplay.textContent);
+    if (currentPage > 1) {
+        fetchData(null, currentPage - 1);
+    }
+});
+
+nextBtn.addEventListener('click', function () {
+    const currentPage = parseInt(currentPageDisplay.textContent);
+    const totalPages = document.querySelector('.totalPages');
+
+    const totalPagess = parseInt(totalPages.textContent);
+    if (currentPage < totalPagess) {
+        fetchData(null, currentPage + 1);
+    }
+});
+
+searchSales.addEventListener('input', function () {
+    const searchKey = searchSales.value;
+    if (searchKey.length > 0) {
+        console.log('Searching for:', searchKey);
+        fetchData(searchKey);
+    } else {
+        fetchData();
+    }
+});
+
 // Close modal when clicking outside
 window.addEventListener('click', function (event) {
     if (event.target === reportModal) {
@@ -350,5 +377,5 @@ window.addEventListener('click', function (event) {
 });
 
 calculateTotal();
-
+fetchData();
 updatePendingSalesTable();

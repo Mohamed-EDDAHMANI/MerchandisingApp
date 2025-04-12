@@ -73,7 +73,7 @@ class EmployeeRepository extends Repository
     public function updatePerformance($achievedCount, $notAchievedCount, $employeeId)
     {
         $newPorsentage = $achievedCount / ($achievedCount + $notAchievedCount) * 100;
-        
+
         $sql = "UPDATE employees SET performance = :performance WHERE employee_id = :employee_id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':performance', $newPorsentage, PDO::PARAM_INT);
@@ -160,11 +160,34 @@ ORDER BY
     {
         $sql = "INSERT INTO reports (user_id, message, report_type, subject) VALUES (:user_id, :message, :report_type, :subject)";
 
-        $stmt = $this->db->prepare($sql);            
+        $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
         $stmt->bindValue(':message', $report['message'], PDO::PARAM_STR);
         $stmt->bindValue(':report_type', $report['report_type'], PDO::PARAM_STR);
         $stmt->bindValue(':subject', $report['subject'], PDO::PARAM_STR);
         return $stmt->execute();
     }
+    public function getSales($kay, $employeeId): array
+    {
+        $sql = "SELECT sales.*, products.*
+            FROM sales
+            INNER JOIN products ON products.product_id = sales.product_id
+            WHERE sales.employee_id = :employee_id ";
+
+        if ($kay !== null && trim($kay) !== '') {
+            $sql .= "AND products.product_name LIKE :kay ";
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':employee_id', $employeeId, PDO::PARAM_INT);
+
+        if ($kay !== null && trim($kay) !== '') {
+            $stmt->bindValue(':kay', '%' . $kay . '%', PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

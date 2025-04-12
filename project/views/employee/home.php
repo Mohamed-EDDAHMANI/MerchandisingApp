@@ -33,7 +33,8 @@
           </div>
         </div>
         <nav class="space-y-1">
-          <button onclick="switchTab('home')" data-tab="#home" class="flex items-center px-2 py-3 text-sm font-medium rounded-md bg-blue-50 text-blue-700">
+          <button onclick="switchTab('home')" data-tab="#home"
+            class="flex items-center px-2 py-3 text-sm font-medium rounded-md bg-blue-50 text-blue-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -41,7 +42,7 @@
             </svg>
             Tableau de Bord
           </button>
-          <a href="#"
+          <button onclick="switchTab('reports-section')" data-tab="#reports-section"
             class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
@@ -49,7 +50,7 @@
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
             Rapports
-          </a>
+          </button>
           <button onclick="switchTab('sales-section')" data-tab="#sales-section"
             class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24"
@@ -415,6 +416,172 @@
       </main>
     </div>
 
+    <!-- Reports Section -->
+  <section id="reports-section" class="lg:pl-64 hidden tab-content">
+    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <h2 class="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        Historique des Rapports
+      </h2>
+
+      <div class="mb-4 flex justify-between items-center">
+        <h3 class="text-md font-medium text-gray-900">Rapports Récents</h3>
+        <div class="flex space-x-2">
+          <div class="relative">
+            <input type="text" placeholder="Rechercher..."
+              class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute right-3 top-2.5 text-gray-400" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="overflow-hidden border border-gray-200 rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                ID
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Date</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Sujet</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Message</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Type</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Utilisateur</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#RPT-2025-042</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12/04/2025</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Problème de connexion</td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">Impossible de se connecter à l'application
+                mobile</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  Problème
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID: 101</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#RPT-2025-041</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11/04/2025</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Mise à jour système</td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">Information sur la prochaine mise à jour
+                système</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Information
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID: 103</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#RPT-2025-040</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10/04/2025</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Erreur de paiement</td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">Transaction échouée lors du paiement</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  Problème
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID: 105</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#RPT-2025-039</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">09/04/2025</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Nouvelle fonctionnalité</td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">Information sur les nouvelles
+                fonctionnalités</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Information
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID: 102</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#RPT-2025-038</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">08/04/2025</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Bug interface utilisateur</td>
+              <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">Problème d'affichage sur la page de profil
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  Problème
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID: 104</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4 flex justify-between items-center">
+        <div class="text-sm text-gray-700">
+          Affichage de <span class="font-medium">1</span> à <span class="font-medium">5</span> sur <span
+            class="font-medium">42</span> résultats
+        </div>
+        <div class="flex space-x-2 pagination container">
+          <button
+            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Précédent</button>
+          <button
+            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">1</button>
+          <button
+            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">2</button>
+          <button
+            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">3</button>
+          <button
+            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Suivant</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
     <!-- Sales Section -->
     <section id="sales-section" class="lg:pl-64 hidden tab-content">
       <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
@@ -433,7 +600,7 @@
           <h3 class="text-md font-medium text-gray-900">Transactions Récentes</h3>
           <div class="flex space-x-2">
             <div class="relative">
-              <input type="text" placeholder="Rechercher..."
+              <input type="text" placeholder="Rechercher..." id="searchSales"
                 class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute right-3 top-2.5 text-gray-400" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
@@ -441,15 +608,6 @@
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-            <select
-              class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-              <option>Tous les produits</option>
-              <option>Smartphone X1</option>
-              <option>Ordinateur Portable Pro</option>
-              <option>Écouteurs Sans Fil</option>
-              <option>Montre Connectée</option>
-              <option>Enceinte Bluetooth</option>
-            </select>
           </div>
         </div>
 
@@ -468,123 +626,33 @@
                   Quantité</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Montant</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Statut</th>
               </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-042</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12/04/2025</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Smartphone X1</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">1,100.00 MAD</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    Complétée
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-041</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11/04/2025</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Ordinateur Portable Pro</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">899.99 MAD</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    Complétée
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-040</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10/04/2025</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Écouteurs Sans Fil</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">1,048.50 MAD</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    Complétée
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-039</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">09/04/2025</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Montre Connectée</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">259.98 MAD</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    En attente
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#VNT-2025-038</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">08/04/2025</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Enceinte Bluetooth</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">4</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">318.00 MAD</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    Complétée
-                  </span>
-                </td>
-              </tr>
+            <tbody class="bg-white divide-y divide-gray-200" id="saleTbody">
+          
             </tbody>
           </table>
         </div>
 
         <div class="mt-4 flex justify-between items-center">
           <div class="text-sm text-gray-700">
-            Affichage de <span class="font-medium">1</span> à <span class="font-medium">5</span> sur <span
-              class="font-medium">42</span> résultats
+            Affichage du page <span class="font-medium currentPageDisplay"></span>  sur <span
+              class="font-medium totalPages"></span> résultats
           </div>
-          <div class="flex space-x-2">
+          <div class="flex space-x-2 pagination container">
             <button
-              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Précédent</button>
+              class="previeseBtn px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Précédent</button>
+            <div class="pagination-numbers"></div>
             <button
-              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">1</button>
-            <button
-              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">2</button>
-            <button
-              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">3</button>
-            <button
-              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Suivant</button>
+              class="nextBtn px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Suivant</button>
           </div>
         </div>
       </div>
     </section>
 
   </div>
+
+  
 
   <!-- Report Modal -->
   <div id="reportModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">

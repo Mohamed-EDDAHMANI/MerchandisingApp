@@ -52,6 +52,17 @@ class EmployeeController extends BaseController{
         }
         exit;
     }
+    public function getSales()
+    {
+        $json = file_get_contents("php://input");
+        $filters = json_decode($json, true);
+        $sales = isset($filters['key']) ? $filters['key'] : null;
+
+        $employeeId = $this->session->get('data')->getId();
+        $sales = $this->employeeService->getSales($sales, $employeeId);
+        echo json_encode($sales);
+        exit;
+    }
     public function createReport()
     {
         $userId = $this->session->get('user')->getId();

@@ -56,4 +56,8 @@ class EmployeeService
     {
         return $this->employeeRepository->createReport($report, $userId);
     }
+    public function getSales($key, $employeeId)
+    {
+        return $this->employeeRepository->getSales($key, $employeeId);
+    }
 }

@@ -13,6 +13,7 @@ use App\Models\Product;
 use App\Models\MerchandisingData;
 use App\Models\Supplier;
 use App\Models\Order;
+use App\Models\Objectif;
 use App\Models\Sale;
 
 
@@ -146,6 +147,20 @@ class dataMapper
             $instance = new Order($data);
             $instance->setProductName($data['product_name']);
             $instance->setSupplierName($data['supplier_name']);
+            $datas[] = $instance;
+        }
+        return $datas;
+    }
+
+    public static function objectifMapper(array $dataArray)
+    {
+        $datas = [];
+        foreach ($dataArray as $data) {
+            $instance = new Objectif($data);
+            $instance->setTotal_quantity_sold($data['total_quantity_sold']);
+            $instance->setTotal_sales_amount($data['total_sales_amount']);
+            $instance->setAchievement_status($data['achievement_status']);
+            $instance->setPercentage($data['percentage']);
             $datas[] = $instance;
         }
         return $datas;

@@ -259,9 +259,9 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- Sales Form - Expanded -->
-          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 lg:col-span-2 sale-form-container">
+          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 sale-form-container">
             <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -375,7 +375,7 @@
           </div>
 
           <!-- Manager's Objectives Section -->
-          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 lg:col-span-1 h-full">
+          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 h-full ">
             <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -384,7 +384,7 @@
               </svg>
               Objectifs du Manager
             </h2>
-            <div class="objectives-container space-y-5">
+            <div class="objectives-container space-y-5 flex-grow overflow-y-auto">
               <!-- Weekly Sales Objective -->
               <?php if (isset($data['objectifs'])): ?>
                 <?php foreach ($data['objectifs'] as $value): ?>
@@ -394,27 +394,41 @@
                       <div class="flex items-center justify-between mb-2">
                         <h3 class="text-md font-medium text-gray-900">Objectif de Vente Hebdomadaire
                         </h3>
-                        <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">En Cours</span>
+                        <?php if($value->getPercentage() == 100) : ?>
+                          <span
+                          class="px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 text-green-800 flex items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                        </span>
+                        <?php else : ?>
+                          <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">En Cours</span>
+                        <?php endif; ?>
+                        
                       </div>
                       <p class="text-gray-700 mb-3">Vendre <?php echo $value->getTarget() ?>
-                      <?php echo ($value->getType() === 'quantity_product') ? 'produits' : 'DH' ?>
+                        <?php echo ($value->getType() === 'quantity_product') ? 'produits' : 'DH' ?>
                         cette semaine (Actuel: <span id="currentProgress"
-                          class="font-semibold">24 / <?php echo $value->getTarget() ?></span>)</p>
+                          class="font-semibold"><?php echo ($value->getType() === 'quantity_product') ? $value->getTotal_quantity_sold() . ' Unite' : $value->getTotal_sales_amount() . 'DH' ?>
+                          / <?php echo $value->getTarget() ?></span>)
+                      </p>
                       <div class="relative pt-1">
                         <div class="flex mb-2 items-center justify-between">
                           <div>
                             <span class="text-xs font-semibold inline-block text-blue-800">
-                              80% Complété
+                              <?php echo $value->getPercentage() ?>% Complété
                             </span>
                           </div>
                           <div class="text-right">
                             <span class="text-xs font-semibold inline-block text-blue-800">
-                              Objectif: <?php echo $value->getTarget() ?> <?php echo ($value->getType() === 'quantity_product') ? 'Unity' : 'DH' ?>
+                              Objectif: <?php echo $value->getTarget() ?>
+                              <?php echo ($value->getType() === 'quantity_product') ? 'Unity' : 'DH' ?>
                             </span>
                           </div>
                         </div>
                         <div class="overflow-hidden h-2 mb-4 text-xs flex rounded-full bg-blue-200">
-                          <div style="width: 80%"
+                          <div style="width: <?php echo $value->getPercentage() ?>%"
                             class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600 transition-all duration-500">
                           </div>
                         </div>
@@ -429,24 +443,27 @@
                         <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">En Cours</span>
                       </div>
                       <p class="text-gray-700 mb-3">Vendre <?php echo $value->getTarget() ?>
-                      <?php echo ($value->getType() === 'quantity_product') ? 'produits' : 'DH' ?>
+                        <?php echo ($value->getType() === 'quantity_product') ? 'produits' : 'DH' ?>
                         cette journe (Actuel: <span id="currentProgress"
-                          class="font-semibold">24 / <?php echo $value->getTarget() ?></span>)</p>
+                          class="font-semibold"><?php echo ($value->getType() === 'quantity_product') ? $value->getTotal_quantity_sold() . ' Unite' : $value->getTotal_sales_amount() . 'DH' ?>
+                          / <?php echo $value->getTarget() ?></span>)
+                      </p>
                       <div class="relative pt-1">
                         <div class="flex mb-2 items-center justify-between">
                           <div>
                             <span class="text-xs font-semibold inline-block text-blue-800">
-                              80% Complété
+                              <?php echo $value->getPercentage() ?>% Complété
                             </span>
                           </div>
                           <div class="text-right">
                             <span class="text-xs font-semibold inline-block text-blue-800">
-                              Objectif: <?php echo $value->getTarget() ?> <?php echo ($value->getType() === 'quantity_product') ? 'Unity' : 'DH' ?>
+                              Objectif: <?php echo $value->getTarget() ?>
+                              <?php echo ($value->getType() === 'quantity_product') ? 'Unity' : 'DH' ?>
                             </span>
                           </div>
                         </div>
                         <div class="overflow-hidden h-2 mb-4 text-xs flex rounded-full bg-blue-200">
-                          <div style="width: 80%"
+                          <div style="width: <?php echo $value->getPercentage() ?>%"
                             class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600 transition-all duration-500">
                           </div>
                         </div>
@@ -455,98 +472,6 @@
                   <?php endif; ?>
                 <?php endforeach; ?>
               <?php endif; ?>
-
-              <!-- Revenue Objective -->
-              <!-- <div
-                class="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 p-6 rounded-lg transition-all duration-300 hover:shadow-md">
-                <div class="flex items-center justify-between mb-2">
-                  <h3 class="text-md font-medium text-gray-900">Objectif de Chiffre d'Affaires</h3>
-                  <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-amber-100 text-amber-800">En Cours</span>
-                </div>
-                <p class="text-gray-700 mb-3">Atteindre 10 000 MAD de ventes ce mois (Actuel: <span
-                    class="font-semibold">5 800</span>)</p>
-                <div class="relative pt-1">
-                  <div class="flex mb-2 items-center justify-between">
-                    <div>
-                      <span class="text-xs font-semibold inline-block text-amber-800">
-                        58% Complété
-                      </span>
-                    </div>
-                    <div class="text-right">
-                      <span class="text-xs font-semibold inline-block text-amber-800">
-                        Objectif: 10 000 MAD
-                      </span>
-                    </div>
-                  </div>
-                  <div class="overflow-hidden h-2 mb-4 text-xs flex rounded-full bg-amber-200">
-                    <div style="width: 58%"
-                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-amber-500 transition-all duration-500">
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-
-              <!-- Customer Satisfaction -->
-              <!-- <div
-                class="bg-gradient-to-r from-emerald-50 to-green-50 border-l-4 border-emerald-500 p-6 rounded-lg transition-all duration-300 hover:shadow-md">
-                <div class="flex items-center justify-between mb-2">
-                  <h3 class="text-md font-medium text-gray-900">Satisfaction Client</h3>
-                  <span
-                    class="px-3 py-1.5 text-xs font-medium rounded-full bg-emerald-100 text-emerald-800">Excellent</span>
-                </div>
-                <p class="text-gray-700 mb-3">Maintenir un taux de satisfaction client de 95% (Actuel: <span
-                    class="font-semibold">97%</span>)</p>
-                <div class="relative pt-1">
-                  <div class="flex mb-2 items-center justify-between">
-                    <div>
-                      <span class="text-xs font-semibold inline-block text-emerald-800">
-                        97% Atteint
-                      </span>
-                    </div>
-                    <div class="text-right">
-                      <span class="text-xs font-semibold inline-block text-emerald-800">
-                        Objectif: 95%
-                      </span>
-                    </div>
-                  </div>
-                  <div class="overflow-hidden h-2 mb-4 text-xs flex rounded-full bg-emerald-200">
-                    <div style="width: 97%"
-                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500 transition-all duration-500">
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-
-              <!-- Product Training -->
-              <!-- <div
-                class="bg-gradient-to-r from-purple-50 to-violet-50 border-l-4 border-purple-500 p-6 rounded-lg transition-all duration-300 hover:shadow-md">
-                <div class="flex items-center justify-between mb-2">
-                  <h3 class="text-md font-medium text-gray-900">Formation Produit</h3>
-                  <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-purple-100 text-purple-800">À
-                    Faire</span>
-                </div>
-                <p class="text-gray-700 mb-3">Compléter la formation sur les nouveaux produits (Actuel: <span
-                    class="font-semibold">2/5</span>)</p>
-                <div class="relative pt-1">
-                  <div class="flex mb-2 items-center justify-between">
-                    <div>
-                      <span class="text-xs font-semibold inline-block text-purple-800">
-                        40% Complété
-                      </span>
-                    </div>
-                    <div class="text-right">
-                      <span class="text-xs font-semibold inline-block text-purple-800">
-                        Objectif: 5 modules
-                      </span>
-                    </div>
-                  </div>
-                  <div class="overflow-hidden h-2 mb-4 text-xs flex rounded-full bg-purple-200">
-                    <div style="width: 40%"
-                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500 transition-all duration-500">
-                    </div>
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
         </div>

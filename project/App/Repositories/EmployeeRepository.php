@@ -63,15 +63,54 @@ class EmployeeRepository extends Repository
         $stmt->execute();
         return $stmt->fetchColumn();
     }
-    public function getObjectifsList($userId)
+    public function getObjectifsList($employeeId)
     {
-        $managerId = $this->getManagerId($userId);
-        $sql = "SELECT * FROM objectifs WHERE manager_id = :manager_id";
+        $managerId = $this->getManagerId($employeeId);
+        $sql = "SELECT 
+    o.*,
+    e.employee_id,
+    SUM(s.quantity) AS total_quantity_sold,
+    SUM(s.total) AS total_sales_amount,
+    CASE 
+        WHEN o.type = 'quantity_product' AND SUM(s.quantity) >= o.target THEN 'Achieved'
+        WHEN o.type = 'montant_total' AND SUM(s.total) >= o.target THEN 'Achieved'
+        ELSE 'Not Achieved'
+    END AS achievement_status,
+    CASE 
+    WHEN o.target = 0 THEN 0 
+    WHEN o.type = 'quantity_product' THEN 
+        LEAST(ROUND((COALESCE(SUM(s.quantity), 0) / o.target) * 100, 0), 100)
+    WHEN o.type = 'montant_total' THEN 
+        LEAST(ROUND((COALESCE(SUM(s.total), 0) / o.target) * 100, 0), 100)
+END AS percentage
+FROM 
+    objectifs o
+JOIN 
+    employees e ON o.manager_id = (
+        SELECT m.manager_id 
+        FROM managers m 
+        JOIN users u ON m.user_id = u.id 
+        WHERE m.manager_id = :manager_id
+    )
+JOIN 
+    users u ON e.user_id = u.id
+LEFT JOIN 
+    sales s ON e.employee_id = s.employee_id
+    AND s.date BETWEEN o.created_at AND o.expiration_date
+WHERE 
+    o.manager_id = :manager_id
+    AND e.employee_id = :employee_id
+    AND o.expiration_date > NOW()
+GROUP BY 
+    o.objectif_id, e.employee_id
+ORDER BY 
+    o.objectif_id;";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':manager_id', $managerId, PDO::PARAM_INT);
+        $stmt->bindValue(':employee_id', $employeeId, PDO::PARAM_INT);
         $stmt->execute();
         $objectifs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $objectifsInstents = DataMapper::DataMapper($objectifs, 'objectif');
+        $objectifsInstents = DataMapper::objectifMapper($objectifs);
         return $objectifsInstents;
     }
 

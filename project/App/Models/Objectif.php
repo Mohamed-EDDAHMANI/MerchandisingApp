@@ -9,6 +9,10 @@ class Objectif {
     private $created_at;
     private $expiration_date;
     private $manager_id;
+    private $total_quantity_sold;
+    private $total_sales_amount;
+    private $achievement_status;
+    private $percentage;
 
     // Constructeur avec un tableau associatif
     public function __construct($data) {
@@ -49,6 +53,18 @@ class Objectif {
     public function getManagerId() {
         return $this->manager_id;
     }
+    public function getTotal_quantity_sold() {
+        return $this->total_quantity_sold;
+    }
+    public function getTotal_sales_amount() {
+        return $this->total_sales_amount;
+    }
+    public function getAchievement_status() {
+        return $this->achievement_status;
+    }
+    public function getPercentage() {
+        return $this->percentage;
+    }
 
     // Setters
     public function setObjectifId($objectif_id) {
@@ -77,5 +93,17 @@ class Objectif {
 
     public function setManagerId($manager_id) {
         $this->manager_id = $manager_id;
+    }
+    public function setTotal_quantity_sold($total_quantity_sold) {
+        $this->total_quantity_sold = $total_quantity_sold;
+    }
+    public function setTotal_sales_amount($total_sales_amount) {
+        $this->total_sales_amount = $total_sales_amount;
+    }
+    public function setAchievement_status($achievement_status) {
+        $this->achievement_status = $achievement_status;
+    }
+    public function setPercentage($percentage) {
+        $this->percentage = $percentage;
     }
 }

@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS objectifs (
     type ENUM('quantity_product', 'montant_total') NOT NULL,  -- Enum for quantity or maintenance
     target INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expiration_date DATE,
+    expiration_date TIMESTAMP,
     manager_id INT NOT NULL,  -- Foreign key referencing the managers table
     FOREIGN KEY (manager_id) REFERENCES managers(manager_id)  -- Foreign key constraint
 );

@@ -35,11 +35,16 @@ class EmployeeRepository extends Repository
     public function createSales($salesData, $userId, $employeeId): bool
     {
         $storeId = $this->getStoreId($userId);
+        // echo '<pre>';
+        // var_dump($salesData);
+        // echo '</pre>';
         $sql = "INSERT INTO sales (product_id, quantity, total, employee_id, store_id) VALUES (:product_id, :quantity, :total, :employee_id, :store_id)";
         $stmt = $this->db->prepare($sql);
 
         $this->db->beginTransaction();
         foreach ($salesData as $sale) {
+            // var_dump($sale['productId']);
+            // exit;
             $stmt->bindValue(':product_id', $sale['productId'], PDO::PARAM_INT);
             $stmt->bindValue(':quantity', $sale['quantity'], PDO::PARAM_INT);
             $stmt->bindValue(':total', $sale['total'], PDO::PARAM_INT);
@@ -49,10 +54,31 @@ class EmployeeRepository extends Repository
             if (!$stmt->execute()) {
                 return false;
             }
+            $this->updateProductQuantity($sale['productId'], $sale['quantity'], $storeId);
         }
         $this->db->commit();
 
         return true;
+    }
+
+    public function updateProductQuantity($productId, $quantity, $storeId): void
+    {
+        $sql = "UPDATE stocks SET quentity = quentity - :quentity WHERE store_id = :store_id AND product_id = :product_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':quentity', $quantity, PDO::PARAM_INT);
+        $stmt->bindValue(':store_id', $storeId, PDO::PARAM_INT);
+        $stmt->bindValue(':product_id', $productId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+    public function updatePerformance($achievedCount, $notAchievedCount, $employeeId)
+    {
+        $newPorsentage = $achievedCount / ($achievedCount + $notAchievedCount) * 100;
+        
+        $sql = "UPDATE employees SET performance = :performance WHERE employee_id = :employee_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':performance', $newPorsentage, PDO::PARAM_INT);
+        $stmt->bindValue(':employee_id', $employeeId, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 
     public function getStoreId($userId): int

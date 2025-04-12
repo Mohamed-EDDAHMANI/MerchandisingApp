@@ -28,9 +28,25 @@ class EmployeeService
     }
     public function createSales($salesData): mixed
     {
+        $achievedCount = 0;
+        $notAchievedCount = 0;
         $userId = $this->session->get('user')->getId();
         $employeeId = $this->session->get('data')->getId();
-        return $this->employeeRepository->createSales($salesData, $userId, $employeeId);
+        $res = $this->employeeRepository->createSales($salesData, $userId, $employeeId);
+        if ($res === true) {
+            $objectifsData = $this->employeeRepository->getObjectifsList($employeeId);
+            foreach ($objectifsData as $objectif) {
+                if ($objectif->getAchievement_status() === 'Achieved') {
+                    $achievedCount++;
+                } else {
+                    $notAchievedCount++;
+                }
+            }
+            $this->employeeRepository->updatePerformance($achievedCount, $notAchievedCount, $employeeId);
+            return true;
+        } else {
+            return false;
+        }
     }
     public function getObjectifsList($userId)
     {

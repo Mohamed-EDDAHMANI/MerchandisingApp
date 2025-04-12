@@ -52,4 +52,8 @@ class EmployeeService
     {
         return $this->employeeRepository->getObjectifsList($userId);
     }
+    public function createReport($report, $userId)
+    {
+        return $this->employeeRepository->createReport($report, $userId);
+    }
 }

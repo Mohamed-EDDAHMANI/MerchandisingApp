@@ -14,7 +14,6 @@ const reportBtn = document.getElementById('reportBtn');
 const reportModal = document.getElementById('reportModal');
 const closeModal = document.getElementById('closeModal');
 const cancelReport = document.getElementById('cancelReport');
-const reportForm = document.getElementById('reportForm');
 const salesHistory = document.getElementById('salesHistory');
 const pendingSales = document.getElementById('pendingSales');
 const validateAllSales = document.getElementById('validateAllSales');
@@ -22,6 +21,14 @@ const pendingTotal = document.getElementById('pendingTotal');
 const productNameInput = document.getElementById('productName');
 const productSelectTwo = document.querySelector('select');
 
+// Hide the message after 5 seconds
+setTimeout(() => {
+    const alertMessage = document.getElementById('alert-message');
+    if (alertMessage) {
+        alertMessage.classList.add('opacity-0');
+        setTimeout(() => alertMessage.remove(), 300);
+    }
+}, 5000);
 
 async function getProductSelectByName(name) {
     try {
@@ -282,54 +289,6 @@ closeModal.addEventListener('click', function () {
 
 cancelReport.addEventListener('click', function () {
     reportModal.classList.add('hidden');
-});
-
-// Handle report generation
-reportForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    const subject = document.getElementById('reportSubject').value || 'Rapport de Ventes Hebdomadaire';
-    const message = document.getElementById('reportMessage').value;
-
-    // Populate report template
-    document.getElementById('reportDate').textContent = new Date().toLocaleDateString('fr-FR', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    });
-    document.getElementById('reportSubjectDisplay').textContent = subject;
-    document.getElementById('reportMessageDisplay').textContent = message;
-    document.getElementById('reportProductCount').textContent = productCount.textContent;
-    document.getElementById('reportTotalSales').textContent = totalSales.textContent;
-    document.getElementById('reportProgress').textContent = '80';
-    document.getElementById('reportStatus').textContent = 'En Bonne Voie';
-
-    // Clone sales history table rows for the report
-    const reportTable = document.getElementById('reportSalesTable');
-    reportTable.innerHTML = '';
-
-    // Get only the first 5 rows
-    const rows = Array.from(salesHistory.querySelectorAll('tr')).slice(0, 5);
-    rows.forEach(row => {
-        reportTable.appendChild(row.cloneNode(true));
-    });
-
-    // Generate PDF
-    const element = document.getElementById('reportContent');
-    const opt = {
-        margin: 1,
-        filename: `${subject.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
-    };
-
-    // Use html2pdf to generate PDF
-    html2pdf().set(opt).from(element).save().then(() => {
-        reportModal.classList.add('hidden');
-
-        // Reset form
-        document.getElementById('reportSubject').value = '';
-        document.getElementById('reportMessage').value = '';
-    });
 });
 
 // Close modal when clicking outside

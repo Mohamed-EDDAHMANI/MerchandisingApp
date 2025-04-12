@@ -156,4 +156,15 @@ ORDER BY
         $stmt->execute();
         return $stmt->fetchColumn();
     }
+    public function createReport($report, $userId): int
+    {
+        $sql = "INSERT INTO reports (user_id, message, report_type, subject) VALUES (:user_id, :message, :report_type, :subject)";
+
+        $stmt = $this->db->prepare($sql);            
+        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':message', $report['message'], PDO::PARAM_STR);
+        $stmt->bindValue(':report_type', $report['report_type'], PDO::PARAM_STR);
+        $stmt->bindValue(':subject', $report['subject'], PDO::PARAM_STR);
+        return $stmt->execute();
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Controllers\employee;
 use App\Controllers\BaseController;
 use App\Services\EmployeeService;
 use App\Utils\Sessions\Session;
+use App\Utils\Redirects\Redirect;
 
 class EmployeeController extends BaseController{
 
@@ -44,23 +45,23 @@ class EmployeeController extends BaseController{
 
         $res = $this->employeeService->createSales($sales);
         echo json_encode($res);
-        if ($res === true) {
+        if ($res == true) {
             $this->session->setError('success', 'Supplier Deleted successfully');
         } else {
             $this->session->setError('error', 'Error Deleting Supplier !!');
         }
         exit;
     }
-
-    public function updateEmployee($id)
+    public function createReport()
     {
-        // Logic to update an existing employee
-        return view('employee/updateEmployee', ['id' => $id]);
-    }
-
-    public function deleteEmployee($id)
-    {
-        // Logic to delete an employee
-        return view('employee/deleteEmployee', ['id' => $id]);
+        $userId = $this->session->get('user')->getId();
+        $res = $this->employeeService->createReport($_POST, $userId);
+        if ($res == true) {
+            $this->session->setError('success', 'Report Created successfully');
+        } else {
+            $this->session->setError('error', 'Error Creating Report !!');
+        }
+        Redirect::to('/employee/home');
+        exit;
     }
 }

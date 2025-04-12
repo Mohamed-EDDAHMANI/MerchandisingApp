@@ -11,7 +11,7 @@ class Permissions
     
     'manager' => 'createCategory|getCategoryById|getProductList|createProduct|index|updateCategory|getProductById|deleteCategory|logout|updateProduct|deleteProduct|sortProduct|createSupplier|getSupplierById|updateSupplier|deleteSupplier|createOrder|confirmOrder|getOrder|store|deleteObjectifs',
     
-    'employee' => 'index|getProducts|createSales',
+    'employee' => 'index|getProducts|createSales|createReport|logout',
     
     'public' => 'getLoginPage|login|getSignupPage|signup|logout|index'
 ];

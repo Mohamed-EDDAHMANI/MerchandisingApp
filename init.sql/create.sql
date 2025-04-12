@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS reports (
     report_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each report
     user_id INT NOT NULL,  -- Foreign key referencing the users table
     message TEXT NOT NULL,  -- The content of the report
-    report_type ENUM('profitability', 'competitor_analysis', 'sales_performance') NOT NULL,  -- Enum for report type
+    report_type ENUM('problem_report', 'informational_report') NOT NULL,  -- Enum for report type
     generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the report was generated
     subject VARCHAR(255) NOT NULL,  -- The subject of the report
     FOREIGN KEY (user_id) REFERENCES users(id)  -- Foreign key constraint

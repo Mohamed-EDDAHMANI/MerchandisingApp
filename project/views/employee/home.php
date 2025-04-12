@@ -394,18 +394,18 @@
                       <div class="flex items-center justify-between mb-2">
                         <h3 class="text-md font-medium text-gray-900">Objectif de Vente Hebdomadaire
                         </h3>
-                        <?php if($value->getPercentage() == 100) : ?>
+                        <?php if ($value->getPercentage() == 100): ?>
                           <span
-                          class="px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 text-green-800 flex items-center gap-1">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
-                        </span>
-                        <?php else : ?>
+                            class="px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 text-green-800 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                              stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                          </span>
+                        <?php else: ?>
                           <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">En Cours</span>
                         <?php endif; ?>
-                        
+
                       </div>
                       <p class="text-gray-700 mb-3">Vendre <?php echo $value->getTarget() ?>
                         <?php echo ($value->getType() === 'quantity_product') ? 'produits' : 'DH' ?>
@@ -581,16 +581,24 @@
           </svg>
         </button>
       </div>
-      <form id="reportForm">
+      <form id="reportForm" method="POST" action="/employee/report/create">
+        <div class="mb-4">
+          <label for="reportType" class="block text-sm font-medium text-gray-700 mb-1">Type de Rapport</label>
+          <select id="reportType" name="report_type"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="problem_report">Rapport de Problème</option>
+            <option value="informational_report">Rapport Informatif</option>
+          </select>
+        </div>
         <div class="mb-4">
           <label for="reportSubject" class="block text-sm font-medium text-gray-700 mb-1">Sujet</label>
-          <input type="text" id="reportSubject"
+          <input type="text" id="reportSubject" name="subject"
             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Rapport de Ventes Hebdomadaire">
         </div>
         <div class="mb-6">
           <label for="reportMessage" class="block text-sm font-medium text-gray-700 mb-1">Message (Optionnel)</label>
-          <textarea id="reportMessage" rows="4"
+          <textarea id="reportMessage" rows="4" name="message"
             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Ajoutez des notes ou commentaires pour ce rapport..."></textarea>
         </div>
@@ -598,8 +606,8 @@
           <button type="button" id="cancelReport"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200">Annuler</button>
           <button type="submit"
-            class="px-4 py-2 text-sm font-medium text-white gradient-bg hover:opacity-90 rounded-lg transition-colors duration-200">Générer
-            PDF</button>
+            class="px-4 py-2 text-sm font-medium text-white gradient-bg hover:opacity-90 rounded-lg transition-colors duration-200">Envoyer
+            à l'Admin</button>
         </div>
       </form>
     </div>
@@ -648,6 +656,58 @@
       </div>
     </div>
   </div>
+
+
+    <!-- error modal -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <?php
+        $isSuccess = $_SESSION['error']['type'] === 'success';
+        $bgColor = $isSuccess ? 'bg-emerald-50' : 'bg-rose-50';
+        $textColor = $isSuccess ? 'text-emerald-800' : 'text-rose-800';
+        $borderColor = $isSuccess ? 'border-emerald-200' : 'border-rose-200';
+        $iconBgColor = $isSuccess ? 'bg-emerald-100' : 'bg-rose-100';
+        ?>
+        <div id="alert-message" class="message fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fadeIn
+                flex items-center gap-3 w-auto max-w-md
+                <?php echo "$bgColor $textColor $borderColor"; ?> 
+                px-4 py-3 rounded-lg shadow-lg border">
+
+            <!-- Icon container with circular background -->
+            <div class="<?php echo $iconBgColor; ?> p-2 rounded-full flex-shrink-0">
+                <?php if ($isSuccess): ?>
+                    <!-- Success icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd" />
+                    </svg>
+                <?php else: ?>
+                    <!-- Error icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                            clip-rule="evenodd" />
+                    </svg>
+                <?php endif; ?>
+            </div>
+
+            <!-- Message content -->
+            <div class="flex-1">
+                <p class="font-medium"><?php echo htmlspecialchars($_SESSION['error']['message']); ?></p>
+            </div>
+
+            <!-- Close button -->
+            <button onclick="this.parentElement.remove()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <?php unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
 
   <script src="../../public/assets/js/employee.js"></script>
 </body>

@@ -15,6 +15,8 @@ class OrderRepository extends Repository
 
     public function createOrder($data, $manager_id)
     {
+        // var_dump($data);
+        // exit;
         try {
             $sql = 'INSERT INTO orders (supplier_id, manager_id, product_id, quantity) VALUES (:supplier_id, :manager_id, :product_id, :quantity);';
             $stmt = $this->db->prepare($sql);
@@ -59,27 +61,68 @@ class OrderRepository extends Repository
     public function AddQuantity($quentity, $product_id)
     {
         try {
-            $sql = 'SELECT quentity FROM stocks
+            $this->db->beginTransaction();
+            $checkSql = "SELECT COUNT(*) FROM stocks WHERE product_id = :product_id";
+            $checkStmt = $this->db->prepare($checkSql);
+            $checkStmt->bindParam(':product_id', $product_id);
+            $checkStmt->execute();
+            $count = $checkStmt->fetchColumn();
+
+            if ($count > 0) {
+                $sql = 'UPDATE stocks SET quentity = quentity + :quentity
             WHERE product_id = :product_id;';
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindParam('product_id', $product_id, PDO::PARAM_INT);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($result) {
-                $quentity += $result['quentity'];
+
             } else {
-                return false;
+                $sql = 'INSERT INTO stocks ( quentity , product_id )
+                VALUES (:quentity, :product_id);';
             }
-            $sql = 'UPDATE stocks SET quentity = :quentity
-            WHERE product_id = :product_id;';
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam('quentity', $quentity, PDO::PARAM_INT);
             $stmt->bindParam('product_id', $product_id, PDO::PARAM_INT);
-            return $stmt->execute();
+            if ($stmt->execute()) {
+                $this->updateStorePerformance($product_id, $quentity);;
+            }
+            $this->db->commit();
+            return true;
+
         } catch (PDOException $e) {
             return "Error : " . $e->getMessage();
         }
     }
+
+    public function updateStorePerformance($product_id, $quentity)
+    {
+        try {
+            $storeId = $this->getStoreId($product_id);
+            $expenses = $this->getProductTotal($product_id , $quentity);
+            $this->updateStorePerformanceAfterBuy($expenses, $storeId);
+        } catch (PDOException $e) {
+            return "Error : " . $e->getMessage();
+        }
+
+    }
+
+    public function getStoreId($product_id)
+    {
+        $sql = 'SELECT store_id FROM stocks WHERE product_id = :product_id;';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam('product_id', $product_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['store_id'];
+    }
+
+    public function getProductTotal($product_id , $quentity)
+    {
+        $sql = 'SELECT trade_price FROM products WHERE product_id = :product_id;';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam('product_id', $product_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['trade_price'] * $quentity;
+
+    }
+
     public function getOrderByid($id)
     {
         try {

@@ -179,7 +179,6 @@ async function sortProducts() {
     const categorySelect = document.getElementById('categorySelect').value;
     const stockSelect = document.getElementById('stockSelect').value;
     const productTableBody = document.getElementById('productTableBody');
-    console.log('hello')
     const filters = {}
 
     if (categorySelect) filters.categorySelect = categorySelect
@@ -391,7 +390,7 @@ const input = document.getElementById('orderProductName');
     const customDropdown = document.getElementById('customDropdown');
     const dropdownOptions = document.getElementById('dropdownOptions');
     const product_id = document.getElementById('product_id');
-    const options = Array.from(dropdownOptions.children); // All the dropdown options
+    const options = Array.from(dropdownOptions.children);
     
     input.addEventListener('input', function() {
         const searchTerm = input.value.toLowerCase();
@@ -418,7 +417,8 @@ const input = document.getElementById('orderProductName');
 
     dropdownOptions.addEventListener('click', function(event) {
         if (event.target.tagName === 'LI') {
-            input.value = event.target.textContent;
+            const text = event.target.textContent.trim();
+            input.value = text;
             product_id.value = event.target.getAttribute('data-value');
             customDropdown.classList.add('hidden');
         }

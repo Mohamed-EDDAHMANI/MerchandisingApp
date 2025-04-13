@@ -121,6 +121,7 @@ class Validator
     }
 
     $this->errors[$field] = $message;
+    return;
   }
 
 

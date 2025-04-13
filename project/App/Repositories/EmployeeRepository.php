@@ -34,30 +34,54 @@ class EmployeeRepository extends Repository
 
     public function createSales($salesData, $userId, $employeeId): bool
     {
-        $storeId = $this->getStoreId($userId);
-        // echo '<pre>';
-        // var_dump($salesData);
-        // echo '</pre>';
-        $sql = "INSERT INTO sales (product_id, quantity, total, employee_id, store_id) VALUES (:product_id, :quantity, :total, :employee_id, :store_id)";
-        $stmt = $this->db->prepare($sql);
-
-        $this->db->beginTransaction();
-        foreach ($salesData as $sale) {
-            // var_dump($sale['productId']);
-            // exit;
-            $stmt->bindValue(':product_id', $sale['productId'], PDO::PARAM_INT);
-            $stmt->bindValue(':quantity', $sale['quantity'], PDO::PARAM_INT);
-            $stmt->bindValue(':total', $sale['total'], PDO::PARAM_INT);
-            $stmt->bindValue(':employee_id', $employeeId, PDO::PARAM_INT);
-            $stmt->bindValue(':store_id', $storeId, PDO::PARAM_INT);
-
-            if (!$stmt->execute()) {
+        try {
+            $isInStock = $this->isInStock($salesData);
+            if (!$isInStock) {
                 return false;
             }
-            $this->updateProductQuantity($sale['productId'], $sale['quantity'], $storeId);
-        }
-        $this->db->commit();
+            $storeId = $this->getStoreId($userId);
+            // echo '<pre>';
+            // var_dump($salesData);
+            // echo '</pre>';
+            $sql = "INSERT INTO sales (product_id, quantity, total, employee_id, store_id) VALUES (:product_id, :quantity, :total, :employee_id, :store_id)";
+            $stmt = $this->db->prepare($sql);
 
+            $this->db->beginTransaction();
+
+            foreach ($salesData as $sale) {
+
+                $stmt->bindValue(':product_id', $sale['productId'], PDO::PARAM_INT);
+                $stmt->bindValue(':quantity', $sale['quantity'], PDO::PARAM_INT);
+                $stmt->bindValue(':total', $sale['total'], PDO::PARAM_INT);
+                $stmt->bindValue(':employee_id', $employeeId, PDO::PARAM_INT);
+                $stmt->bindValue(':store_id', $storeId, PDO::PARAM_INT);
+
+                if (!$stmt->execute()) {
+                    return false;
+                }
+                $this->updateProductQuantity($sale['productId'], $sale['quantity'], $storeId);
+                $this->updateStorePerformanceAfterSale($sale['total'], $storeId);
+            }
+            $this->db->commit();
+
+            return true;
+        } catch (\Exception $e) {
+            throw new \Exception('Error :' . $e->getMessage());
+        }
+    }
+
+    public function isInStock($salesData): bool
+    {
+        foreach ($salesData as $sale) {
+            $sql = "SELECT quentity FROM stocks WHERE product_id = :product_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(':product_id', $sale['productId'], PDO::PARAM_INT);
+            $stmt->execute();
+            $quantity = $stmt->fetchColumn();
+            if ($quantity < $sale['quantity']) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -188,6 +212,18 @@ ORDER BY
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getReports($userId): array
+    {
+        $sql = "SELECT reports.*, users.*   FROM reports
+        INNER JOIN users ON reports.user_id = users.id
+         WHERE user_id = :user_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        $reports = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $reportsInstents = DataMapper::RepportMapper($reports);
+        return $reportsInstents;
     }
 
 }

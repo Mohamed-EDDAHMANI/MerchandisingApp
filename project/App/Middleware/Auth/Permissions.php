@@ -13,7 +13,7 @@ class Permissions
     
     'employee' => 'index|getProducts|createSales|createReport|getSales|logout',
     
-    'public' => 'getLoginPage|login|getSignupPage|signup|logout|index'
+    'public' => 'getLoginPage|notAutorise|login|getSignupPage|signup|logout|index'
 ];
 
 

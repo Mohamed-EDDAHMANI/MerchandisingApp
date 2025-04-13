@@ -10,6 +10,7 @@ $router->post('/login', 'AuthController@login'); // Traiter la connexion
 $router->get('/signup', 'AuthController@getSignupPage'); // Afficher la page d'inscription
 $router->post('/signup', 'AuthController@signup'); // Traiter l'inscription
 $router->get('/logout', 'AuthController@logout'); // Déconnexion
+$router->get('/notAutorise', 'AuthController@notAutorise'); // Déconnexion
 
 // Tableau de bord de l'administrateur
 $router->get('/admin/dashboard', 'AdminController@dashboard'); // Vue principale du tableau de bord

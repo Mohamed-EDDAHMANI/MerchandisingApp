@@ -61,7 +61,7 @@ class Repository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    protected function deleteById($table, $id_name, $id_value )
+    protected function deleteById($table, $id_name, $id_value)
     {
         try {
             $sql = "DELETE FROM `$table` WHERE `$id_name` = :id LIMIT 1";
@@ -72,6 +72,71 @@ class Repository
             throw new Exception('Error :' . $e->getMessage());
         }
     }
+
+    protected function updateStorePerformanceAfterSale($total, $storeId)
+    {
+        try {
+            $checkSql = "SELECT COUNT(*) FROM store_performance WHERE store_id = :store_id";
+            $checkStmt = $this->db->prepare($checkSql);
+            $checkStmt->bindParam(':store_id', $storeId);
+            $checkStmt->execute();
+            $count = $checkStmt->fetchColumn();
+    
+            if ($count > 0) {
+                $updateSql = "UPDATE store_performance 
+                              SET chiffre_daffaire = chiffre_daffaire + :new_chiffre_daffaire
+                              WHERE store_id = :store_id";
+                $stmt = $this->db->prepare($updateSql);
+                $stmt->bindParam(':new_chiffre_daffaire', $total);
+                $stmt->bindParam(':store_id', $storeId);
+            } else {
+                $expenses = 0;
+                $insertSql = "INSERT INTO store_performance (store_id, chiffre_daffaire, expenses) 
+                              VALUES (:store_id, :new_chiffre_daffaire, :expenses)";
+                $stmt = $this->db->prepare($insertSql);
+                $stmt->bindParam(':store_id', $storeId);
+                $stmt->bindParam(':new_chiffre_daffaire', $total);
+                $stmt->bindParam(':expenses', $expenses);
+            }
+    
+            $stmt->execute();
+        } catch (Exception $e) {
+            throw new Exception('Error: ' . $e->getMessage());
+        }
+    }
+    protected function updateStorePerformanceAfterBuy($expenses, $storeId)
+    {
+        try {
+            $checkSql = "SELECT COUNT(*) FROM store_performance WHERE store_id = :store_id";
+            $checkStmt = $this->db->prepare($checkSql);
+            $checkStmt->bindParam(':store_id', $storeId);
+            $checkStmt->execute();
+            $count = $checkStmt->fetchColumn();
+    
+            if ($count > 0) {
+                $updateSql = "UPDATE store_performance 
+                              SET expenses = expenses + :expenses
+                              WHERE store_id = :store_id";
+                $stmt = $this->db->prepare($updateSql);
+                $stmt->bindParam(':expenses', $expenses);
+                $stmt->bindParam(':store_id', $storeId);
+            } else {
+                $chiffre_daffaire = 0;
+                $insertSql = "INSERT INTO store_performance (store_id, chiffre_daffaire, expenses) 
+                              VALUES (:store_id, :new_chiffre_daffaire, :expenses)";
+                $stmt = $this->db->prepare($insertSql);
+                $stmt->bindParam(':store_id', $storeId);
+                $stmt->bindParam(':new_chiffre_daffaire', $chiffre_daffaire);
+                $stmt->bindParam(':expenses', $expenses);
+            }
+    
+            $stmt->execute();
+        } catch (Exception $e) {
+            throw new Exception('Error: ' . $e->getMessage());
+        }
+    }
+    
+
 
 }
 ?>

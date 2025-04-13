@@ -34,7 +34,7 @@ class Rules
     'postal_code' => 'required|integer',
     //order
     'orderSupplier' => 'required|integer',
-    'product_id' => 'required|integer',
+    'product_id' => 'required',
     'orderQuantity' => 'required|integer|more:500',
 
   ];

@@ -10,7 +10,7 @@ class Redirect
     public static function to($url)
     {
         header("Location: " . $url);
-        exit(); // Always call exit after header redirection to ensure the script stops executing.
+        exit;
     }
 
     public static function roleRedirect($role)

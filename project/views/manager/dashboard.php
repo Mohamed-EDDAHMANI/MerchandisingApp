@@ -59,6 +59,12 @@
                     <p class="text-sm text-blue-300">Store Manager</p>
                 </div>
             </div>
+            <div class="p-4 ">
+                <a href="/logout" class="flex items-center text-white hover:text-gray-200">
+                    <i class="fas fa-sign-out-alt w-5 h-5 mr-3"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -301,7 +307,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <?php if (isset($data['categories'])): ?>
+                        <?php if (isset($data['categories']) && !empty($data['categories'])): ?>
                             <?php foreach ($data['categories'] as $category): ?>
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -337,6 +343,12 @@
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    Il n'y a pas encore de catégories.
+                                </td>
+                            </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -485,7 +497,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200" id="productTableBody">
-                        <?php if (isset($data['products'])): ?>
+                        <?php if (isset($data['products']) && !empty($data['products'])): ?>
                             <?php foreach ($data['products'] as $value): ?>
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -539,6 +551,12 @@
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    Il n'y a pas encore de produits.
+                                </td>
+                            </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -799,7 +817,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <?php if (isset($data['suppliers'])): ?>
+                        <?php if (isset($data['suppliers']) && !empty($data['suppliers'])): ?>
                             <?php foreach ($data['suppliers'] as $value): ?>
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -838,6 +856,12 @@
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    Il n'y a pas encore de supplier.
+                                </td>
+                            </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -1113,7 +1137,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <?php if (isset($data['orders'])): ?>
+                    <?php if (isset($data['orders']) && !empty($data['orders'])): ?>
                         <?php foreach ($data['orders'] as $value): ?>
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -1150,7 +1174,13 @@
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-                    <?php endif; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="8" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    Il n'y a pas encore de order.
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                 </tbody>
             </table>
         </div>

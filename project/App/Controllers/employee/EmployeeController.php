@@ -19,11 +19,15 @@ class EmployeeController extends BaseController{
 
     public function index()
     {
-        $userId = $this->session->get('data')->getId();
+        $employeeId = $this->session->get('data')->getId();
+        $userId = $this->session->get('user')->getId();
         $products = $this->employeeService->getProductList();
-        $objectifs = $this->employeeService->getObjectifsList($userId);
+        $objectifs = $this->employeeService->getObjectifsList($employeeId);
+        $reports = $this->employeeService->getReports($userId);
+        $statistics = $this->employeeService->getStatistics($employeeId);
+        $userData = $this->session->get('user');
 
-        return  $this->view('employee/home', ['products' => $products, 'objectifs' => $objectifs]);
+        return  $this->view('employee/home', ['products' => $products, 'objectifs' => $objectifs, 'reports' => $reports, 'statistics' => $statistics, 'userData' => $userData]);
     }
 
     public function getProducts($keyword = null)
@@ -44,11 +48,11 @@ class EmployeeController extends BaseController{
         $sales = isset($filters['sales']) ? $filters['sales'] : null;
 
         $res = $this->employeeService->createSales($sales);
-        echo json_encode($res);
+        echo json_encode(['success' => $res]);
         if ($res == true) {
             $this->session->setError('success', 'Supplier Deleted successfully');
         } else {
-            $this->session->setError('error', 'Error Deleting Supplier !!');
+            $this->session->setError('error', 'Error Stock Quentity !!');
         }
         exit;
     }

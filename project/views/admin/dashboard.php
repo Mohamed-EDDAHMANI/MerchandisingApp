@@ -61,7 +61,7 @@
                 </ul>
             </nav>
             <div class="p-4 border-t border-blue-600">
-                <a href="#" class="flex items-center text-white hover:text-gray-200">
+                <a href="/logout" class="flex items-center text-white hover:text-gray-200">
                     <i class="fas fa-sign-out-alt w-5 h-5 mr-3"></i>
                     <span>Déconnexion</span>
                 </a>
@@ -99,9 +99,23 @@
                                 class="flex items-center text-gray-800 hover:text-gray-600 focus:outline-none">
                                 <div
                                     class="h-9 w-9 rounded-full bg-blue-600 text-white flex items-center justify-center">
-                                    <span class="font-medium">AU</span>
+                                    <?php
+                                    $fullName = $data['user']->getFullName();
+                                    $parts = explode(' ', trim($fullName));
+                                    $initials = '';
+
+                                    if (count($parts) > 0) {
+                                        $initials .= strtoupper(substr($parts[0], 0, 1)); 
+                                        if (count($parts) > 1) {
+                                            $initials .= strtoupper(substr(end($parts), 0, 1));
+                                        }
+                                    }
+                                    ?>
+                                    <span
+                                        class="font-medium"><?= $initials ?></span>
                                 </div>
-                                <span class="hidden md:block ml-2 font-medium">Admin User</span>
+                                <span
+                                    class="hidden md:block ml-2 font-medium"><?php echo $data['user']->getFullName() ?></span>
                                 <i class="fas fa-chevron-down ml-2 text-xs"></i>
                             </button>
                         </div>
@@ -116,7 +130,7 @@
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-md text-white p-6 mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div>
-                            <p class="text-blue-100 text-sm">CA Mensuel</p>
+                            <p class="text-blue-100 text-sm">CA Actuelle</p>
                             <p class="text-2xl font-bold mt-1">€2.4M</p>
                             <div class="flex items-center mt-1">
                                 <span class="text-green-300 text-xs"><i class="fas fa-arrow-up mr-1"></i>12%</span>
@@ -171,63 +185,6 @@
                     </div>
                 </div>
 
-                <!-- Recent Activity -->
-                <div class="bg-white rounded-lg shadow mb-6">
-                    <div class="p-4 border-b border-gray-200">
-                        <h2 class="text-lg font-semibold text-gray-800">Activités récentes</h2>
-                    </div>
-                    <div class="p-4">
-                        <div class="flow-root">
-                            <ul class="-my-3 divide-y divide-gray-200">
-                                <li class="py-3">
-                                    <div class="flex space-x-4">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-plus-circle text-green-500"></i>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-gray-900">
-                                                Nouveau point de vente ajouté: Casablanca Centre
-                                            </p>
-                                            <p class="text-sm text-gray-500">
-                                                Il y a 2 heures par Admin User
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="py-3">
-                                    <div class="flex space-x-4">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-user-plus text-blue-500"></i>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-gray-900">
-                                                Nouvel utilisateur créé: Mohamed Hassan (Responsable)
-                                            </p>
-                                            <p class="text-sm text-gray-500">
-                                                Il y a 5 heures par Admin User
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="py-3">
-                                    <div class="flex space-x-4">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-calculator text-purple-500"></i>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-gray-900">
-                                                Analyse de rentabilité effectuée: Rabat Nord
-                                            </p>
-                                            <p class="text-sm text-gray-500">
-                                                Il y a 1 jour par Jamal Bennani
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </main>
         </div>
     </div>

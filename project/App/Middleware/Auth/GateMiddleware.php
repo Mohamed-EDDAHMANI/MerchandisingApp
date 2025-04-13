@@ -32,7 +32,7 @@ class GateMiddleware
                 if (in_array($method, $permissionsArray)) {
                     return $role;
                 }
-                $this->redirect->to( 'notAuthorize');
+                $this->redirect->to( '/notAuthorise');
             }
         }
     }

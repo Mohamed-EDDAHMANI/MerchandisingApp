@@ -60,4 +60,38 @@ class EmployeeService
     {
         return $this->employeeRepository->getSales($key, $employeeId);
     }
+    public function getReports($userId)
+    {
+        return $this->employeeRepository->getReports($userId);
+    }
+    public function getStatistics($employeeId)
+    {
+        $objectifsData = $this->employeeRepository->getObjectifsList($employeeId);
+        $montant = 0;
+        $quantity = 0;
+        $achievedCount = 0;
+        $notAchievedCount = 0;
+        if($objectifsData){
+            foreach ($objectifsData as $objectif) {
+                $montant += $objectif->getTotal_sales_amount();
+                $quantity += $objectif->getTotal_quantity_sold();
+                if ($objectif->getAchievement_status() === 'Achieved') {
+                    $achievedCount++;
+                } else {
+                    $notAchievedCount++;
+                }
+            }
+        }else{
+            return [
+                'montant' => 0,
+                'quantity' => 0,
+                'persontage' => 0,
+            ];
+        }
+        return [
+            'montant' => $montant,
+            'quantity' => $quantity,
+            'persontage' => $achievedCount / ($achievedCount + $notAchievedCount) * 100,
+        ];
+    }
 }

@@ -34,7 +34,14 @@ CREATE TABLE IF NOT EXISTS store_performance (
     chiffre_daffaire DECIMAL(15, 2) NOT NULL,  -- Total revenue of the store
     expenses DECIMAL(15, 2) NOT NULL,  -- Total expenses of the store
     rentability DECIMAL(10, 2) GENERATED ALWAYS AS (chiffre_daffaire - expenses) STORED, -- Profitability (Revenue - Expenses)
-    performance_index DECIMAL(5, 2),  -- Performance index (e.g., a percentage rating)
+    performance_index DECIMAL(5,2) 
+GENERATED ALWAYS AS (
+    CASE 
+        WHEN chiffre_daffaire > 0 THEN 
+            LEAST(ROUND((chiffre_daffaire - expenses) / chiffre_daffaire * 100, 2), 100)
+        ELSE NULL
+    END
+) STORED,  -- Performance index (e.g., a percentage rating)
     FOREIGN KEY (store_id) REFERENCES stores(store_id)  -- Foreign key constraint
 );
 

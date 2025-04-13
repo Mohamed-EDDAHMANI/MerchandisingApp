@@ -35,8 +35,10 @@ class Router
 
     public function dispatch($method, $uri)
     {
+        // echo '<pre>';
         // var_dump($this->routes);
         // var_dump($this->routes[$method][$uri]);
+        // echo '</pre>';
         // exit;
         //validate the request
         if ($method == 'POST') {
@@ -89,6 +91,10 @@ class Router
         $roleFolder = $this->gateMiddleware->handlePolicis($action);
         $controller = 'App\\Controllers\\' . $roleFolder . '\\' . $controller;
 
+        if (!class_exists($controller)) {
+            header('Location: /notAutorise..');
+            return;
+        }
         $controllerInstance = new $controller();
 
         // Call the action with parameters

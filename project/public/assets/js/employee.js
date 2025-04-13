@@ -25,7 +25,8 @@ const nextBtn = document.querySelector('.nextBtn');
 const currentPageDisplay = document.querySelector('.currentPageDisplay');
 const totalPages = document.querySelector('.totalPages');
 
-// Hide the message after 5 seconds
+let pendingSalesArray = [];
+
 setTimeout(() => {
     const alertMessage = document.getElementById('alert-message');
     if (alertMessage) {
@@ -33,7 +34,6 @@ setTimeout(() => {
         setTimeout(() => alertMessage.remove(), 300);
     }
 }, 5000);
-
 
 function switchTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => {
@@ -60,7 +60,6 @@ async function getProductSelectByName(name) {
             body: JSON.stringify({ name })
         });
         const products = await response.json();
-        console.log('Fetched products:', products);
         if (products) {
             productSelectTwo.innerHTML = '';
             const defaultOption = document.createElement('option');
@@ -77,46 +76,12 @@ async function getProductSelectByName(name) {
                 }
                 productSelectTwo.appendChild(option);
             });
-
         }
     } catch (error) {
         console.error('Error fetching products:', error);
         return null;
     }
 }
-
-
-productNameInput.addEventListener('input', function () {
-    if (productNameInput.value.length < 1) {
-        document.getElementById('product').classList.add('hidden');
-        return;
-    }
-    getProductSelectByName(productNameInput.value);
-
-    document.getElementById('product').classList.remove('hidden');
-});
-
-document.addEventListener('click', function (event) {
-    const input = document.getElementById('productName');
-    const select = document.getElementById('product');
-
-    if (event.target !== input && event.target !== select) {
-        select.classList.add('hidden');
-    }
-});
-
-document.getElementById('product').addEventListener('change', function () {
-    const select = this;
-    const selectedOption = select.options[select.selectedIndex];
-    document.getElementById('productName').value = selectedOption.text;
-    select.classList.add('hidden');
-
-    if (typeof calculateTotal === 'function') {
-        calculateTotal();
-    }
-});
-
-let pendingSalesArray = [];
 
 function calculateTotal() {
     const selectedOption = productSelect.options[productSelect.selectedIndex];
@@ -129,9 +94,6 @@ function calculateTotal() {
         totalInput.value = '';
     }
 }
-
-productSelect.addEventListener('change', calculateTotal);
-quantityInput.addEventListener('input', calculateTotal);
 
 function updatePendingSalesTable() {
     if (pendingSalesArray.length === 0) {
@@ -147,12 +109,10 @@ function updatePendingSalesTable() {
 
     validateAllSales.disabled = false;
     pendingSales.innerHTML = '';
-
     let totalAmount = 0;
 
     pendingSalesArray.forEach((sale, index) => {
         totalAmount += sale.total;
-
         let iconBg = 'bg-blue-100';
         let iconColor = 'text-blue-600';
         let iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>';
@@ -189,7 +149,6 @@ function updatePendingSalesTable() {
         </button>
       </td>
     `;
-
         pendingSales.appendChild(row);
     });
 
@@ -201,59 +160,17 @@ window.removePendingSale = function (index) {
     updatePendingSalesTable();
 };
 
-
-
-
-saleForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    let valid = true;
-
-    if (!productSelect.value) {
-        productError.classList.remove('hidden');
-        valid = false;
-    } else {
-        productError.classList.add('hidden');
-    }
-
-    const quantity = parseInt(quantityInput.value);
-    if (!quantity || quantity < 1) {
-        quantityError.classList.remove('hidden');
-        valid = false;
-    } else {
-        quantityError.classList.add('hidden');
-    }
-
-    if (valid) {
-        const selectedOption = productSelect.options[productSelect.selectedIndex];
-        const productName = selectedOption.text;
-        const total = parseFloat(totalInput.value);
-
-        pendingSalesArray.push({
-            productId: selectedOption.value,
-            productName: productName,
-            quantity: quantity,
-            total: total
-        });
-
-        updatePendingSalesTable();
-
-        productSelect.value = '';
-        quantityInput.value = '1';
-        totalInput.value = '';
-        productNameInput.value = '';
-    }
-});
-
-
 async function fetchData(key = null, page = 1) {
+    if (key === null) {
+        key = searchSales.value;
+    }
     try {
         const response = await fetch(`/employee/sales`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({key})
+            body: JSON.stringify({ key })
         });
 
         if (!response.ok) {
@@ -265,7 +182,6 @@ async function fetchData(key = null, page = 1) {
         currentPageDisplay.textContent = pagination.currentPage;
         totalPages.textContent = pagination.totalPages;
 
-        console.log('Fetched data:', pagination.items);
         const saleTbody = document.getElementById('saleTbody');
         hundlePaginationNumbers(pagination);
         saleTbody.innerHTML = '';
@@ -287,17 +203,12 @@ async function fetchData(key = null, page = 1) {
     }
 }
 
-
 function paginateData(data, currentPage = 1) {
-    const itemsPerPage = 7; 
-
-    // Calculate pagination values
+    const itemsPerPage = 7;
     const totalItems = data.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-
-    // Get paginated items
     const paginatedItems = data.slice(startIndex, endIndex);
 
     return {
@@ -329,6 +240,127 @@ function hundlePaginationNumbers(pagination) {
     }
 }
 
+async function sendSales(sales) {
+    try {
+        const response = await fetch(`/employee/sale/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ sales })
+        });
+        
+        const data = await response.json();
+        console.log(data);
+
+        if (data.success) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error creating sale products:', error);
+        return null;
+    }
+}
+
+// Event Listeners
+productNameInput.addEventListener('input', function () {
+    if (productNameInput.value.length < 1) {
+        document.getElementById('product').classList.add('hidden');
+        return;
+    }
+    getProductSelectByName(productNameInput.value);
+    document.getElementById('product').classList.remove('hidden');
+});
+
+document.addEventListener('click', function (event) {
+    const input = document.getElementById('productName');
+    const select = document.getElementById('product');
+    if (event.target !== input && event.target !== select) {
+        select.classList.add('hidden');
+    }
+});
+
+document.getElementById('product').addEventListener('change', function () {
+    const select = this;
+    const selectedOption = select.options[select.selectedIndex];
+    document.getElementById('productName').value = selectedOption.text;
+    select.classList.add('hidden');
+    calculateTotal();
+});
+
+productSelect.addEventListener('change', calculateTotal);
+quantityInput.addEventListener('input', calculateTotal);
+
+saleForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    console.log('Form submitted!');
+    let valid = true;
+
+    if (!productSelect.value) {
+        productError.classList.remove('hidden');
+        valid = false;
+    } else {
+        productError.classList.add('hidden');
+    }
+
+    const quantity = parseInt(quantityInput.value);
+    if (!quantity || quantity < 1) {
+        quantityError.classList.remove('hidden');
+        valid = false;
+    } else {
+        quantityError.classList.add('hidden');
+    }
+
+    if (valid) {
+        const selectedOption = productSelect.options[productSelect.selectedIndex];
+        const productName = selectedOption.text;
+        const total = parseFloat(totalInput.value);
+
+        pendingSalesArray.push({
+            productId: selectedOption.value,
+            productName: productName,
+            quantity: quantity,
+            total: total
+        });
+
+        updatePendingSalesTable();
+        productSelect.value = '';
+        quantityInput.value = '1';
+        totalInput.value = '';
+        productNameInput.value = '';
+    }
+});
+
+validateAllSales.addEventListener('click', async function () {
+    if (pendingSalesArray.length === 0) return;
+
+    let totalAmount = 0;
+    pendingSalesArray.forEach(sale => {
+        totalAmount += sale.total;
+    });
+
+    const result = await sendSales(pendingSalesArray);
+    pendingSalesArray = [];
+    updatePendingSalesTable();
+    if (!result){
+        setTimeout(() => {
+            const alertMessage = document.getElementById('alert-message');
+            if (alertMessage) {
+                alertMessage.classList.add('opacity-0');
+                setTimeout(() => alertMessage.remove(), 300);
+            }
+        }, 5000);
+        return;
+    };
+
+    saleSuccess.classList.remove('hidden');
+    setTimeout(() => {
+        saleSuccess.classList.add('hidden');
+    }, 3000);
+
+});
 
 reportBtn.addEventListener('click', function () {
     reportModal.classList.remove('hidden');
@@ -351,8 +383,6 @@ previeseBtn.addEventListener('click', function () {
 
 nextBtn.addEventListener('click', function () {
     const currentPage = parseInt(currentPageDisplay.textContent);
-    const totalPages = document.querySelector('.totalPages');
-
     const totalPagess = parseInt(totalPages.textContent);
     if (currentPage < totalPagess) {
         fetchData(null, currentPage + 1);
@@ -362,20 +392,19 @@ nextBtn.addEventListener('click', function () {
 searchSales.addEventListener('input', function () {
     const searchKey = searchSales.value;
     if (searchKey.length > 0) {
-        console.log('Searching for:', searchKey);
-        fetchData(searchKey);
+        fetchData(searchKey, parseInt(currentPageDisplay.textContent));
     } else {
         fetchData();
     }
 });
 
-// Close modal when clicking outside
 window.addEventListener('click', function (event) {
     if (event.target === reportModal) {
         reportModal.classList.add('hidden');
     }
 });
 
+// Initialize
 calculateTotal();
 fetchData();
 updatePendingSalesTable();

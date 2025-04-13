@@ -42,8 +42,8 @@ class dataMapper
 
             if (!empty($data['employee_salary'])) {
                 $user->setEmployee(new Employee($data));
-                $user->getEmployee()->setMontantTotal($data['montant_total']);
-                $user->getEmployee()->setQuantityTotal($data['quantity_total']);
+                $user->getEmployee()->setMontantTotal(isset($data['montant_total']) ? $data['montant_total'] : 0);
+                $user->getEmployee()->setQuantityTotal(isset($data['quantity_total']) ? $data['quantity_total'] : 0);
             }
             
             $user->setRole(new Role($data));

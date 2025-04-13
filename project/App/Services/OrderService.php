@@ -14,7 +14,7 @@ class OrderService {
 
     public function createOrder($data, $manager_id){
         $result = $this->orderRepository->createOrder($data, $manager_id);
-        if ($result) {
+        if ($result == true) {
             return ['status' => 'success', 'message' => 'Order created successfully.'];
       
         } else {

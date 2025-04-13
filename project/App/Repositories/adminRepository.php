@@ -65,9 +65,15 @@ class AdminRepository extends Repository
     public function insertUserTable($date, $userId)
     {
         $table = $date['role'] . 's';
-        $is_valid = isset($date['is_valid']) ? '1' : '0';
+        if ($date['role'] == 'manager') { 
+            $is_valid = isset($date['manager_valid']) ? '1' : '0';
+            $sql = "INSERT INTO $table (manager_valid, manager_salary, user_id) VALUES (:is_valid, :salary, :user_id)";
+        }else{
+            $is_valid = isset($date['is_valid']) ? '1' : '0';
+            $sql = "INSERT INTO $table (is_valid, salary, user_id) VALUES (:is_valid, :salary, :user_id)";
+        }
 
-        $sql = "INSERT INTO $table (is_valid, salary, user_id) VALUES (:is_valid, :salary, :user_id)";
+        
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':is_valid', $is_valid);
         $stmt->bindParam(':salary', $date['salary']);
@@ -121,6 +127,7 @@ class AdminRepository extends Repository
 
     public function sortUsers($role = null, $store = null, $is_valid = null)
     {
+        
         // Base SQL query
         $sql = "SELECT 
             users.id,
@@ -147,7 +154,7 @@ class AdminRepository extends Repository
         if ($is_valid == 'true') {
             $if_exist = true;
             $is_valid = 1;
-        } elseif ($is_valid == 'false' && $is_valid !== null) {
+        } elseif ($is_valid == 'false') {
             $if_exist = true;
             $is_valid = 0;
         } else {
@@ -168,7 +175,7 @@ class AdminRepository extends Repository
         }
 
         if ($if_exist) {
-            $conditions[] = "(managers.is_valid = :is_valid OR employees.is_valid = :is_valid)";
+            $conditions[] = "(managers.manager_valid = :is_valid OR employees.is_valid = :is_valid)";
             $params[':is_valid'] = $is_valid;
         }
 

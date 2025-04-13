@@ -14,11 +14,15 @@
 <body class="bg-gray-50">
   <div class="min-h-screen">
     <!-- Sidebar -->
-    <div class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg hidden lg:block">
+    <div class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg hidden lg:block flex flex-col">
+      <!-- Header -->
       <div class="gradient-bg p-4">
         <h2 class="text-white text-xl font-bold">Tableau de Bord</h2>
       </div>
-      <div class="p-4">
+
+      <!-- Scrollable Content -->
+      <div class="flex-1 overflow-y-auto p-4">
+        <!-- User Profile -->
         <div class="flex items-center space-x-3 mb-6 p-2 bg-blue-50 rounded-lg">
           <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24"
@@ -28,10 +32,12 @@
             </svg>
           </div>
           <div>
-            <p class="text-sm font-medium text-gray-900">Ahmed</p>
+            <p class="text-sm font-medium text-gray-900"><?php echo $data['userData']->getFullName() ?></p>
             <p class="text-xs text-gray-500">Représentant Commercial</p>
           </div>
         </div>
+
+        <!-- Navigation Links -->
         <nav class="space-y-1">
           <button onclick="switchTab('home')" data-tab="#home"
             class="flex items-center px-2 py-3 text-sm font-medium rounded-md bg-blue-50 text-blue-700">
@@ -61,6 +67,19 @@
             Ventes
           </button>
         </nav>
+      </div>
+
+      <!-- Fixed Logout Button (Bottom) -->
+      <div class="p-4 border-t border-gray-200">
+        <a href="/logout"
+          class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          Déconnexion
+        </a>
       </div>
     </div>
 
@@ -111,8 +130,21 @@
         <div class="mb-8">
           <div class="flex items-center justify-between">
             <div>
-              <h1 class="text-2xl font-bold text-gray-900">Bienvenue, Ahmed!</h1>
-              <p class="text-gray-600 mt-1">Lundi, 8 Avril 2025</p>
+              <h1 class="text-2xl font-bold text-gray-900">Bienvenue, <?php echo $data['userData']->getFirstName() ?>!
+              </h1>
+              <p class="text-gray-600 mt-1">
+                <?php
+                $jours = array('Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi');
+                $mois = array('', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
+
+                $jour = $jours[date('w')];
+                $jour_num = date('j');
+                $mois_num = date('n');
+                $annee = date('Y');
+
+                echo "$jour, $jour_num $mois[$mois_num] $annee";
+                ?>
+              </p>
             </div>
             <div>
               <button id="reportBtn"
@@ -141,7 +173,9 @@
               </div>
               <div class="ml-4">
                 <h3 class="text-sm font-medium text-gray-500">Ventes Totales</h3>
-                <p class="text-2xl font-semibold text-gray-900" id="totalSales">5 800 MAD</p>
+                <p class="text-2xl font-semibold text-gray-900" id="totalSales">
+                  <?php echo $data['statistics']['montant'] ?> MAD
+                </p>
                 <p class="text-sm text-green-600 flex items-center mt-1">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -164,7 +198,9 @@
               </div>
               <div class="ml-4">
                 <h3 class="text-sm font-medium text-gray-500">Produits Vendus</h3>
-                <p class="text-2xl font-semibold text-gray-900" id="productCount">24</p>
+                <p class="text-2xl font-semibold text-gray-900" id="productCount">
+                  <?php echo $data['statistics']['quantity'] ?>
+                </p>
                 <p class="text-sm text-green-600 flex items-center mt-1">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -187,9 +223,10 @@
               </div>
               <div class="ml-4">
                 <h3 class="text-sm font-medium text-gray-500">Progression Objectif</h3>
-                <p class="text-2xl font-semibold text-gray-900">80%</p>
+                <p class="text-2xl font-semibold text-gray-900"><?php echo $data['statistics']['persontage'] ?>%</p>
                 <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
-                  <div id="progressBar" class="bg-emerald-500 h-2 rounded-full" style="width: 80%"></div>
+                  <div id="progressBar" class="bg-green-500 h-2 rounded-full"
+                    style="width: <?php echo $data['statistics']['persontage'] ?>%"></div>
                 </div>
               </div>
             </div>
@@ -232,11 +269,6 @@
                         </option>
                       <?php endforeach; ?>
                     <?php endif; ?>
-                    <option value="1" data-price="550.00">Smartphone X1</option>
-                    <option value="2" data-price="899.99">Ordinateur Portable Pro</option>
-                    <option value="3" data-price="349.50">Écouteurs Sans Fil</option>
-                    <option value="4" data-price="129.99">Montre Connectée</option>
-                    <option value="5" data-price="79.50">Enceinte Bluetooth</option>
                   </select>
                   <p id="productError" class="text-red-500 text-xs mt-1 hidden">Veuillez sélectionner un produit</p>
                 </div>
@@ -279,7 +311,6 @@
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200" id="pendingSales">
-                    <!-- Pending sales will be added here -->
                     <tr class="text-center text-gray-500 py-4">
                       <td colspan="4" class="py-4">Aucune vente en attente</td>
                     </tr>
@@ -292,9 +323,8 @@
                   <span class="text-sm font-medium text-gray-700">Total: </span>
                   <span class="text-lg font-semibold text-gray-900" id="pendingTotal">0.00 MAD</span>
                 </div>
-                <button id="validateAllSales"
-                  class="py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled>
+                <button id="validateAllSales" 
+                  class="py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                   Valider Toutes les Ventes
                 </button>
               </div>
@@ -417,170 +447,114 @@
     </div>
 
     <!-- Reports Section -->
-  <section id="reports-section" class="lg:pl-64 hidden tab-content">
-    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-      <h2 class="text-lg font-semibold text-gray-900 mb-6 flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-        </svg>
-        Historique des Rapports
-      </h2>
+    <section id="reports-section" class="lg:pl-64 hidden tab-content">
+      <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h2 class="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          Historique des Rapports
+        </h2>
 
-      <div class="mb-4 flex justify-between items-center">
-        <h3 class="text-md font-medium text-gray-900">Rapports Récents</h3>
-        <div class="flex space-x-2">
-          <div class="relative">
-            <input type="text" placeholder="Rechercher..."
-              class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute right-3 top-2.5 text-gray-400" fill="none"
-              viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+        <div class="mb-4 flex justify-between items-center">
+          <h3 class="text-md font-medium text-gray-900">Rapports Récents</h3>
+          <div class="flex space-x-2">
+            <div class="relative">
+              <input type="text" placeholder="Rechercher..."
+                class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute right-3 top-2.5 text-gray-400" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="overflow-hidden border border-gray-200 rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ID
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Sujet</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Message</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Type</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Utilisateur</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <?php if (isset($data['reports'])): ?>
+                <?php foreach ($data['reports'] as $value): ?>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      #RPT-2025-<?php echo $value->getReportId() ?> </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $value->getGeneratedAt() ?>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <?php echo $value->getSubject() ?>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate"><?php echo $value->getMessage() ?></td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <?php if ($value->getReportType() != 'problem_report'): ?>
+                        <span
+                          class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 flex items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          Information
+                        </span>
+                      <?php else: ?>
+                        <span
+                          class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 flex items-center gap-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                          </svg>
+                          Problème
+                        </span>
+                      <?php endif; ?>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $value->getUserName() ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-4 flex justify-between items-center">
+          <div class="text-sm text-gray-700">
+            Affichage de <span class="font-medium">1</span> à <span class="font-medium">5</span> sur <span
+              class="font-medium">42</span> résultats
+          </div>
+          <div class="flex space-x-2 pagination container">
+            <button
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Précédent</button>
+            <button
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">1</button>
+            <button
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">2</button>
+            <button
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">3</button>
+            <button
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Suivant</button>
           </div>
         </div>
       </div>
-
-      <div class="overflow-hidden border border-gray-200 rounded-lg">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ID
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Date</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Sujet</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Message</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Type</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Utilisateur</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#RPT-2025-042</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12/04/2025</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Problème de connexion</td>
-              <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">Impossible de se connecter à l'application
-                mobile</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 flex items-center gap-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  Problème
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID: 101</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#RPT-2025-041</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11/04/2025</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Mise à jour système</td>
-              <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">Information sur la prochaine mise à jour
-                système</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 flex items-center gap-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Information
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID: 103</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#RPT-2025-040</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10/04/2025</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Erreur de paiement</td>
-              <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">Transaction échouée lors du paiement</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 flex items-center gap-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  Problème
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID: 105</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#RPT-2025-039</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">09/04/2025</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Nouvelle fonctionnalité</td>
-              <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">Information sur les nouvelles
-                fonctionnalités</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 flex items-center gap-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Information
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID: 102</td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#RPT-2025-038</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">08/04/2025</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Bug interface utilisateur</td>
-              <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">Problème d'affichage sur la page de profil
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 flex items-center gap-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  Problème
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID: 104</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="mt-4 flex justify-between items-center">
-        <div class="text-sm text-gray-700">
-          Affichage de <span class="font-medium">1</span> à <span class="font-medium">5</span> sur <span
-            class="font-medium">42</span> résultats
-        </div>
-        <div class="flex space-x-2 pagination container">
-          <button
-            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Précédent</button>
-          <button
-            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">1</button>
-          <button
-            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">2</button>
-          <button
-            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">3</button>
-          <button
-            class="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Suivant</button>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
     <!-- Sales Section -->
     <section id="sales-section" class="lg:pl-64 hidden tab-content">
@@ -629,14 +603,14 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200" id="saleTbody">
-          
+
             </tbody>
           </table>
         </div>
 
         <div class="mt-4 flex justify-between items-center">
           <div class="text-sm text-gray-700">
-            Affichage du page <span class="font-medium currentPageDisplay"></span>  sur <span
+            Affichage du page <span class="font-medium currentPageDisplay"></span> sur <span
               class="font-medium totalPages"></span> résultats
           </div>
           <div class="flex space-x-2 pagination container">
@@ -652,7 +626,7 @@
 
   </div>
 
-  
+
 
   <!-- Report Modal -->
   <div id="reportModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">

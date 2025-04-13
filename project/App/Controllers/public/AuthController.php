@@ -21,13 +21,12 @@ class AuthController extends BaseController{
         $password = $_POST['password']; 
         $this->authService->login($email, $password);
     }
-
-    public function getSignupPage() {
-        require 'views/auth/signup.php';
-    }
-
     public function logout() {
         $this->authService->logout();
+    }
+
+    public function notAutorise() {
+        $this->view('notAutorise');
     }
 }
 

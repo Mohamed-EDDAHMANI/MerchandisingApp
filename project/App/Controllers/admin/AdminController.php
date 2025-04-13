@@ -4,20 +4,23 @@ namespace App\Controllers\Admin;
 
 use App\Services\AdminService;
 use App\Utils\Redirects\Redirect;
+use App\Utils\Sessions\Session;
 use App\Controllers\BaseController;
 
 class AdminController extends BaseController{
     private $adminService;
+    private $session;
 
     public function __construct() {
         $this->adminService = new AdminService();
+        $this->session = new Session();
     }
 
     public function dashboard() {
-        $this->view('admin/dashboard');
-    }
-    public function test() {
-        $this->view('admin/jfj');
+        $data = $this->session->get('user');
+        // $statistecs = $this->adminService->getStatistics();
+        // var_dump($data);
+        $this->view('admin/dashboard', ['user' => $data]);
     }
 
     public function getUsers() {

@@ -1,55 +1,116 @@
 
-// Generate PDF function
-function generatePDF() {
-    alert('Generating PDF... This would create a PDF of the order in a real application.');
-    // In a real application, this would use jsPDF to generate a PDF
+async function fetchSalesData() {
+    try {
+        const response = await fetch('/manager/sales');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+async function fetchCategoriesData() {
+    try {
+        const response = await fetch('/manager/categories');
+        const data = await response.json();
+        console.log('Data fetched:', data);
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 }
 
-// Initialize charts when the page loads
-document.addEventListener('DOMContentLoaded', function () {
-    // Sales Chart
-    const salesCtx = document.getElementById('salesChart').getContext('2d');
-    const salesChart = new Chart(salesCtx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-                label: 'Sales',
-                data: [12000, 19000, 15000, 25000, 22000, 30000],
-                backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                borderColor: 'rgba(59, 130, 246, 1)',
-                borderWidth: 2,
-                tension: 0.3
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+
+
+document.addEventListener('DOMContentLoaded', async function () {
+        const salesData = await fetchSalesData();
+        const salesDataPerCategories = await fetchCategoriesData();
+        
+        // Extract day names and sales counts from the data
+        const labels = salesData.map(item => item.day_name);
+        const dailySales = salesData.map(item => item.total_sales);
+        
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Daily Sales',
+                    data: dailySales,
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    borderWidth: 2,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Sales'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Days of This Week'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Sales: ${context.raw}`;
+                            }
+                        }
+                    }
                 }
             }
-        }
-    });
+        });
 
-    // Category Chart
-    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-    const categoryChart = new Chart(categoryCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Electronics', 'Clothing', 'Home & Kitchen', 'Books', 'Others'],
-            datasets: [{
-                data: [35, 25, 20, 15, 5],
-                backgroundColor: [
-                    'rgba(59, 130, 246, 0.7)',
-                    'rgba(16, 185, 129, 0.7)',
-                    'rgba(245, 158, 11, 0.7)',
-                    'rgba(239, 68, 68, 0.7)',
-                    'rgba(107, 114, 128, 0.7)'
-                ],
-                borderWidth: 1
-            }]
-        }
-    });
+        const labelss = salesDataPerCategories.map(item => item.category_name);
+        const salesDatas = salesDataPerCategories.map(item => item.total_sales_amount);
+        const backgroundColors = [
+            'rgba(59, 130, 246, 0.7)',
+            'rgba(16, 185, 129, 0.7)',
+            'rgba(245, 158, 11, 0.7)',
+            'rgba(239, 68, 68, 0.7)',
+            'rgba(107, 114, 128, 0.7)'
+        ].slice(0, labels.length); // Use only as many colors as needed
+    
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        const categoryChart = new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: labelss,
+                datasets: [{
+                    data: salesDatas,
+                    backgroundColor: backgroundColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = Number(context.raw) || 0;
+                                const total = context.dataset.data.reduce((a, b) => a + Number(b), 0);
+                                const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+                                return `${context.label}: $${value.toFixed(2)} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
     // Employee Performance Chart
     if (document.getElementById('employeePerformanceChart')) {

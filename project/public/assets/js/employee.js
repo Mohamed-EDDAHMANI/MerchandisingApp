@@ -4,6 +4,7 @@ const quantityInput = document.getElementById('quantity');
 const totalInput = document.getElementById('total');
 const saleForm = document.getElementById('saleForm');
 const saleSuccess = document.getElementById('saleSuccess');
+const saleErrer = document.getElementById('saleErrer');
 const productError = document.getElementById('productError');
 const quantityError = document.getElementById('quantityError');
 const productCount = document.getElementById('productCount');
@@ -249,18 +250,22 @@ async function sendSales(sales) {
             },
             body: JSON.stringify({ sales })
         });
-        
-        const data = await response.json();
-        console.log(data);
 
-        if (data.success) {
-            return true;
-        } else {
+        const text = await response.text();
+        try {
+            const data = JSON.parse(text); 
+            if (!response.ok) {
+                console.error('Server error:', data.message || 'Unknown error');
+                return false;
+            }
+            return data.success || false;
+        } catch (e) {
+            console.error('Invalid JSON response:', text);
             return false;
         }
     } catch (error) {
-        console.error('Error creating sale products:', error);
-        return null;
+        console.error('Network error:', error);
+        return false;
     }
 }
 
@@ -344,14 +349,12 @@ validateAllSales.addEventListener('click', async function () {
     const result = await sendSales(pendingSalesArray);
     pendingSalesArray = [];
     updatePendingSalesTable();
+    console.log(result)
     if (!result){
+        saleErrer.classList.remove('hidden');
         setTimeout(() => {
-            const alertMessage = document.getElementById('alert-message');
-            if (alertMessage) {
-                alertMessage.classList.add('opacity-0');
-                setTimeout(() => alertMessage.remove(), 300);
-            }
-        }, 5000);
+            saleErrer.classList.add('hidden');
+        }, 3000);
         return;
     };
 

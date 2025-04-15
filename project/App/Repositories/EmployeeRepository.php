@@ -25,7 +25,12 @@ class EmployeeRepository extends Repository
     public function getProductsSorted($keyword)
     {
 
-        $sql = "SELECT * FROM products WHERE product_name LIKE :keyword";
+        $sql = "SELECT p.* 
+        FROM products p
+        JOIN stocks s ON s.product_id = p.product_id
+        WHERE p.product_name LIKE :keyword
+          AND s.quentity > 0
+    ";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':keyword', '%' . $keyword . '%', PDO::PARAM_STR);
         $stmt->execute();

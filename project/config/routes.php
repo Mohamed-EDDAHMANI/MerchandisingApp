@@ -69,6 +69,9 @@ $router->get('/manager/order/confirm/{id}', 'OrderController@confirmOrder'); //
 $router->post('/manager/objective/create', 'ObjectifController@store'); // 
 $router->get('/manager/objective/delete/{id}',  'ObjectifController@deleteObjectifs'); // 
 
+$router->get('/manager/sales',  'ManagerController@getSalesChart'); // 
+$router->get('/manager/categories',  'ManagerController@getCategoriesData'); // 
+
 $router->get('/employee/home', 'EmployeeController@index'); // 
 $router->post('/employee/products', 'EmployeeController@getProducts'); // 
 $router->post('/employee/sale/create', 'EmployeeController@createSales'); // 

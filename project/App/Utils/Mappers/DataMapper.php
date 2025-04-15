@@ -110,6 +110,7 @@ class dataMapper
             $instance = new Product($data);
             if (isset($data['product_count'])) {
                 $instance->setProductCount($data['product_count']);
+                $instance->setTotalSalesQuantity($data['total_sales_quantity']);
             }
     
             if (isset($data['category_name'])) {

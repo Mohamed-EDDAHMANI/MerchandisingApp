@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Controllers\employee;
 
@@ -7,12 +7,14 @@ use App\Services\EmployeeService;
 use App\Utils\Sessions\Session;
 use App\Utils\Redirects\Redirect;
 
-class EmployeeController extends BaseController{
+class EmployeeController extends BaseController
+{
 
     private $employeeService;
     private $session;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->employeeService = new EmployeeService();
         $this->session = new Session();
     }
@@ -27,7 +29,7 @@ class EmployeeController extends BaseController{
         $statistics = $this->employeeService->getStatistics($employeeId);
         $userData = $this->session->get('user');
 
-        return  $this->view('employee/home', ['products' => $products, 'objectifs' => $objectifs, 'reports' => $reports, 'statistics' => $statistics, 'userData' => $userData]);
+        return $this->view('employee/home', ['products' => $products, 'objectifs' => $objectifs, 'reports' => $reports, 'statistics' => $statistics, 'userData' => $userData]);
     }
 
     public function getProducts($keyword = null)
@@ -43,19 +45,41 @@ class EmployeeController extends BaseController{
 
     public function createSales()
     {
-        $json = file_get_contents("php://input");
-        $filters = json_decode($json, true);
-        $sales = isset($filters['sales']) ? $filters['sales'] : null;
+        header('Content-Type: application/json');
 
-        $res = $this->employeeService->createSales($sales);
-        echo json_encode(['success' => $res]);
-        if ($res == true) {
-            $this->session->setError('success', 'Supplier Deleted successfully');
-        } else {
-            $this->session->setError('error', 'Error Stock Quentity !!');
+        try {
+            $json = file_get_contents("php://input");
+            if ($json === false) {
+                throw new \Exception('Failed to read input data');
+            }
+
+            $filters = json_decode($json, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception('Invalid JSON input: ' . json_last_error_msg());
+            }
+
+            $sales = $filters['sales'] ?? null;
+            if ($sales === null) {
+                throw new \Exception('Sales data is required');
+            }
+
+            $res = $this->employeeService->createSales($sales);
+
+            echo json_encode([
+                'success' => $res
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500); 
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'trace' => $e->getTrace()
+            ]);
         }
+
         exit;
     }
+
     public function getSales()
     {
         $json = file_get_contents("php://input");

@@ -175,24 +175,9 @@ class ManagerRepository extends Repository
             $stmt->bindParam(':sale_price', $data['sale_price']);
             $stmt->bindParam(':profit', $data['profit']);
             $stmt->bindParam(':category_id', $data['category_id']);
-            $stmt->execute();
-            $productId = $this->db->lastInsertId();
-            return $this->storeStock($data['quantity'], $productId, $storeID);
-        } catch (Exception $e) {
-            throw new Exception("Erreur lors de la création de Produit : " . $e->getMessage());
-        }
-    }
-    public function storeStock($quantity, $productId, $storeID)
-    {
-        try {
-            $sql = "INSERT INTO stocks (store_id, product_id, quentity) VALUES (:store_id, :product_id, :quentity)";
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':store_id', $storeID);
-            $stmt->bindParam(':product_id', $productId);
-            $stmt->bindParam(':quentity', $quantity);
             return $stmt->execute();
         } catch (Exception $e) {
-            throw new Exception("Erreur lors la création du Stock  : " . $e->getMessage());
+            throw new Exception("Erreur lors de la création de Produit : " . $e->getMessage());
         }
     }
 
@@ -200,22 +185,29 @@ class ManagerRepository extends Repository
     {
         try {
             $query = "SELECT 
-                    products.product_id, 
-                    products.product_name, 
-                    products.trade_price, 
-                    products.sale_price, 
-                    products.profit, 
-                    stocks.quentity AS product_count,
-                    categories.category_id,
-                    categories.category_name
-                FROM 
-                     products
-                JOIN 
-                    stocks ON products.product_id = stocks.product_id
-                JOIN 
-                    categories ON categories.category_id = products.category_id
-                WHERE 
-                    stocks.store_id = :store_id;";
+                    p.product_id, 
+                    p.product_name, 
+                    p.trade_price, 
+                    p.sale_price, 
+                    p.profit, 
+                    c.category_id,
+                    c.category_name,
+                    s.quentity AS product_count,
+                    COALESCE(SUM(sa.quantity), 0) AS total_sales_quantity
+                    FROM 
+                    products p
+                    JOIN 
+                    categories c ON p.category_id = c.category_id
+                    LEFT JOIN 
+                    stocks s ON p.product_id = s.product_id AND s.store_id = :store_id
+                    LEFT JOIN 
+                    sales sa ON p.product_id = sa.product_id AND sa.store_id = :store_id
+                    WHERE 
+                    s.store_id = :store_id
+                    GROUP BY 
+                    p.product_id, p.product_name, s.quentity;";
+
+
 
             $stmt = $this->db->prepare($query);
             $stmt->bindParam("store_id", $storeID);
@@ -372,7 +364,8 @@ GROUP BY
         }
     }
 
-    public function getObjectifs(){
+    public function getObjectifs()
+    {
         try {
             $sql = 'SELECT * FROM objectifs';
             $stmt = $this->db->prepare($sql);
@@ -382,6 +375,132 @@ GROUP BY
             return $objectifsInstences;
         } catch (Exception $e) {
             return ["error" => "Error fetching objectifs: " . $e->getMessage()];
+        }
+    }
+    public function getTotalProductSales($storeId)
+    {
+        try {
+            $sql = 'SELECT SUM(quantity)  as total_product_sales,
+                            SUM(total) as total_montant_sales
+                    FROM sales WHERE store_id = :store_id';
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':store_id', $storeId, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (Exception $e) {
+            return ["error" => "Error fetching objectifs: " . $e->getMessage()];
+        }
+    }
+    public function getPandingOrders($user)
+    {
+        $managerId = $this->getManagerId($user->getId());
+        try {
+            $sql = 'SELECT COUNT(order_id)  as total_order_panding
+                    FROM orders WHERE is_done = 0 
+                    AND manager_id = :manager_id';
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':manager_id', $managerId, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC)['total_order_panding'];
+            return $result;
+        } catch (Exception $e) {
+            return ["error" => "Error fetching objectifs: " . $e->getMessage()];
+        }
+    }
+    public function getLowProductInStock($storeId)
+    {
+        try {
+            $sql = 'SELECT COUNT(*)  as total_product_low
+                    FROM stocks 
+                    WHERE quentity < 500
+                    AND stocks.store_id = :store_id';
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':store_id', $storeId, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC)['total_product_low'];
+            return $result;
+        } catch (Exception $e) {
+            return ["error" => "Error fetching objectifs: " . $e->getMessage()];
+        }
+    }
+
+    public function getManagerId($userID)
+    {
+        try {
+            $sql = "SELECT manager_id FROM managers  where user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $userID, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['manager_id'];
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function getSalesChart($storeId)
+    {
+        try {
+            $sql = "WITH week_days AS (
+                    SELECT 
+                        CURDATE() - INTERVAL (DAYOFWEEK(CURDATE())-1) DAY + INTERVAL n DAY AS date
+                    FROM (
+                        SELECT 0 AS n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 
+                        UNION SELECT 4 UNION SELECT 5 UNION SELECT 6
+                    ) AS numbers
+                )
+                SELECT 
+                    DAYNAME(w.date) AS day_name,
+                    DATE(w.date) AS sale_date,
+                    IFNULL(sales_data.total_sales, 0) AS total_sales
+                FROM 
+                    week_days w
+                LEFT JOIN (
+                    SELECT 
+                        DATE(date) AS sale_date,
+                        COUNT(*) AS total_sales
+                    FROM 
+                        sales
+                    WHERE 
+                        YEARWEEK(date, 1) = YEARWEEK(CURDATE(), 1)
+                        AND store_id = :store_id
+                    GROUP BY 
+                        DATE(date)
+                ) sales_data ON DATE(w.date) = sales_data.sale_date
+                ORDER BY 
+                    w.date;";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':store_id', $storeId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function getCategoriesData($storeId)
+    {
+        try {
+            $sql = "SELECT 
+    c.category_id,
+    c.category_name,
+    c.description,
+    COALESCE(SUM(s.total), 0) AS total_sales_amount
+FROM 
+    categories c
+LEFT JOIN 
+    products p ON c.category_id = p.category_id
+LEFT JOIN 
+    sales s ON p.product_id = s.product_id
+    AND s.store_id = :store_id
+GROUP BY 
+    c.category_id, c.category_name, c.description
+ORDER BY 
+    total_sales_amount DESC;";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':store_id', $storeId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return false;
         }
     }
 

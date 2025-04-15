@@ -23,12 +23,12 @@ class ManagerController extends BaseController {
         $orders = $this->managerService->getAllOrdersWithSupplierAndProduct();
         $employees = $this->managerService->getEmployees($user->getId());
         $objectifs = $this->managerService->getObjectifs();
-        $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers, 'orders' => $orders, 'employees' => $employees, 'objectifs' => $objectifs];
-        // $data = ['categories' => $categories, 'products' => $products, 'suppliers' => $suppliers, 'orders' => $orders, 'employees' => $employees];
-        // foreach ($employees as $value) {
-        //     var_dump($value->getStore());
-        // }
-        // exit();
+        $statistecs = $this->managerService->getStatistics($user);
+        // var_dump($products['sortProducts']);
+        // exit;
+        // $productTopSales = $this->sortProdeuctsBySales($products);
+        $data = ['categories' => $categories, 'products' => $products['products'], 'suppliers' => $suppliers, 'orders' => $orders,
+         'employees' => $employees, 'objectifs' => $objectifs, 'user' => $user, 'statistecs' => $statistecs, 'productsTopSales' => $products['sortProducts']];
 
         return $this->view('manager/dashboard', $data);
     }
@@ -62,6 +62,21 @@ class ManagerController extends BaseController {
     }
     public function sortProduct() {
         return $this->managerService->sortProduct($_POST);
+    }
+
+    public function getSalesChart()
+    {
+        $storeID = $this->session->get('user')->getStoreId();
+        $sales = $this->managerService->getSalesChart($storeID);
+        echo json_encode($sales);
+        exit;
+    }
+    public function getCategoriesData()
+    {
+        $storeID = $this->session->get('user')->getStoreId();
+        $sales = $this->managerService->getCategoriesData($storeID);
+        echo json_encode($sales);
+        exit;
     }
 
 }

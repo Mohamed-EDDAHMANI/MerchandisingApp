@@ -35,14 +35,16 @@ class EmployeeService
         $res = $this->employeeRepository->createSales($salesData, $userId, $employeeId);
         if ($res === true) {
             $objectifsData = $this->employeeRepository->getObjectifsList($employeeId);
-            foreach ($objectifsData as $objectif) {
-                if ($objectif->getAchievement_status() === 'Achieved') {
-                    $achievedCount++;
-                } else {
-                    $notAchievedCount++;
+            if ($objectifsData) {
+                foreach ($objectifsData as $objectif) {
+                    if ($objectif->getAchievement_status() === 'Achieved') {
+                        $achievedCount++;
+                    } else {
+                        $notAchievedCount++;
+                    }
                 }
+                $this->employeeRepository->updatePerformance($achievedCount, $notAchievedCount, $employeeId);
             }
-            $this->employeeRepository->updatePerformance($achievedCount, $notAchievedCount, $employeeId);
             return true;
         } else {
             return false;

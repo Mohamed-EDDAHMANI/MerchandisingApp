@@ -10,6 +10,7 @@ class Product {
     private $category_id;
     private $product_count;
     private $category_name;
+    private $totalSalesQuantity;
 
     // Constructor using an associative array
     public function __construct($data) {
@@ -30,6 +31,7 @@ class Product {
     public function getCategoryId() { return $this->category_id; }
     public function getProductCount() { return $this->product_count; }
     public function getCategoryName() { return $this->category_name; }
+    public function getTotalSalesQuantity() { return $this->totalSalesQuantity; }
 
     // Setters
     public function setProductId($product_id) { $this->product_id = $product_id; }
@@ -40,4 +42,5 @@ class Product {
     public function setCategoryId($category_id) { $this->category_id = $category_id; }
     public function setProductCount($product_count) { $this->product_count = $product_count; }
     public function setCategoryName($category_name) { $this->category_name = $category_name; }
+    public function setTotalSalesQuantity($totalSalesQuantity) { $this->totalSalesQuantity = $totalSalesQuantity; }
 }

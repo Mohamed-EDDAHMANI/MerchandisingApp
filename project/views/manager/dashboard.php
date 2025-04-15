@@ -51,11 +51,11 @@
         <div class="absolute bottom-0 w-full border-t border-blue-700 p-4">
             <div class="flex items-center">
                 <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center text-white font-bold text-lg uppercase mr-3"
-                    style="background-color: <?php echo '#' . substr(md5('money'), 0, 6); ?>">
-                    <?php echo substr('money', 0, 1); ?>
+                    style="background-color: <?php echo '#' . substr(md5( $data['user']->getFullName() ), 0, 6); ?>">
+                    <?php echo substr($data['user']->getFullName(), 0, 1); ?>
                 </div>
                 <div>
-                    <p class="font-semibold">John Doe</p>
+                    <p class="font-semibold"><?php echo  $data['user']->getFullName() ?></p>
                     <p class="text-sm text-blue-300">Store Manager</p>
                 </div>
             </div>
@@ -79,7 +79,7 @@
             <header class="flex justify-between items-center mb-8">
                 <div>
                     <h2 id="page-title" class="text-2xl font-bold text-gray-800">Dashboard</h2>
-                    <p class="text-sm text-gray-600">Welcome back, John Doe</p>
+                    <p class="text-sm text-gray-600">Welcome back, <?php echo  $data['user']->getFullName() ?></p>
                 </div>
                 <div class="flex items-center space-x-4">
                     <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
@@ -99,7 +99,7 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-sm text-gray-500">Total Products</p>
-                            <h3 class="text-2xl font-bold">246</h3>
+                            <h3 class="text-2xl font-bold"><?php echo $data['statistecs']['totalProductSales']['total_product_sales'] ?></h3>
                         </div>
                         <div class="bg-blue-100 p-3 rounded-full">
                             <i class="fas fa-box text-blue-500"></i>
@@ -113,7 +113,7 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-sm text-gray-500">Total Sales</p>
-                            <h3 class="text-2xl font-bold">$12,436</h3>
+                            <h3 class="text-2xl font-bold">$<?php echo $data['statistecs']['totalProductSales']['total_montant_sales'] ?></h3>
                         </div>
                         <div class="bg-green-100 p-3 rounded-full">
                             <i class="fas fa-dollar-sign text-green-500"></i>
@@ -127,7 +127,7 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-sm text-gray-500">Pending Orders</p>
-                            <h3 class="text-2xl font-bold">12</h3>
+                            <h3 class="text-2xl font-bold"><?php echo $data['statistecs']['pandingOrder'] ?></h3>
                         </div>
                         <div class="bg-yellow-100 p-3 rounded-full">
                             <i class="fas fa-clock text-yellow-500"></i>
@@ -141,7 +141,7 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-sm text-gray-500">Low Stock Items</p>
-                            <h3 class="text-2xl font-bold">15</h3>
+                            <h3 class="text-2xl font-bold"><?php echo $data['statistecs']['lowProductInStock'] ?></h3>
                         </div>
                         <div class="bg-red-100 p-3 rounded-full">
                             <i class="fas fa-exclamation-triangle text-red-500"></i>
@@ -165,45 +165,6 @@
                 </div>
             </div>
 
-            <!-- Recent Activity -->
-            <div class="bg-white rounded-lg shadow p-6 mb-8">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold">Recent Activity</h3>
-                    <a href="#" class="text-blue-500 text-sm">View All</a>
-                </div>
-                <div class="divide-y">
-                    <div class="py-3 flex items-center">
-                        <div class="bg-blue-100 p-2 rounded-full mr-4">
-                            <i class="fas fa-shopping-cart text-blue-500"></i>
-                        </div>
-                        <div>
-                            <p class="font-medium">New Order Placed</p>
-                            <p class="text-sm text-gray-500">Order #12345 for 25 units of Laptop</p>
-                        </div>
-                        <p class="ml-auto text-sm text-gray-500">2 hours ago</p>
-                    </div>
-                    <div class="py-3 flex items-center">
-                        <div class="bg-green-100 p-2 rounded-full mr-4">
-                            <i class="fas fa-check text-green-500"></i>
-                        </div>
-                        <div>
-                            <p class="font-medium">Order Completed</p>
-                            <p class="text-sm text-gray-500">Order #12342 has been delivered</p>
-                        </div>
-                        <p class="ml-auto text-sm text-gray-500">5 hours ago</p>
-                    </div>
-                    <div class="py-3 flex items-center">
-                        <div class="bg-red-100 p-2 rounded-full mr-4">
-                            <i class="fas fa-exclamation-circle text-red-500"></i>
-                        </div>
-                        <div>
-                            <p class="font-medium">Low Stock Alert</p>
-                            <p class="text-sm text-gray-500">Smartphone X is running low (5 left)</p>
-                        </div>
-                        <p class="ml-auto text-sm text-gray-500">1 day ago</p>
-                    </div>
-                </div>
-            </div>
 
             <!-- Top Selling Products -->
             <div class="bg-white rounded-lg shadow p-6">

@@ -323,13 +323,23 @@
                   <span class="text-sm font-medium text-gray-700">Total: </span>
                   <span class="text-lg font-semibold text-gray-900" id="pendingTotal">0.00 MAD</span>
                 </div>
-                <button id="validateAllSales" 
-                  class="py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                <button id="validateAllSales"
+                  class="py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled>
                   Valider Toutes les Ventes
                 </button>
               </div>
             </div>
 
+            <div id="saleErrer" class="mt-4 p-3 bg-red-50 border border-red-200 text-red-800 rounded-lg hidden">
+              <div class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 mr-2" fill="none"
+                  viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <p class="text-sm font-medium">Ventes Error quentity ne suffisent pas!</p>
+              </div>
+            </div>
             <div id="saleSuccess" class="mt-4 p-3 bg-green-50 border border-green-200 text-green-800 rounded-lg hidden">
               <div class="flex">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" fill="none"
@@ -351,9 +361,9 @@
               </svg>
               Objectifs du Manager
             </h2>
-            <div class="objectives-container space-y-5 flex-grow overflow-y-auto">
+            <div class="objectives-container space-y-5 flex-grow overflow-y-auto flex justify-center items-center">
               <!-- Weekly Sales Objective -->
-              <?php if (isset($data['objectifs'])): ?>
+              <?php if (isset($data['objectifs']) && !empty($data['objectifs'])): ?>
                 <?php foreach ($data['objectifs'] as $value): ?>
                   <?php if ($value->getFrequency() === 'weekly'): ?>
                     <div
@@ -438,6 +448,17 @@
                     </div>
                   <?php endif; ?>
                 <?php endforeach; ?>
+              <?php else: ?>
+                <!-- Message for when no objectives exist - centered both horizontally and vertically -->
+                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-center max-w-md">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-3" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  <p class="text-gray-600 font-medium">Aucun objectif de vente n'a été défini.</p>
+                  <p class="text-gray-500 mt-1">Créez par le manager pour suivre vos performances de vente.</p>
+                </div>
               <?php endif; ?>
             </div>
           </div>

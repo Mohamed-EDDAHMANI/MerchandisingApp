@@ -51,11 +51,11 @@
         <div class="absolute bottom-0 w-full border-t border-blue-700 p-4">
             <div class="flex items-center">
                 <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center text-white font-bold text-lg uppercase mr-3"
-                    style="background-color: <?php echo '#' . substr(md5( $data['user']->getFullName() ), 0, 6); ?>">
+                    style="background-color: <?php echo '#' . substr(md5($data['user']->getFullName()), 0, 6); ?>">
                     <?php echo substr($data['user']->getFullName(), 0, 1); ?>
                 </div>
                 <div>
-                    <p class="font-semibold"><?php echo  $data['user']->getFullName() ?></p>
+                    <p class="font-semibold"><?php echo $data['user']->getFullName() ?></p>
                     <p class="text-sm text-blue-300">Store Manager</p>
                 </div>
             </div>
@@ -79,7 +79,7 @@
             <header class="flex justify-between items-center mb-8">
                 <div>
                     <h2 id="page-title" class="text-2xl font-bold text-gray-800">Dashboard</h2>
-                    <p class="text-sm text-gray-600">Welcome back, <?php echo  $data['user']->getFullName() ?></p>
+                    <p class="text-sm text-gray-600">Welcome back, <?php echo $data['user']->getFullName() ?></p>
                 </div>
                 <div class="flex items-center space-x-4">
                     <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
@@ -99,7 +99,9 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-sm text-gray-500">Total Products</p>
-                            <h3 class="text-2xl font-bold"><?php echo $data['statistecs']['totalProductSales']['total_product_sales'] ?></h3>
+                            <h3 class="text-2xl font-bold">
+                                <?php echo $data['statistecs']['totalProductSales']['total_product_sales'] ?>
+                            </h3>
                         </div>
                         <div class="bg-blue-100 p-3 rounded-full">
                             <i class="fas fa-box text-blue-500"></i>
@@ -113,7 +115,8 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <p class="text-sm text-gray-500">Total Sales</p>
-                            <h3 class="text-2xl font-bold">$<?php echo $data['statistecs']['totalProductSales']['total_montant_sales'] ?></h3>
+                            <h3 class="text-2xl font-bold">
+                                $<?php echo $data['statistecs']['totalProductSales']['total_montant_sales'] ?></h3>
                         </div>
                         <div class="bg-green-100 p-3 rounded-full">
                             <i class="fas fa-dollar-sign text-green-500"></i>
@@ -183,20 +186,40 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b">
-                            <td class="py-3">
-                                <div class="flex items-center">
-                                    <div class="bg-gray-200 rounded w-10 h-10 mr-2"></div>
-                                    <span>Smartphone X</span>
-                                </div>
-                            </td>
-                            <td class="py-3">Electronics</td>
-                            <td class="py-3"><span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Low
-                                    (5)</span></td>
-                            <td class="py-3">$999</td>
-                            <td class="py-3">502 units</td>
-                        </tr>
-                        <tr class="border-b">
+                        <?php if (isset($data['productsTopSales']) && !empty($data['productsTopSales'])): ?>
+                            <?php foreach ($data['productsTopSales'] as $value): ?>
+                                <tr class="border-b">
+                                    <td class="py-3">
+                                        <div class="flex items-center">
+                                            <div class="rounded w-10 h-10 mr-2 flex items-center justify-center text-white font-bold text-lg uppercase"
+                                                style="background-color: <?php echo '#' . substr(md5($value->getCategoryName()), 0, 6); ?>">
+                                                <?php echo substr($value->getCategoryName(), 0, 1); ?>
+                                            </div>
+                                            <span><?php echo $value->getProductName() ?></span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3"><?php echo $value->getCategoryName() ?></td>
+                                    <td class="py-3">
+                                        <?php if ($value->getProductCount() > 300): ?>
+                                            <span
+                                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                Low (<?php echo $value->getProductCount() ?>)
+                                            </span>
+                                        <?php else: ?>
+                                            <span
+                                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                In Stock (<?php echo $value->getProductCount() ?>)
+                                            </span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="py-3">
+                                        <?php echo intval($value->getSalePrice()) ?> MAD
+                                    </td>
+                                    <td class="py-3"><?php echo intval($value->getTotalSalesQuantity()) ?> units</td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        <!-- <tr class="border-b">
                             <td class="py-3">
                                 <div class="flex items-center">
                                     <div class="bg-gray-200 rounded w-10 h-10 mr-2"></div>
@@ -235,7 +258,7 @@
                                     (15)</span></td>
                             <td class="py-3">$299</td>
                             <td class="py-3">184 units</td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -1135,13 +1158,13 @@
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="8" class="px-6 py-4 text-center text-sm text-gray-500">
-                                    Il n'y a pas encore de order.
-                                </td>
-                            </tr>
-                        <?php endif; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="8" class="px-6 py-4 text-center text-sm text-gray-500">
+                                Il n'y a pas encore de order.
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

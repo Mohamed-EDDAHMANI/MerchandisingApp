@@ -174,7 +174,7 @@
                     <a href="#" class="text-blue-500 text-sm">View All Products</a>
                 </div>
                 <table class="w-full">
-                    <thead>
+                    <thead class="">
                         <tr class="text-left text-gray-500 border-b">
                             <th class="pb-3">Product Name</th>
                             <th class="pb-3">Category</th>
@@ -217,46 +217,6 @@
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
-                        <!-- <tr class="border-b">
-                            <td class="py-3">
-                                <div class="flex items-center">
-                                    <div class="bg-gray-200 rounded w-10 h-10 mr-2"></div>
-                                    <span>Laptop Pro</span>
-                                </div>
-                            </td>
-                            <td class="py-3">Electronics</td>
-                            <td class="py-3"><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">In
-                                    Stock (42)</span></td>
-                            <td class="py-3">$1,299</td>
-                            <td class="py-3">342 units</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="py-3">
-                                <div class="flex items-center">
-                                    <div class="bg-gray-200 rounded w-10 h-10 mr-2"></div>
-                                    <span>Wireless Earbuds</span>
-                                </div>
-                            </td>
-                            <td class="py-3">Audio</td>
-                            <td class="py-3"><span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">In
-                                    Stock (78)</span></td>
-                            <td class="py-3">$149</td>
-                            <td class="py-3">281 units</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3">
-                                <div class="flex items-center">
-                                    <div class="bg-gray-200 rounded w-10 h-10 mr-2"></div>
-                                    <span>Smart Watch</span>
-                                </div>
-                            </td>
-                            <td class="py-3">Wearables</td>
-                            <td class="py-3"><span
-                                    class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Medium
-                                    (15)</span></td>
-                            <td class="py-3">$299</td>
-                            <td class="py-3">184 units</td>
-                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -274,7 +234,7 @@
 
             <div class="bg-white rounded-lg shadow overflow-hidden">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-200">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 ID</th>
@@ -291,7 +251,7 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         <?php if (isset($data['categories']) && !empty($data['categories'])): ?>
                             <?php foreach ($data['categories'] as $category): ?>
-                                <tr>
+                                <tr class="hover:bg-gray-750">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <?php echo $category->getCategoryId() ?>
                                     </td>
@@ -321,7 +281,7 @@
                                             onclick="showUpdateCategoryModal('categoryUpdateModal', <?php echo $category->getCategoryId() ?> )"><i
                                                 class="fas fa-edit"></i></button>
                                         <a href="/manager/category/delete/<?php echo $category->getCategoryId() ?>"
-                                            class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                            class="text-red-400 hover:text-red-300"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -332,22 +292,8 @@
                                 </td>
                             </tr>
                         <?php endif; ?>
-
                     </tbody>
                 </table>
-                <div class="mt-4 flex justify-between items-center">
-                    <div class="text-sm text-gray-700">
-                        Affichage du page <span class="font-medium currentPageDisplay"></span> sur <span
-                            class="font-medium totalPages"></span> résultats
-                    </div>
-                    <div class="flex space-x-2 pagination container">
-                        <button
-                            class="previeseBtn px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Précédent</button>
-                        <div class="pagination-numbers"></div>
-                        <button
-                            class="nextBtn px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Suivant</button>
-                    </div>
-                </div>
             </div>
 
             <!-- Category Modal -->
@@ -474,7 +420,7 @@
 
             <div class="bg-white rounded-lg shadow overflow-hidden">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-200">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Marge</th>
@@ -538,9 +484,6 @@
                                         <button class="text-blue-600 hover:text-blue-900 mr-3"
                                             onclick="updateProduct(<?php echo $value->getProductId() ?>)"><i
                                                 class="fas fa-edit"></i></button>
-                                        <button class="text-green-600 hover:text-green-900 mr-3"
-                                            onclick="genereteOrder(<?php echo $value->getProductId() ?>)"><i
-                                                class="fas fa-shopping-cart"></i></button>
                                         <a class="text-red-600 hover:text-red-900"
                                             href="/manager/product/delete/<?php echo $value->getProductId() ?>"><i
                                                 class="fas fa-trash"></i></a>
@@ -782,6 +725,78 @@
                 </div>
             </div>
 
+            <!-- Order Modal -->
+            <div id="orderModalProduct"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+                    <form action="/manager/order/create" method="POST">
+                        <div class="px-6 py-4 border-b">
+                            <h3 class="text-lg font-semibold">Create New Order</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="orderSupplier">
+                                    Supplier
+                                </label>
+                                <select
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="orderSupplier" name="orderSupplier">
+                                    <option value="">Select supplier</option>
+                                    <?php if (isset($data['suppliers'])): ?>
+                                        <?php foreach ($data['suppliers'] as $value): ?>
+                                            <option value="<?php echo $value->getId() ?>"><?php echo $value->getName() ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                            <div class="mb-4 relative">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="orderProductName">
+                                    Product Name
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="orderProductName" type="text" placeholder="Enter product name"
+                                    name="orderProductName">
+                                <input class="hidden" id="product_id" name="product_id">
+                                <div id="customDropdown"
+                                    class="absolute top-full left-0 w-full border border-gray-300 rounded bg-white shadow-md mt-1 z-10 hidden">
+                                    <ul id="dropdownOptions" class="py-1 max-h-60 overflow-y-auto">
+                                        <?php if (isset($data['products'])): ?>
+                                            <?php foreach ($data['products'] as $value): ?>
+                                                <li data-value="<?php echo $value->getProductId() ?>"
+                                                    class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-gray-700">
+                                                    <?php echo $value->getProductName(); ?>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="orderQuantity">
+                                    Quantity
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="orderQuantity" name="orderQuantity" type="number" min="500"
+                                    placeholder="Enter quantity">
+                            </div>
+                        </div>
+                        <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
+                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                                type="button" onclick="hideModal('orderModal')">
+                                Cancel
+                            </button>
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                type="submit">
+                                Place Order
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
 
         <!-- Suppliers Tab -->
@@ -796,7 +811,7 @@
 
             <div class="bg-white rounded-lg shadow overflow-hidden">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-200">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Postal Code</th>
@@ -1116,7 +1131,7 @@
 
         <div class="bg-white rounded-lg shadow overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="bg-gray-200">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Date</th>
@@ -1320,7 +1335,7 @@
 
         <div class="bg-white rounded-lg shadow overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="bg-gray-200">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             ID</th>

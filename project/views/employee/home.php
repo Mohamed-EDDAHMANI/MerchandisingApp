@@ -361,7 +361,7 @@
               </svg>
               Objectifs du Manager
             </h2>
-            <div class="objectives-container space-y-5 flex-grow overflow-y-auto flex justify-center items-center">
+            <div class="oobjectives-container space-y-5 flex-grow overflow-y-auto flex flex-col items-center">
               <!-- Weekly Sales Objective -->
               <?php if (isset($data['objectifs']) && !empty($data['objectifs'])): ?>
                 <?php foreach ($data['objectifs'] as $value): ?>

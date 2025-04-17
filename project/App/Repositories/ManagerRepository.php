@@ -223,21 +223,22 @@ GROUP BY
 
     public function sortProduct($storeID, $category_id = null, $stock = null)
     {
+        // var_dump(is_null($category_id));
+        // exit;
         $params = [];
         $sql = 'SELECT products.product_id, 
                     products.product_name, 
                     products.trade_price, 
                     products.sale_price, 
                     products.profit, 
-                    stocks.quentity AS product_count,
+                    COALESCE(stocks.quentity, 0) AS product_count,
                     categories.category_id,
                     categories.category_name
                 FROM products
-                INNER JOIN stocks ON products.product_id = stocks.product_id
-                INNER JOIN categories ON categories.category_id = products.category_id 
-                WHERE stocks.store_id = :store_id';
+                LEFT JOIN stocks ON products.product_id = stocks.product_id AND stocks.store_id = :store_id
+                LEFT JOIN categories ON categories.category_id = products.category_id WHERE 1=1 ';
 
-        if (!is_null($category_id)) {
+        if (!empty($category_id)) {
             $sql .= ' AND categories.category_id = :category_id';
             $params[':category_id'] = $category_id;
         }
@@ -251,6 +252,8 @@ GROUP BY
             $stmt->execute($params);
 
             $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // var_dump($products);
+            // exit();
             return $products;
         } catch (Exception $e) {
             return ["error" => "Error fetching product: " . $e->getMessage()];

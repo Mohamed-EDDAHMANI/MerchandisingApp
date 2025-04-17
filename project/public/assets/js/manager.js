@@ -230,7 +230,7 @@ async function sortProducts() {
                                         ${product.sale_price % 1 === 0 ? Math.floor(product.sale_price) : product.sale_price} MAD
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        ${product.product_count < 300 ? `
+                                        ${product.product_count > 300 ? `
                                             <span
                                                 class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                                 Low (${product.product_count})
@@ -246,9 +246,6 @@ async function sortProducts() {
                                         <button class="text-blue-600 hover:text-blue-900 mr-3"
                                             onclick="updateProduct(${product.product_id})"><i
                                                 class="fas fa-edit"></i></button>
-                                        <button class="text-green-600 hover:text-green-900 mr-3"
-                                            onclick="genereteOrder(${product.product_id})"><i
-                                                class="fas fa-shopping-cart"></i></button>
                                         <a class="text-red-600 hover:text-red-900"
                                             href="/manager/product/delete/${product.product_id}"><i
                                                 class="fas fa-trash"></i></a>

@@ -71,6 +71,7 @@ $router->get('/manager/objective/delete/{id}',  'ObjectifController@deleteObject
 
 $router->get('/manager/sales',  'ManagerController@getSalesChart'); // 
 $router->get('/manager/categories',  'ManagerController@getCategoriesData'); // 
+$router->get('/manager/employees/sales',  'ManagerController@getEmployeesSales'); // 
 
 $router->get('/employee/home', 'EmployeeController@index'); // 
 $router->post('/employee/products', 'EmployeeController@getProducts'); // 

@@ -316,7 +316,6 @@ document.getElementById("city").addEventListener("input", async function () {
     );
 
     const citiesData = await citiesResponse.json();
-    // console.log(citiesData.geonames)
 
     const searchCity = document.getElementById("city").value.toLowerCase();
 

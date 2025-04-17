@@ -171,6 +171,10 @@ class ManagerService
     {
         return $this->managerRepository->getCategoriesData($storeId);
     }
+    public function getEmployeesSales($storeId)
+    {
+        return $this->managerRepository->getEmployeesSales($storeId);
+    }
 
 }
 

@@ -68,11 +68,9 @@
         </div>
     </div>
 
-
     <!-- Main Content -->
     <div class="ml-64 p-8">
         <!-- Header -->
-
 
         <!-- Dashboard Tab -->
         <div id="dashboard" class="tab-content active">
@@ -200,7 +198,7 @@
                                     </td>
                                     <td class="py-3"><?php echo $value->getCategoryName() ?></td>
                                     <td class="py-3">
-                                        <?php if ($value->getProductCount() > 300): ?>
+                                        <?php if ($value->getProductCount() < 300): ?>
                                             <span
                                                 class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                                 Low (<?php echo $value->getProductCount() ?>)
@@ -334,8 +332,22 @@
                                 </td>
                             </tr>
                         <?php endif; ?>
+
                     </tbody>
                 </table>
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="text-sm text-gray-700">
+                        Affichage du page <span class="font-medium currentPageDisplay"></span> sur <span
+                            class="font-medium totalPages"></span> résultats
+                    </div>
+                    <div class="flex space-x-2 pagination container">
+                        <button
+                            class="previeseBtn px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Précédent</button>
+                        <div class="pagination-numbers"></div>
+                        <button
+                            class="nextBtn px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Suivant</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Category Modal -->
@@ -510,7 +522,7 @@
                                         <?php echo intval($value->getSalePrice()) ?> MAD
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <?php if ($value->getProductCount() > 300): ?>
+                                        <?php if ($value->getProductCount() < 300): ?>
                                             <span
                                                 class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                                 Low (<?php echo $value->getProductCount() ?>)
@@ -1481,165 +1493,93 @@
 
     <!-- Employees Tab -->
     <div id="employees" class="tab-content hidden">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-semibold">Employee Management</h3>
+        <div class="flex justify-between items-center mb-8">
+            <h3 class="text-2xl font-semibold">Employee Management</h3>
         </div>
-        <div class="overflow-x-auto pr-2 mb-8">
-            <div class="grid grid-flow-col auto-cols-[300px] gap-6 mb-8">
-                <?php if ($data['employees']): ?>
-                    <?php foreach ($data['employees'] as $value): ?>
-                        <div class="bg-white rounded-lg shadow p-6">
-                            <div class="flex flex-col items-center">
-                                <div
-                                    class="w-24 h-24 bg-gray-200 rounded-full mb-4 flex items-center justify-center text-2xl font-bold text-gray-600">
-                                    <?php
-                                    $name = $value->getFullName();
-                                    $nameArray = explode(" ", $name);
-                                    $firstInitial = !empty($nameArray[0]) ? substr($nameArray[0], 0, 1) : "";
-                                    $lastInitial = !empty($nameArray[count($nameArray) - 1]) ? substr($nameArray[count($nameArray) - 1], 0, 1) : "";
-                                    echo strtoupper($firstInitial . $lastInitial);
-                                    ?>
-                                </div>
-                                <h3 class="text-lg font-semibold"><?php echo $value->getFullName() ?></h3>
-                                <p class="text-gray-500 mb-2"><?php echo $value->getStore()->getName() ?></p>
-                                <div class="flex mb-4">
-                                    <span
-                                        class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Employee</span>
-                                </div>
-                                <div class="w-full mt-2">
-                                    <div class="flex justify-between mb-1">
-                                        <span class="text-sm font-medium">Performance</span>
+
+        <!-- Employee Cards Section -->
+        <div class="mb-12">
+            <!-- Scrollable container with better overflow handling -->
+            <div class="overflow-x-auto pb-4">
+                <!-- Responsive grid that works better on different screen sizes -->
+                <div class="grid grid-flow-col auto-cols-[280px] md:auto-cols-[320px] gap-6">
+                    <?php if ($data['employees']): ?>
+                        <?php foreach ($data['employees'] as $value): ?>
+                            <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6">
+                                <div class="flex flex-col items-center">
+                                    <!-- Avatar circle -->
+                                    <div
+                                        class="w-24 h-24 bg-gray-200 rounded-full mb-4 flex items-center justify-center text-2xl font-bold text-gray-600">
+                                        <?php
+                                        $name = $value->getFullName();
+                                        $nameArray = explode(" ", $name);
+                                        $firstInitial = !empty($nameArray[0]) ? substr($nameArray[0], 0, 1) : "";
+                                        $lastInitial = !empty($nameArray[count($nameArray) - 1]) ? substr($nameArray[count($nameArray) - 1], 0, 1) : "";
+                                        echo strtoupper($firstInitial . $lastInitial);
+                                        ?>
+                                    </div>
+
+                                    <!-- Employee info with better spacing -->
+                                    <h3 class="text-lg font-semibold mb-1"><?php echo $value->getFullName() ?></h3>
+                                    <p class="text-gray-500 mb-3"><?php echo $value->getStore()->getName() ?></p>
+
+                                    <!-- Badge with improved positioning -->
+                                    <div class="mb-5">
                                         <span
-                                            class="text-sm font-medium <?php echo ($value->getEmployee()->getPerformance() ?: 0) > 50 ? 'text-green-500' : 'text-blue-500' ?>"><?php echo $value->getEmployee()->getPerformance() ?: 0 ?>%</span>
+                                            class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Employee</span>
                                     </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2">
-                                        <div class="<?php echo ($value->getEmployee()->getPerformance() ?: 0) > 50 ? 'bg-green-500' : 'bg-blue-500' ?> h-2 rounded-full"
-                                            style="width: <?php echo $value->getEmployee()->getPerformance() ?: 0 ?>%"></div>
+
+                                    <!-- Performance bar with better spacing -->
+                                    <div class="w-full">
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-sm font-medium">Performance</span>
+                                            <span
+                                                class="text-sm font-medium <?php echo ($value->getEmployee()->getPerformance() ?: 0) > 50 ? 'text-green-600' : 'text-blue-600' ?>"><?php echo $value->getEmployee()->getPerformance() ?: 0 ?>%</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                            <div class="<?php echo ($value->getEmployee()->getPerformance() ?: 0) > 50 ? 'bg-green-500' : 'bg-blue-500' ?> h-2.5 rounded-full"
+                                                style="width: <?php echo $value->getEmployee()->getPerformance() ?: 0 ?>%">
+                                            </div>
+                                        </div>
                                     </div>
+
+                                    <!-- Stats with improved spacing and alignment -->
+                                    <div class="w-full mt-5 grid grid-cols-2 gap-4 text-center">
+                                        <div class="bg-gray-50 p-2 rounded">
+                                            <p class="text-gray-500 text-sm mb-1">Sales</p>
+                                            <p class="font-semibold">
+                                                $<?php echo number_format($value->getEmployee()->getMontantTotal() ?? 0, 2) ?>
+                                            </p>
+                                        </div>
+                                        <div class="bg-gray-50 p-2 rounded">
+                                            <p class="text-gray-500 text-sm mb-1">Items Sold</p>
+                                            <p class="font-semibold">
+                                                <?php echo $value->getEmployee()->getQuantityTotal() ?? 0 ?> units
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Button with improved spacing and hover effect -->
+                                    <button
+                                        class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors duration-200">
+                                        View Profile
+                                    </button>
                                 </div>
-                                <div class="w-full mt-4 grid grid-cols-2 gap-4 text-center">
-                                    <div>
-                                        <p class="text-gray-500 text-sm">Sales</p>
-                                        <p class="font-semibold">
-                                            $<?php echo number_format($value->getEmployee()->getMontantTotal() ?? 0, 2) ?></p>
-                                    </div>
-                                    <div>
-                                        <p class="text-gray-500 text-sm">Items Sold</p>
-                                        <p class="font-semibold">
-                                            <?php echo $value->getEmployee()->getQuantityTotal() ?? 0 ?> units
-                                        </p>
-                                    </div>
-                                </div>
-                                <button class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">View
-                                    Profile</button>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow mb-8">
-            <div class="px-6 py-4 border-b">
+        <!-- Performance Chart Section -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 mb-8">
+            <div class="px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-semibold">Employee Performance Chart</h3>
             </div>
             <div class="p-6">
                 <canvas id="employeePerformanceChart" height="300"></canvas>
             </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow">
-            <div class="px-6 py-4 border-b flex justify-between items-center">
-                <h3 class="text-lg font-semibold">Employee List</h3>
-                <input type="text" placeholder="Search employees..."
-                    class="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Employee</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Position</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Performance</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Salary</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full"></div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-900">Jane Smith</div>
-                                    <div class="text-sm text-gray-500">jane.smith@example.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Senior Sales Associate</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
-                                    <div class="bg-green-500 h-2 rounded-full" style="width: 97.5%"></div>
-                                </div>
-                                <span class="text-sm text-green-600 font-medium">97.5%</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$45,000</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span
-                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Active
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
-                            <button class="text-green-600 hover:text-green-900 mr-3"><i
-                                    class="fas fa-chart-line"></i></button>
-                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full"></div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-900">Mike Johnson</div>
-                                    <div class="text-sm text-gray-500">mike.johnson@example.com</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Sales Associate</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
-                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 85.2%"></div>
-                                </div>
-                                <span class="text-sm text-blue-600 font-medium">85.2%</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$38,000</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span
-                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Active
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></button>
-                            <button class="text-green-600 hover:text-green-900 mr-3"><i
-                                    class="fas fa-chart-line"></i></button>
-                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 

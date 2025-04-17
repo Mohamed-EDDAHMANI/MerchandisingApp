@@ -185,27 +185,27 @@ class ManagerRepository extends Repository
     {
         try {
             $query = "SELECT 
-                    p.product_id, 
-                    p.product_name, 
-                    p.trade_price, 
-                    p.sale_price, 
-                    p.profit, 
-                    c.category_id,
-                    c.category_name,
-                    s.quentity AS product_count,
-                    COALESCE(SUM(sa.quantity), 0) AS total_sales_quantity
-                    FROM 
-                    products p
-                    JOIN 
-                    categories c ON p.category_id = c.category_id
-                    LEFT JOIN 
-                    stocks s ON p.product_id = s.product_id AND s.store_id = :store_id
-                    LEFT JOIN 
-                    sales sa ON p.product_id = sa.product_id AND sa.store_id = :store_id
-                    WHERE 
-                    s.store_id = :store_id
-                    GROUP BY 
-                    p.product_id, p.product_name, s.quentity;";
+    p.product_id, 
+    p.product_name, 
+    p.trade_price, 
+    p.sale_price, 
+    p.profit, 
+    c.category_id,
+    c.category_name,
+    COALESCE(s.quentity, 0) AS product_count,
+    COALESCE(SUM(sa.quantity), 0) AS total_sales_quantity
+FROM 
+    products p
+JOIN 
+    categories c ON p.category_id = c.category_id
+LEFT JOIN 
+    stocks s ON p.product_id = s.product_id AND s.store_id = :store_id
+LEFT JOIN 
+    sales sa ON p.product_id = sa.product_id AND sa.store_id = :store_id
+GROUP BY 
+    p.product_id, p.product_name, p.trade_price, p.sale_price, p.profit,
+    c.category_id, c.category_name, s.quentity;
+";
 
 
 
@@ -257,7 +257,6 @@ class ManagerRepository extends Repository
         }
     }
 
-
     public function getAllSuppliersWithCategories()
     {
         try {
@@ -292,8 +291,7 @@ class ManagerRepository extends Repository
             return ["error" => "Error fetching orders: " . $e->getMessage()];
         }
     }
-    public function getEmployees($id)
-    {
+    public function getEmployees($id){
         try {
             $result = $this->getStoreId($id);
             if ($result) {
@@ -495,6 +493,35 @@ GROUP BY
     c.category_id, c.category_name, c.description
 ORDER BY 
     total_sales_amount DESC;";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':store_id', $storeId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function getEmployeesSales($storeId)
+    {
+        try {
+            $sql = "SELECT 
+    e.employee_id,
+    u.first_name,
+    u.last_name,
+    COALESCE(SUM(s.quantity), 0) AS total_sales_quantity,
+    COUNT(s.sale_id) AS number_of_transactions
+FROM 
+    employees e
+JOIN 
+    users u ON e.user_id = u.id
+LEFT JOIN 
+    sales s ON e.employee_id = s.employee_id AND s.store_id = :store_id
+WHERE 
+    u.store_id = :store_id
+GROUP BY 
+    e.employee_id, 
+    u.first_name, 
+    u.last_name;";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':store_id', $storeId, PDO::PARAM_INT);
             $stmt->execute();

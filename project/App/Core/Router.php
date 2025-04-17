@@ -54,7 +54,7 @@ class Router
             foreach ($this->routes[$method] as $route => $controllerAction) {
                 // Convert route to a regex pattern to match dynamic parameters
 
-                $pattern = self::convertRouteToPattern($route);
+                $pattern = self::convertRouteToPattern(route: $route);
 
                 // Check if the URI matches the route pattern
                 if (preg_match($pattern, $uri, $matches)) {
@@ -70,7 +70,7 @@ class Router
 
         // No matching route found
         header("HTTP/1.0 404 Not Found");
-        echo '404 Not Found Router';
+        include dirname(__DIR__)."/../Views/notFound.php";
     }
 
     // Convert a route with placeholders (e.g., {id}) to a regex pattern
@@ -92,7 +92,7 @@ class Router
         $controller = 'App\\Controllers\\' . $roleFolder . '\\' . $controller;
 
         if (!class_exists($controller)) {
-            header('Location: /notAutorise..');
+            include dirname(__DIR__)."/../Views/notAutorise.php";
             return;
         }
         $controllerInstance = new $controller();

@@ -78,5 +78,13 @@ class ManagerController extends BaseController {
         echo json_encode($sales);
         exit;
     }
+    public function getEmployeesSales()
+    {
+        $storeID = $this->session->get('user')->getStoreId();
+        $sales = $this->managerService->getEmployeesSales($storeID);
+        // header('Content-Type: application/json');
+        echo json_encode($sales);
+        exit;
+    }
 
 }

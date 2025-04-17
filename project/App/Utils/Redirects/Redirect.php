@@ -10,7 +10,8 @@ class Redirect
     public static function to($url)
     {
         header("Location: " . $url);
-        exit;
+        // include dirname(__DIR__)."/../Views$url.php";
+        // exit;
     }
 
     public static function roleRedirect($role)
@@ -34,10 +35,10 @@ class Redirect
     }
 
     // Method for redirecting back to the previous page
-    public static function back($statusCode = 302)
+    public static function back()
     {
         if (isset($_SERVER['HTTP_REFERER'])) {
-            self::to($_SERVER['HTTP_REFERER'], $statusCode);
+            self::to($_SERVER['HTTP_REFERER']);
         } else {
             // If no referer is available, redirect to the home page (or any other default page)
             self::to('/');

@@ -46,6 +46,8 @@ class StoreService
     public function updatePointDeVente($data, $id)
     {
         $result = $this->storeRepository->updatePointDeVente($data, $id); 
+        var_dump($result);
+        exit();
         if ($result) {
             $this->session->setError('success', 'Store Updated successfully');
         } else {

@@ -28,8 +28,8 @@ class OrderController extends BaseController{
         Redirect::to('/manager/dashboard#orders');
     }
     public function confirmOrder($id){
-        $userId = $this->session->get('user')->getId();
-        $result = $this->orderService->confirmOrder($id, $userId);
+        $storeId = $this->session->get('user')->getStoreId();
+        $result = $this->orderService->confirmOrder($id, $storeId);
         if ($result) {
             $this->session->setError('success', 'Order confirmed successfully');
         } else {

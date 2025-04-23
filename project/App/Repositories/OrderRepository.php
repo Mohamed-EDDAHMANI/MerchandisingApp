@@ -11,6 +11,7 @@ class OrderRepository extends Repository
 {
     public function createOrder($data, $manager_id)
     {
+        
         try {
             $sql = 'INSERT INTO orders (supplier_id, manager_id, product_id, quantity) VALUES (:supplier_id, :manager_id, :product_id, :quantity)';
             $stmt = $this->db->prepare($sql);
@@ -24,7 +25,7 @@ class OrderRepository extends Repository
         }
     }
 
-    public function confirmOrder($id, $userId)
+    public function confirmOrder($id, $storeId)
     {
         try {
             $this->db->beginTransaction();
@@ -43,7 +44,7 @@ class OrderRepository extends Repository
                 $result = new Order($stmt->fetch(PDO::FETCH_ASSOC));
                 
                 if ($result instanceof Order) {
-                    $res = $this->AddQuantity($result->getQuantity(), $result->getProductId(), $userId);
+                    $res = $this->AddQuantity($result->getQuantity(), $result->getProductId(), $storeId);
                     if ($res) {
                         $this->db->commit();
                         return true;
@@ -58,28 +59,25 @@ class OrderRepository extends Repository
         }
     }
 
-    public function AddQuantity($quentity, $product_id, $userId)
+    public function AddQuantity($quentity, $product_id, $storeId)
     {
-        $checkSql = "SELECT COUNT(*) FROM stocks WHERE product_id = :product_id";
+        $checkSql = "SELECT COUNT(*) FROM stocks WHERE product_id = :product_id AND store_id = :store_id";
         $checkStmt = $this->db->prepare($checkSql);
         $checkStmt->bindParam(':product_id', $product_id);
+        $checkStmt->bindParam(':store_id', $storeId);
         $checkStmt->execute();
         $count = $checkStmt->fetchColumn();
 
         if ($count > 0) {
-            $sql = 'UPDATE stocks SET quentity = quentity + :quentity WHERE product_id = :product_id';
+            $sql = 'UPDATE stocks SET quentity = quentity + :quentity WHERE product_id = :product_id AND store_id = :store_id';
         } else {
-            $storeId = $this->getStoreIdFromUser($userId);
             $sql = 'INSERT INTO stocks (quentity, product_id, store_id) VALUES (:quentity, :product_id, :store_id)';
         }
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam('quentity', $quentity);
         $stmt->bindParam('product_id', $product_id);
-        
-        if (isset($storeId)) {
-            $stmt->bindParam('store_id', $storeId);
-        }
+        $stmt->bindParam('store_id', $storeId);
 
         if ($stmt->execute()) {
             return $this->updateStorePerformance($product_id, $quentity);
@@ -104,16 +102,6 @@ class OrderRepository extends Repository
         $sql = 'SELECT store_id FROM stocks WHERE product_id = :product_id';
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam('product_id', $product_id);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['store_id'];
-    }
-
-    public function getStoreIdFromUser($userId)
-    {
-        $sql = 'SELECT store_id FROM users WHERE id = :user_id';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam('user_id', $userId);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['store_id'];

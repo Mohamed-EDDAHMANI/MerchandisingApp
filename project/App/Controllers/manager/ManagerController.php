@@ -17,18 +17,20 @@ class ManagerController extends BaseController {
 
     public function index() {
         $user = $this->session->get('user');
+        $managerId = $this->session->get('data')->getId();
+        $store = $this->session->get('store');
         $categories = $this->managerService->getAllCategories();
         $products = $this->managerService->getAllProducts();
         $suppliers = $this->managerService->getAllSuppliersWithCategories();
-        $orders = $this->managerService->getAllOrdersWithSupplierAndProduct();
+        $orders = $this->managerService->getAllOrdersWithSupplierAndProduct($managerId);
         $employees = $this->managerService->getEmployees($user->getId());
-        $objectifs = $this->managerService->getObjectifs();
+        $objectifs = $this->managerService->getObjectifs($managerId);
         $statistecs = $this->managerService->getStatistics($user);
-        // var_dump($products['sortProducts']);
+        // var_dump($statistecs);
         // exit;
         // $productTopSales = $this->sortProdeuctsBySales($products);
         $data = ['categories' => $categories, 'products' => $products['products'], 'suppliers' => $suppliers, 'orders' => $orders,
-         'employees' => $employees, 'objectifs' => $objectifs, 'user' => $user, 'statistecs' => $statistecs, 'productsTopSales' => $products['sortProducts']];
+         'employees' => $employees, 'objectifs' => $objectifs, 'user' => $user, 'statistecs' => $statistecs, 'productsTopSales' => $products['sortProducts'], 'store' => $store ];
 
         return $this->view('manager/dashboard', $data);
     }

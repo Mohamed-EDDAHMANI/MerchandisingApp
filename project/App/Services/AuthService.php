@@ -24,6 +24,7 @@ class AuthService
         //create user session manager / employee
         if (is_array($result)) {
             $this->session->set("user", $result[0]);
+            $this->session->set("store", $this->authRepository->getStoreName($result[0]));
             $this->session->set("data", $result[1]);
             $this->session->set("role", $result[2]);
             Redirect::roleRedirect($result[2]);

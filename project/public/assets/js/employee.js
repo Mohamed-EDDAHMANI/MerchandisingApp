@@ -258,6 +258,7 @@ async function sendSales(sales) {
                 console.error('Server error:', data.message || 'Unknown error');
                 return false;
             }
+            
             return data.success || false;
         } catch (e) {
             console.error('Invalid JSON response:', text);
@@ -300,7 +301,6 @@ quantityInput.addEventListener('input', calculateTotal);
 
 saleForm.addEventListener('submit', function (event) {
     event.preventDefault();
-    console.log('Form submitted!');
     let valid = true;
 
     if (!productSelect.value) {
@@ -349,7 +349,6 @@ validateAllSales.addEventListener('click', async function () {
     const result = await sendSales(pendingSalesArray);
     pendingSalesArray = [];
     updatePendingSalesTable();
-    console.log(result)
     if (!result){
         saleErrer.classList.remove('hidden');
         setTimeout(() => {
@@ -357,7 +356,7 @@ validateAllSales.addEventListener('click', async function () {
         }, 3000);
         return;
     };
-
+    window.location.reload()
     saleSuccess.classList.remove('hidden');
     setTimeout(() => {
         saleSuccess.classList.add('hidden');

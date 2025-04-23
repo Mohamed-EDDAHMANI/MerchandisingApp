@@ -22,9 +22,9 @@ class EmployeeService
         $products = $this->employeeRepository->getProductList();
         return $products;
     }
-    public function getProductsSorted($keyword)
+    public function getProductsSorted($keyword, $storeId)
     {
-        return $this->employeeRepository->getProductsSorted($keyword);
+        return $this->employeeRepository->getProductsSorted($keyword, $storeId);
     }
     public function createSales($salesData): mixed
     {
@@ -83,17 +83,21 @@ class EmployeeService
                     $notAchievedCount++;
                 }
             }
-        }else{
+            $totalObjectives = $achievedCount + $notAchievedCount;
             return [
-                'montant' => 0,
-                'quantity' => 0,
+                'montant' => $montant,
+                'quantity' => $quantity,
+                'persontage' => $totalObjectives > 0 
+                ? ($achievedCount / $totalObjectives) * 100 
+                : 0,
+            ];
+        }else{
+            $statistics = $this->employeeRepository->getStatistics($employeeId);
+            return [
+                'montant' => $statistics['total_sales_amount'],
+                'quantity' => $statistics['total_quantity_sold'],
                 'persontage' => 0,
             ];
         }
-        return [
-            'montant' => $montant,
-            'quantity' => $quantity,
-            'persontage' => $achievedCount / ($achievedCount + $notAchievedCount) * 100,
-        ];
     }
 }

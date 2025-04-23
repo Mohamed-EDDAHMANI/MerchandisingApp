@@ -23,22 +23,23 @@ class EmployeeController extends BaseController
     {
         $employeeId = $this->session->get('data')->getId();
         $userId = $this->session->get('user')->getId();
+        $store = $this->session->get('store');
         $products = $this->employeeService->getProductList();
         $objectifs = $this->employeeService->getObjectifsList($employeeId);
         $reports = $this->employeeService->getReports($userId);
         $statistics = $this->employeeService->getStatistics($employeeId);
         $userData = $this->session->get('user');
-
-        return $this->view('employee/home', ['products' => $products, 'objectifs' => $objectifs, 'reports' => $reports, 'statistics' => $statistics, 'userData' => $userData]);
+        return $this->view('employee/home', ['products' => $products, 'objectifs' => $objectifs, 'reports' => $reports, 'statistics' => $statistics, 'userData' => $userData, 'store' => $store]);
     }
 
     public function getProducts($keyword = null)
     {
         $json = file_get_contents("php://input");
+        $storeId = $this->session->get('user')->getStoreId();
         $filters = json_decode($json, true);
         $keyword = isset($filters['name']) ? $filters['name'] : null;
 
-        $products = $this->employeeService->getProductsSorted($keyword);
+        $products = $this->employeeService->getProductsSorted($keyword, $storeId);
         echo json_encode($products);
         exit;
     }

@@ -100,6 +100,7 @@ class StoreRepository extends Repository
             $stmt->bindParam(':status', $data['status'], PDO::PARAM_STR);
             $stmt->bindParam(':parking_space', $parkingSpace, PDO::PARAM_INT);
             $stmt->bindParam(':store_id', $id, PDO::PARAM_INT);
+            return $stmt->execute();
         } catch (PDOException $e) {
             return "Error :" . $e->getMessage();
         }

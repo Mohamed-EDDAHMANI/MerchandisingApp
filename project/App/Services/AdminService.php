@@ -75,6 +75,15 @@ class AdminService
         $this->session->setError('success', 'User status Updated successfully');
         Redirect::to('/admin/utilisateurs'); 
     }
+    public function getStatistics()
+    {
+        $data =  $this->adminRepository->getStatistics();
+        return ['total_chiffre_daffaire' => $data['total_chiffre_daffaire'], 'total_expenses' => $data['total_expenses'], 'total_rentability' => $data['total_rentability'], 'most_rentable_store' => $data['most_rentable_store']];
+    }
+    public function getStorePerformance()
+    {
+        return  $this->adminRepository->getStorePerformance();
+    }
 }
 
 

@@ -144,17 +144,17 @@ class ManagerService
     {
         return $this->managerRepository->getAllSuppliersWithCategories();
     }
-    public function getAllOrdersWithSupplierAndProduct()
+    public function getAllOrdersWithSupplierAndProduct($managerId)
     {
-        return $this->managerRepository->getAllOrdersWithSupplierAndProduct();
+        return $this->managerRepository->getAllOrdersWithSupplierAndProduct($managerId);
     }
     public function getEmployees($id)
     {
         return $this->managerRepository->getEmployees($id);
     }
-    public function getObjectifs()
+    public function getObjectifs($managerId)
     {
-        return $this->managerRepository->getObjectifs();
+        return $this->managerRepository->getObjectifs($managerId);
     }
     public function getStatistics($user)
     {

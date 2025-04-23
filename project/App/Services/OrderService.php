@@ -23,9 +23,9 @@ class OrderService
             return ['status' => 'error', 'message' => 'Failed to create order.'];
         }
     }
-    public function confirmOrder($id, $userId)
+    public function confirmOrder($id, $storeId)
     {
-        $result = $this->orderRepository->confirmOrder($id, $userId);
+        $result = $this->orderRepository->confirmOrder($id, $storeId);
         if ($result === true) {
             return true;
         } elseif ($result === false) {

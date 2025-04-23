@@ -230,7 +230,7 @@ async function sortProducts() {
                                         ${product.sale_price % 1 === 0 ? Math.floor(product.sale_price) : product.sale_price} MAD
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        ${product.product_count > 300 ? `
+                                        ${product.product_count < 300 ? `
                                             <span
                                                 class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                                 Low (${product.product_count})
@@ -383,39 +383,39 @@ async function getSupplier(id) {
 // order 
 
 const input = document.getElementById('orderProductName');
-    const customDropdown = document.getElementById('customDropdown');
-    const dropdownOptions = document.getElementById('dropdownOptions');
-    const product_id = document.getElementById('product_id');
-    const options = Array.from(dropdownOptions.children);
-    
-    input.addEventListener('input', function() {
-        const searchTerm = input.value.toLowerCase();
-        
-        if (searchTerm.length > 0) {
-            customDropdown.classList.remove('hidden');
-        } else {
-            customDropdown.classList.add('hidden');
-        }
+const customDropdown = document.getElementById('customDropdown');
+const dropdownOptions = document.getElementById('dropdownOptions');
+const product_id = document.getElementById('product_id');
+const options = Array.from(dropdownOptions.children);
 
-        const filteredOptions = options.filter(option => 
-            option.textContent.toLowerCase().includes(searchTerm)
-        );
+input.addEventListener('input', function () {
+    const searchTerm = input.value.toLowerCase();
 
-        dropdownOptions.innerHTML = '';
-        filteredOptions.forEach(option => dropdownOptions.appendChild(option));
+    if (searchTerm.length > 0) {
+        customDropdown.classList.remove('hidden');
+    } else {
+        customDropdown.classList.add('hidden');
+    }
 
-        filteredOptions.sort((a, b) => {
-            if (a.textContent.toLowerCase().startsWith(searchTerm)) return -1;
-            if (b.textContent.toLowerCase().startsWith(searchTerm)) return 1;
-            return a.textContent.localeCompare(b.textContent);
-        });
+    const filteredOptions = options.filter(option =>
+        option.textContent.toLowerCase().includes(searchTerm)
+    );
+
+    dropdownOptions.innerHTML = '';
+    filteredOptions.forEach(option => dropdownOptions.appendChild(option));
+
+    filteredOptions.sort((a, b) => {
+        if (a.textContent.toLowerCase().startsWith(searchTerm)) return -1;
+        if (b.textContent.toLowerCase().startsWith(searchTerm)) return 1;
+        return a.textContent.localeCompare(b.textContent);
     });
+});
 
-    dropdownOptions.addEventListener('click', function(event) {
-        if (event.target.tagName === 'LI') {
-            const text = event.target.textContent.trim();
-            input.value = text;
-            product_id.value = event.target.getAttribute('data-value');
-            customDropdown.classList.add('hidden');
-        }
-    });
+dropdownOptions.addEventListener('click', function (event) {
+    if (event.target.tagName === 'LI') {
+        const text = event.target.textContent.trim();
+        input.value = text;
+        product_id.value = event.target.getAttribute('data-value');
+        customDropdown.classList.add('hidden');
+    }
+});

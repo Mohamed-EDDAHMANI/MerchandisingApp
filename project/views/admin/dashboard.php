@@ -131,23 +131,23 @@
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div>
                             <p class="text-blue-100 text-sm">CA Actuelle</p>
-                            <p class="text-2xl font-bold mt-1">€2.4M</p>
+                            <p class="text-2xl font-bold mt-1"><?php echo $data['statistecs']['total_chiffre_daffaire'] ?> DH</p>
                             <div class="flex items-center mt-1">
                                 <span class="text-green-300 text-xs"><i class="fas fa-arrow-up mr-1"></i>12%</span>
                                 <span class="text-blue-200 text-xs ml-1">vs mois précédent</span>
                             </div>
                         </div>
                         <div>
-                            <p class="text-blue-100 text-sm">Fréquentation</p>
-                            <p class="text-2xl font-bold mt-1">45.8K</p>
+                            <p class="text-blue-100 text-sm">Les charge</p>
+                            <p class="text-2xl font-bold mt-1"><?php echo $data['statistecs']['total_expenses'] ?> DH</p>
                             <div class="flex items-center mt-1">
                                 <span class="text-green-300 text-xs"><i class="fas fa-arrow-up mr-1"></i>7%</span>
                                 <span class="text-blue-200 text-xs ml-1">vs mois précédent</span>
                             </div>
                         </div>
                         <div>
-                            <p class="text-blue-100 text-sm">Panier Moyen</p>
-                            <p class="text-2xl font-bold mt-1">€68.50</p>
+                            <p class="text-blue-100 text-sm">La Rentabilite</p>
+                            <p class="text-2xl font-bold mt-1"><?php echo $data['statistecs']['total_rentability'] ?> DH</p>
                             <div class="flex items-center mt-1">
                                 <span class="text-green-300 text-xs"><i class="fas fa-arrow-up mr-1"></i>3%</span>
                                 <span class="text-blue-200 text-xs ml-1">vs mois précédent</span>
@@ -155,7 +155,7 @@
                         </div>
                         <div>
                             <p class="text-blue-100 text-sm">Magasin le plus performant</p>
-                            <p class="text-xl font-bold mt-1">Paris Centre</p>
+                            <p class="text-xl font-bold mt-1"><?php echo $data['statistecs']['most_rentable_store'] ?></p>
                             <div class="flex items-center mt-1">
                                 <span class="text-blue-200 text-xs">€498K ce mois-ci</span>
                             </div>
@@ -189,59 +189,7 @@
         </div>
     </div>
 
-    <!-- Initialize Charts -->
-    <script>
-        // City Performance Chart
-        const cityCtx = document.getElementById('cityChart').getContext('2d');
-        const cityChart = new Chart(cityCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Casablanca', 'Rabat', 'Marrakech', 'Tanger', 'Fès', 'Agadir'],
-                datasets: [{
-                    label: 'Rentabilité (%)',
-                    data: [68, 72, 64, 59, 76, 51],
-                    backgroundColor: '#1d4ed8',
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100
-                    }
-                }
-            }
-        });
-
-        // Margin Trend Chart
-        const marginCtx = document.getElementById('marginChart').getContext('2d');
-        const marginChart = new Chart(marginCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
-                datasets: [{
-                    label: 'Marge moyenne (%)',
-                    data: [22, 24, 27, 23, 25, 28],
-                    fill: false,
-                    borderColor: '#1d4ed8',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                responsive: true
-            }
-        });
-
-        // Mobile sidebar toggle
-        document.getElementById('sidebar-toggle').addEventListener('click', function () {
-            const sidebar = document.querySelector('aside');
-            sidebar.classList.toggle('hidden');
-            sidebar.classList.toggle('fixed');
-            sidebar.classList.toggle('z-50');
-            sidebar.classList.toggle('inset-0');
-        });
-    </script>
+    <script src="../../public/assets/js/admin.js"></script>
 </body>
 
 </html>

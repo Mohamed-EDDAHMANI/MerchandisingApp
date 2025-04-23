@@ -9,14 +9,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="../../public/assets/css/employee.css">
 </head>
 
 <body class="bg-gray-100 font-sans">
 
     <!-- Sidebar -->
-    <div class="fixed inset-y-0 left-0 w-64 bg-blue-800 text-white shadow-lg z-10">
-        <div class="flex items-center justify-center h-16 border-b border-blue-700">
+    <div class="fixed inset-y-0 left-0 w-64 gradient-bg text-white shadow-lg z-10">
+        <div class="flex items-center justify-center flex-col h-18 border-b border-blue-700 gradient-bg p-4">
             <h1 class="text-xl font-bold">Store Manager</h1>
+            <h1 class="text-xl font-bold"><?php echo $data['store'] ?></h1>
         </div>
         <nav class="mt-5 sidebar">
             <a data-tab="#dashboard" class="flex items-center py-3 px-6 text-white hover:bg-blue-700 active-nav"
@@ -80,7 +82,7 @@
                     <p class="text-sm text-gray-600">Welcome back, <?php echo $data['user']->getFullName() ?></p>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                    <button class="gradient-bg hover:bg-blue-600 text-white px-4 py-2 rounded"
                         onclick="showModal('orderModal')">
                         <i class="fas fa-plus mr-2"></i> New Order
                     </button>
@@ -226,7 +228,7 @@
         <div id="categories" class="tab-content hidden">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-semibold">Product Categories</h3>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                <button class="gradient-bg hover:bg-blue-600 text-white px-4 py-2 rounded"
                     onclick="showModal('categoryModal')">
                     <i class="fas fa-plus mr-2"></i> New Category
                 </button>
@@ -384,7 +386,7 @@
         <div id="products" class="tab-content hidden">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-semibold">Product Inventory</h3>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                <button class="gradient-bg hover:bg-blue-600 text-white px-4 py-2 rounded"
                     onclick="showModal('productModal')">
                     <i class="fas fa-plus mr-2"></i> New Product
                 </button>
@@ -719,78 +721,6 @@
                             <button type="submit" id="productSubmit"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition duration-300 ease-in-out">
                                 Save Product
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Order Modal -->
-            <div id="orderModalProduct"
-                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-                <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
-                    <form action="/manager/order/create" method="POST">
-                        <div class="px-6 py-4 border-b">
-                            <h3 class="text-lg font-semibold">Create New Order</h3>
-                        </div>
-                        <div class="p-6">
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="orderSupplier">
-                                    Supplier
-                                </label>
-                                <select
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="orderSupplier" name="orderSupplier">
-                                    <option value="">Select supplier</option>
-                                    <?php if (isset($data['suppliers'])): ?>
-                                        <?php foreach ($data['suppliers'] as $value): ?>
-                                            <option value="<?php echo $value->getId() ?>"><?php echo $value->getName() ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
-                            <div class="mb-4 relative">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="orderProductName">
-                                    Product Name
-                                </label>
-                                <input
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="orderProductName" type="text" placeholder="Enter product name"
-                                    name="orderProductName">
-                                <input class="hidden" id="product_id" name="product_id">
-                                <div id="customDropdown"
-                                    class="absolute top-full left-0 w-full border border-gray-300 rounded bg-white shadow-md mt-1 z-10 hidden">
-                                    <ul id="dropdownOptions" class="py-1 max-h-60 overflow-y-auto">
-                                        <?php if (isset($data['products'])): ?>
-                                            <?php foreach ($data['products'] as $value): ?>
-                                                <li data-value="<?php echo $value->getProductId() ?>"
-                                                    class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-gray-700">
-                                                    <?php echo $value->getProductName(); ?>
-                                                </li>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="orderQuantity">
-                                    Quantity
-                                </label>
-                                <input
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="orderQuantity" name="orderQuantity" type="number" min="500"
-                                    placeholder="Enter quantity">
-                            </div>
-                        </div>
-                        <div class="px-6 py-4 bg-gray-50 flex justify-end rounded-b-lg">
-                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
-                                type="button" onclick="hideModal('orderModal')">
-                                Cancel
-                            </button>
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                type="submit">
-                                Place Order
                             </button>
                         </div>
                     </form>

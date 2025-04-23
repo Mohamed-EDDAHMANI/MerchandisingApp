@@ -10,8 +10,6 @@ class Redirect
     public static function to($url)
     {
         header("Location: " . $url);
-        // include dirname(__DIR__)."/../Views$url.php";
-        // exit;
     }
 
     public static function roleRedirect($role)

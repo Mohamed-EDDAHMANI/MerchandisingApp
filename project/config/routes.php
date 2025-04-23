@@ -44,6 +44,9 @@ $router->post('/admin/utilisateurs/create', 'AdminController@createUser'); // Cr
 $router->post('/admin/utilisateurs/toggle/{id}', 'AdminController@toggleUserStatus'); // Activer/Désactiver un utilisateur
 $router->post('/admin/utilisateurs/delete/{id}', 'AdminController@deleteUser'); // Supprimer un utilisateur définitivement
 
+$router->get('/admin/stores/performance',  'AdminController@getStorePerformance'); // 
+$router->get('/admin/stores/rentabilite',  'AdminController@getStoreRentabilite'); // 
+
 // Manager Route
 $router->get('/manager/dashboard', 'ManagerController@index'); // Exporter les données au format Excel
 $router->post('/manager/category/create', 'ManagerController@createCategory'); // Exporter les données au format Excel
@@ -71,7 +74,7 @@ $router->get('/manager/objective/delete/{id}',  'ObjectifController@deleteObject
 
 $router->get('/manager/sales',  'ManagerController@getSalesChart'); // 
 $router->get('/manager/categories',  'ManagerController@getCategoriesData'); // 
-$router->get('/manager/employees/sales',  'ManagerController@getEmployeesSales'); // 
+$router->get('/manager/employees/sales',  'ManagerController@getEmployeesSales'); //
 
 $router->get('/employee/home', 'EmployeeController@index'); // 
 $router->post('/employee/products', 'EmployeeController@getProducts'); // 

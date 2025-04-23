@@ -311,9 +311,9 @@ class AdminRepository extends Repository
             $manager = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($manager) {
-                $newStatus = $manager['is_valid'] == 1 ? 0 : 1;
-                $updateStmt = $this->db->prepare("UPDATE managers SET is_valid = :is_valid WHERE user_id = :user_id");
-                $updateStmt->bindParam(':is_valid', $newStatus, PDO::PARAM_INT);
+                $newStatus = $manager['manager_valid'] == 1 ? 0 : 1;
+                $updateStmt = $this->db->prepare("UPDATE managers SET manager_valid = :manager_valid WHERE user_id = :user_id");
+                $updateStmt->bindParam(':manager_valid', $newStatus, PDO::PARAM_INT);
                 $updateStmt->bindParam(':user_id', $id, PDO::PARAM_INT);
                 $updateStmt->execute();
             } else {
@@ -332,6 +332,47 @@ class AdminRepository extends Repository
                     throw new Exception("User not found.");
                 }
             }
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    public function getStatistics()
+    {
+        try {
+            $sql = "SELECT
+    (SELECT SUM(chiffre_daffaire) FROM store_performance) AS total_chiffre_daffaire,
+    (SELECT SUM(expenses) FROM store_performance) AS total_expenses,
+    (SELECT SUM(rentability) FROM store_performance) AS total_rentability,
+    (
+        SELECT s.store_name
+        FROM store_performance sp
+        JOIN stores s ON sp.store_id = s.store_id
+        ORDER BY sp.rentability DESC
+        LIMIT 1
+    ) AS most_rentable_store ";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    public function getStorePerformance()
+    {
+        try {
+            $sql = "SELECT 
+                s.store_name,
+                s.city,
+                COALESCE(sp.chiffre_daffaire, 0) AS chiffre_daffaire
+            FROM 
+                stores s
+            LEFT JOIN 
+                store_performance sp ON s.store_id = sp.store_id
+            WHERE 
+                s.status = 'active';";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             echo "Error :" . $e->getMessage();
         }

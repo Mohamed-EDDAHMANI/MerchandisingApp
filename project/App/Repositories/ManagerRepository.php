@@ -277,15 +277,17 @@ GROUP BY
             return ["error" => "Error fetching suppliers: " . $e->getMessage()];
         }
     }
-    public function getAllOrdersWithSupplierAndProduct()
+    public function getAllOrdersWithSupplierAndProduct($managerId)
     {
         try {
             $sql = 'SELECT o.*, p.product_name , s.supplier_name
                     FROM orders o
                     JOIN suppliers s ON s.supplier_id = o.supplier_id
-                    JOIN products p ON p.product_id = o.product_id';
+                    JOIN products p ON p.product_id = o.product_id
+                    WHERE manager_id = :id';
 
             $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $managerId, PDO::PARAM_INT);
             $stmt->execute();
             $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $ordersInstentes = DataMapper::orderMapper($orders);
@@ -365,11 +367,11 @@ GROUP BY
         }
     }
 
-    public function getObjectifs()
-    {
+    public function getObjectifs($managerId){
         try {
-            $sql = 'SELECT * FROM objectifs';
+            $sql = 'SELECT * FROM objectifs WHERE manager_id = :id';
             $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $managerId, PDO::PARAM_INT);
             $stmt->execute();
             $objectifs = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $objectifsInstences = DataMapper::DataMapper($objectifs, 'Objectif');
@@ -381,8 +383,8 @@ GROUP BY
     public function getTotalProductSales($storeId)
     {
         try {
-            $sql = 'SELECT SUM(quantity)  as total_product_sales,
-                            SUM(total) as total_montant_sales
+            $sql = 'SELECT COALESCE(SUM(quantity),0)  as total_product_sales,
+                            COALESCE(SUM(total),0) as total_montant_sales
                     FROM sales WHERE store_id = :store_id';
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':store_id', $storeId, PDO::PARAM_INT);

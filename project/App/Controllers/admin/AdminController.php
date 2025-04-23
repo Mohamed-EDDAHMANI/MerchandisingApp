@@ -18,13 +18,11 @@ class AdminController extends BaseController{
 
     public function dashboard() {
         $data = $this->session->get('user');
-        // $statistecs = $this->adminService->getStatistics();
-        // var_dump($data);
-        $this->view('admin/dashboard', ['user' => $data]);
+        $statistecs = $this->adminService->getStatistics();
+        $this->view('admin/dashboard', ['user' => $data, 'statistecs' => $statistecs]);
     }
 
     public function getUsers() {
-        //i have to get users from the database
         $data = $this->adminService->getData();
         $this->view('admin/users',$data);
     }
@@ -51,24 +49,11 @@ class AdminController extends BaseController{
         $this->adminService->toggleUserStatus($id);
     }
 
-    // public function getPointsDeVente() {
-    //     $pointsDeVente = $this->adminService->getAllPointsDeVente();
-    //     require 'views/admin/points-de-vente.php';
-    // }
-
-    // public function createPointDeVente() {
-    //     $data = $_POST;
-    //     $this->adminService->createPointDeVente($data);
-    // }
-
-    // public function updatePointDeVente($id) {
-    //     $data = $_POST;
-    //     $this->adminService->updatePointDeVente($id, $data);
-    // }
-
-    // public function deletePointDeVente($id) {
-    //     $this->adminService->deletePointDeVente($id);
-    // }
+    public function getStorePerformance(){
+        $sales = $this->adminService->getStorePerformance();
+        echo json_encode($sales);
+        exit;
+    }
 }
 
 ?>

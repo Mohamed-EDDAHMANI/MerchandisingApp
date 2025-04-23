@@ -18,6 +18,7 @@
       <!-- Header -->
       <div class="gradient-bg p-4">
         <h2 class="text-white text-xl font-bold">Tableau de Bord</h2>
+        <h1 class="text-xl font-bold"><?php echo $data['store'] ?></h1>
       </div>
 
       <!-- Scrollable Content -->
@@ -223,7 +224,7 @@
               </div>
               <div class="ml-4">
                 <h3 class="text-sm font-medium text-gray-500">Progression Objectif</h3>
-                <p class="text-2xl font-semibold text-gray-900"><?php echo $data['statistics']['persontage'] ?>%</p>
+                <p class="text-2xl font-semibold text-gray-900"><?php echo round($data['statistics']['persontage']) ?>%</p>
                 <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
                   <div id="progressBar" class="bg-green-500 h-2 rounded-full"
                     style="width: <?php echo $data['statistics']['persontage'] ?>%"></div>
@@ -352,7 +353,7 @@
           </div>
 
           <!-- Manager's Objectives Section -->
-          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 h-full ">
+          <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 h-full flex flex-col">
             <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -361,8 +362,9 @@
               </svg>
               Objectifs du Manager
             </h2>
-            <div class="oobjectives-container space-y-5 flex-grow overflow-y-auto flex flex-col items-center">
-              <!-- Weekly Sales Objective -->
+
+            <!-- Added fixed height and vertical scrolling -->
+            <div class="objectives-container space-y-5 flex-grow overflow-y-auto max-h-96 pr-2">
               <?php if (isset($data['objectifs']) && !empty($data['objectifs'])): ?>
                 <?php foreach ($data['objectifs'] as $value): ?>
                   <?php if ($value->getFrequency() === 'weekly'): ?>
@@ -417,7 +419,17 @@
                       <div class="flex items-center justify-between mb-2">
                         <h3 class="text-md font-medium text-gray-900">Objectif de Vente Quotidien
                         </h3>
-                        <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">En Cours</span>
+                        <?php if ($value->getPercentage() == 100): ?>
+                          <span
+                            class="px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 text-green-800 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
+                              stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                          </span>
+                        <?php else: ?>
+                          <span class="px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">En Cours</span>
+                        <?php endif; ?>
                       </div>
                       <p class="text-gray-700 mb-3">Vendre <?php echo $value->getTarget() ?>
                         <?php echo ($value->getType() === 'quantity_product') ? 'produits' : 'DH' ?>
@@ -450,7 +462,7 @@
                 <?php endforeach; ?>
               <?php else: ?>
                 <!-- Message for when no objectives exist - centered both horizontally and vertically -->
-                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-center max-w-md">
+                <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-center max-w-md mx-auto">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-3" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

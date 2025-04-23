@@ -49,6 +49,16 @@ class AuthRepository extends Repository
         return $roleInstences;
     }
 
+    public function getStoreName($user){
+        $id = $user->getId();
+        $sql = "SELECT stores.store_name FROM stores
+        INNER JOIN users ON users.store_id = stores.store_id
+        WHERE users.id = :id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchColumn();
+    }
+
     public function getUserData($table, $id)
     {
         $class = ucfirst($table);

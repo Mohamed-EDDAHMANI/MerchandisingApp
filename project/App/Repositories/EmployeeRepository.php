@@ -22,16 +22,16 @@ class EmployeeRepository extends Repository
         return DataMapper::productsMapper($products);
     }
 
-    public function getProductsSorted($keyword)
+    public function getProductsSorted($keyword, $storeId)
     {
 
-        $sql = "SELECT p.* 
+        $sql = "SELECT p.* , s.quentity
         FROM products p
-        JOIN stocks s ON s.product_id = p.product_id
+        JOIN stocks s ON s.product_id = p.product_id AND store_id = :store_id
         WHERE p.product_name LIKE :keyword
-          AND s.quentity > 0
-    ";
+          AND s.quentity > 0";
         $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':store_id',$storeId,  PDO::PARAM_INT);
         $stmt->bindValue(':keyword', '%' . $keyword . '%', PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -40,11 +40,11 @@ class EmployeeRepository extends Repository
     public function createSales($salesData, $userId, $employeeId): bool
     {
         try {
-            $isInStock = $this->isInStock($salesData);
+            $storeId = $this->getStoreId($userId);
+            $isInStock = $this->isInStock($salesData, $storeId);
             if (!$isInStock) {
                 return false;
             }
-            $storeId = $this->getStoreId($userId);
             // echo '<pre>';
             // var_dump($salesData);
             // echo '</pre>';
@@ -75,15 +75,16 @@ class EmployeeRepository extends Repository
         }
     }
 
-    public function isInStock($salesData): bool
+    public function isInStock($salesData, $storeId): bool
     {
         foreach ($salesData as $sale) {
-            $sql = "SELECT quentity FROM stocks WHERE product_id = :product_id";
+            $sql = "SELECT quentity FROM stocks WHERE product_id = :product_id AND store_id = :store_id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue(':product_id', $sale['productId'], PDO::PARAM_INT);
+            $stmt->bindValue(':store_id', $storeId, PDO::PARAM_INT);
             $stmt->execute();
             $quantity = $stmt->fetchColumn();
-            if ($quantity < $sale['quantity']) {
+            if ($quantity === false || $quantity < $sale['quantity']) {
                 return false;
             }
         }
@@ -101,8 +102,7 @@ class EmployeeRepository extends Repository
     }
     public function updatePerformance($achievedCount, $notAchievedCount, $employeeId)
     {
-        $newPorsentage = $achievedCount / ($achievedCount + $notAchievedCount) * 100;
-
+        $newPorsentage = round($achievedCount / ($achievedCount + $notAchievedCount) * 100);
         $sql = "UPDATE employees SET performance = :performance WHERE employee_id = :employee_id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':performance', $newPorsentage, PDO::PARAM_INT);
@@ -229,6 +229,17 @@ ORDER BY
         $reports = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $reportsInstents = DataMapper::RepportMapper($reports);
         return $reportsInstents;
+    }
+
+    public function getStatistics($employeeId){
+        $sql = "SELECT 
+            SUM(total) AS total_sales_amount, 
+            SUM(quantity) AS total_quantity_sold
+        FROM sales WHERE employee_id = :id;";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $employeeId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
     }
 
 }

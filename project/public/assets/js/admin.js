@@ -25,12 +25,13 @@ document.addEventListener('DOMContentLoaded', async function () {
     const cities = $performance.map(item => item.city);
     const performances = $performance.map(item => parseFloat(item.chiffre_daffaire));
 
-    const maxPerformance = Math.max(...performances);
+    const totalPerformance = performances.reduce((sum, value) => sum + value, 0)
 
-    // Convertir en pourcentage par rapport au max
     const performancePercent = performances.map(value =>
-        maxPerformance > 0 ? (value / maxPerformance * 100).toFixed(2) : 0
+        totalPerformance > 0 ? (value / totalPerformance * 100).toFixed(2) : 0
     );
+    
+    console.log(performancePercent)
 
     // City Performance Chart
     const cityCtx = document.getElementById('cityChart').getContext('2d');

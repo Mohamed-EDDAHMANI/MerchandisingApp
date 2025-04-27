@@ -48,6 +48,9 @@ class AdminController extends BaseController{
     public function toggleUserStatus($id) {
         $this->adminService->toggleUserStatus($id);
     }
+    public function deleteUser($id) {
+        $this->adminService->deleteUser($id);
+    }
 
     public function getStorePerformance(){
         $sales = $this->adminService->getStorePerformance();

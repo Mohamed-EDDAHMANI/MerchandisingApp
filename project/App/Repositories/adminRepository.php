@@ -65,15 +65,15 @@ class AdminRepository extends Repository
     public function insertUserTable($date, $userId)
     {
         $table = $date['role'] . 's';
-        if ($date['role'] == 'manager') { 
+        if ($date['role'] == 'manager') {
             $is_valid = isset($date['manager_valid']) ? '1' : '0';
             $sql = "INSERT INTO $table (manager_valid, manager_salary, user_id) VALUES (:is_valid, :salary, :user_id)";
-        }else{
+        } else {
             $is_valid = isset($date['is_valid']) ? '1' : '0';
             $sql = "INSERT INTO $table (is_valid, salary, user_id) VALUES (:is_valid, :salary, :user_id)";
         }
 
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':is_valid', $is_valid);
         $stmt->bindParam(':salary', $date['salary']);
@@ -114,6 +114,7 @@ class AdminRepository extends Repository
         return $usersInstences;
 
     }
+
     public function getAllStores()
     {
         try {
@@ -127,7 +128,7 @@ class AdminRepository extends Repository
 
     public function sortUsers($role = null, $store = null, $is_valid = null)
     {
-        
+
         // Base SQL query
         $sql = "SELECT 
             users.id,
@@ -282,7 +283,7 @@ class AdminRepository extends Repository
             if ($table === 'managers') {
                 $sql = "UPDATE $table SET manager_valid = :is_valid ,manager_salary = :salary 
                     WHERE user_id = :id";
-            }else{
+            } else {
                 $sql = "UPDATE $table SET is_valid = :is_valid ,salary = :salary 
                     WHERE user_id = :id";
             }
@@ -378,6 +379,30 @@ class AdminRepository extends Repository
         }
     }
 
+    public function deleteUser($id)
+    {
+
+        try {
+            $this->db->beginTransaction();
+            $user = $this->getUserById($id);
+            $tableRole = $user['role_name']. 's';
+
+            $sql = "DELETE FROM `$tableRole` WHERE user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $id);
+            $stmt->execute();
+
+            $sql = "DELETE FROM users WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
 }
 
 

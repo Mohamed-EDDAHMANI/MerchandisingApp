@@ -21,21 +21,18 @@
                     </svg>
                 </div>
                 
-                <!-- Title with animated glow effect -->
                 <h1 class="text-3xl font-bold text-white mb-2">Access Denied</h1>
                 
-                <!-- Description with improved typography -->
                 <p class="text-gray-400 mb-8 text-lg">
                     You don't have permission to access this resource.
                     <span class="block mt-2 text-sm">Please verify your credentials or contact support.</span>
                 </p>
                 
-                <!-- Buttons with hover effects -->
                 <div class="flex flex-col gap-4 justify-center">
                     <a href="/login" class="px-6 py-3 bg-gradient-to-r from-red-500 to-purple-600 text-white font-medium rounded-md transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20 transform hover:-translate-y-1">
                         Try Different Credentials
                     </a>
-                    <a onclick="goBack()" class="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium rounded-md transition duration-300 border border-gray-600">
+                    <a class="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium rounded-md transition duration-300 border border-gray-600">
                        Go Back
                     </a>
                 </div>
@@ -50,16 +47,5 @@
         </div>
     </div>
 
-    <script>
-        function goBack() {
-            window.history.back();
-            
-            setTimeout(function() {
-                if (document.referrer === '') {
-                    window.location.href = '/manager/dashboard';
-                }
-            }, 100);
-        }
-    </script>
 </body>
 </html>

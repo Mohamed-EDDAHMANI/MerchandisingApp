@@ -10,6 +10,7 @@ class Redirect
     public static function to($url)
     {
         header("Location: " . $url);
+        exit;
     }
 
     public static function roleRedirect($role)
@@ -32,23 +33,17 @@ class Redirect
         }
     }
 
-    // Method for redirecting back to the previous page
     public static function back()
     {
         if (isset($_SERVER['HTTP_REFERER'])) {
             self::to($_SERVER['HTTP_REFERER']);
         } else {
-            // If no referer is available, redirect to the home page (or any other default page)
             self::to('/');
         }
     }
 
-    // Method for redirecting to a specific route (e.g., controller or route)
     public static function route($routeName, $params = [], $statusCode = 302)
     {
-        // You can generate the URL here depending on your routing system.
-        // For example, using a URL structure like "/controller/method"
-        // Here it's just an example.
         $url = '/' . $routeName . '/' . implode('/', $params);
         self::to($url);
     }

@@ -19,7 +19,7 @@
                     alt="Merchandising background" class="w-full h-full object-cover" />
             </div>
             <div class="relative z-10">
-                <h1 class="text-3xl font-bold mb-6">MerchCalc Pro</h1>
+                <h1 class="text-3xl font-bold mb-6">StoreFlow Pro</h1>
                 <p class="text-xl mb-8">Optimisez la rentabilité de vos points de vente</p>
                 <ul class="space-y-3">
                     <li class="flex items-center">

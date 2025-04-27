@@ -94,10 +94,13 @@ async function showDetailsModal(userId) {
         document.getElementById('detailStore').textContent = user.store_name;
         document.getElementById('detailSalary').textContent = `${user.salary} DH`;
         document.getElementById('detailStatus').textContent = user.isValid ? 'Actif' : 'Inactif';
+        const deleteBtn = document.getElementById('deleteEmployeeBtn');
+        const deleteUrl = `/admin/utilisateurs/delete/${userId}`;
+        deleteBtn.setAttribute('href', deleteUrl);
+        console.log(`Delete URL set to: ${deleteUrl}`);
         userDetailsModal.classList.remove('hidden');
     }
 }
-
 // Edit user
 async function showModifyModal(userId) {
     document.getElementById('userForm').action = `/admin/utilisateurs/update/${userId}`;
@@ -173,8 +176,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (roleFilter.value) filters.role = roleFilter.value;
         if (storeFilter.value) filters.store = storeFilter.value;
         if (statusFilter.value) filters.is_valid = statusFilter.value;
-
-        console.log(storeFilter || 'not')
 
         try {
             const response = await fetch("/admin/utilisateurs", {

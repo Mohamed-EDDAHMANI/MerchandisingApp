@@ -18,7 +18,7 @@
         <!-- Sidebar -->
         <aside class="hidden md:flex md:flex-col w-64 bg-blue-700 text-white">
             <div class="p-4 border-b border-blue-600">
-                <h2 class="text-2xl font-bold">Merchandising</h2>
+                <h2 class="text-2xl font-bold text-center">StoreFlow</h2>
             </div>
             <nav class="flex-1 overflow-y-auto py-4">
                 <ul>

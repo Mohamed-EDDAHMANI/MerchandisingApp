@@ -26,7 +26,18 @@ class AdminService
         } else {
             $this->session->setError('error', 'email already exists');
         }
-        Redirect::to('/admin/utilisateurs');//i want redirect to this rout 
+        Redirect::to('/admin/utilisateurs');
+    }
+
+    public function deleteUser($id)
+    {
+        $result = $this->adminRepository->deleteUser($id);
+        if ($result) {
+            $this->session->setError('success', 'User Deleted successfully');
+        } else {
+            $this->session->setError('error', 'Error deleting User');
+        }
+        Redirect::to('/admin/utilisateurs'); 
     }
 
     public function getData()

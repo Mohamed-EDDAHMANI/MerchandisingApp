@@ -102,13 +102,13 @@ recherchInput.addEventListener('change', async () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ searchTerm: value }) 
+            body: JSON.stringify({ searchTerm: value })
         });
         if (!response.ok) throw new Error("Failed to fetch stores");
 
         const stores = await response.json();
         console.log(stores);
-        storesTableBody.innerHTML = ""; 
+        storesTableBody.innerHTML = "";
 
         stores.forEach(store => {
             const row = document.createElement("tr");
@@ -196,7 +196,6 @@ mobileMenuButton.addEventListener('click', () => {
     sidebar.classList.toggle('flex');
 });
 
-// Close modal when clicking outside of it
 window.addEventListener('click', (e) => {
     if (e.target === deleteModal) {
         deleteModal.classList.add('hidden');
@@ -205,3 +204,7 @@ window.addEventListener('click', (e) => {
         updateModal.classList.add('hidden');
     }
 });
+
+
+
+

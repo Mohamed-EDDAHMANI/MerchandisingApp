@@ -61,7 +61,7 @@
             </ul>
         </nav>
         <div class="p-4 border-t border-blue-600">
-            <a href="#" class="flex items-center text-white hover:text-gray-200">
+            <a href="/logout" class="flex items-center text-white hover:text-gray-200">
                 <i class="fas fa-sign-out-alt w-5 h-5 mr-3"></i>
                 <span>Déconnexion</span>
             </a>

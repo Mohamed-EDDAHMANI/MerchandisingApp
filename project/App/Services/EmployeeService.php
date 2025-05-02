@@ -68,15 +68,17 @@ class EmployeeService
     }
     public function getStatistics($employeeId)
     {
+        $statistics = $this->employeeRepository->getStatistics($employeeId);
+        $err = [
+            'montant' => $statistics['total_sales_amount'],
+            'quantity' => $statistics['total_quantity_sold']
+        ];
+
         $objectifsData = $this->employeeRepository->getObjectifsList($employeeId);
-        $montant = 0;
-        $quantity = 0;
         $achievedCount = 0;
         $notAchievedCount = 0;
-        if($objectifsData){
+        if ($objectifsData) {
             foreach ($objectifsData as $objectif) {
-                $montant += $objectif->getTotal_sales_amount();
-                $quantity += $objectif->getTotal_quantity_sold();
                 if ($objectif->getAchievement_status() === 'Achieved') {
                     $achievedCount++;
                 } else {
@@ -84,20 +86,12 @@ class EmployeeService
                 }
             }
             $totalObjectives = $achievedCount + $notAchievedCount;
-            return [
-                'montant' => $montant,
-                'quantity' => $quantity,
-                'persontage' => $totalObjectives > 0 
-                ? ($achievedCount / $totalObjectives) * 100 
-                : 0,
-            ];
-        }else{
-            $statistics = $this->employeeRepository->getStatistics($employeeId);
-            return [
-                'montant' => $statistics['total_sales_amount'],
-                'quantity' => $statistics['total_quantity_sold'],
-                'persontage' => 0,
-            ];
+            $err['persontage'] = $totalObjectives > 0
+                    ? ($achievedCount / $totalObjectives) * 100
+                    : 0;
+        } else {
+               $err['persontage'] = 0 ;
         }
+        return $err;
     }
 }

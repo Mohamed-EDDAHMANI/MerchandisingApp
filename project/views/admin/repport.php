@@ -101,9 +101,23 @@
                             class="flex items-center text-gray-800 hover:text-gray-600 focus:outline-none">
                             <div
                                 class="h-9 w-9 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-sm">
-                                <span class="font-medium">AU</span>
+                                <?php
+                                $fullName = $data['user']->getFullName();
+                                $parts = explode(' ', trim($fullName));
+                                $initials = '';
+
+                                if (count($parts) > 0) {
+                                    $initials .= strtoupper(substr($parts[0], 0, 1));
+                                    if (count($parts) > 1) {
+                                        $initials .= strtoupper(substr(end($parts), 0, 1));
+                                    }
+                                }
+                                ?>
+                                <span class="font-medium">
+                                    <?= $initials ?>
+                                </span>
                             </div>
-                            <span class="hidden md:block ml-2 font-medium">Admin User</span>
+                            <span class="hidden md:block ml-2 font-medium"><?php echo $data['user']->getFullName() ?></span>
                             <i class="fas fa-chevron-down ml-2 text-xs"></i>
                         </button>
                     </div>

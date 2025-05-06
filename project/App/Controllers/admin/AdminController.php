@@ -23,8 +23,9 @@ class AdminController extends BaseController{
     }
 
     public function getUsers() {
+        $users = $this->session->get('user');
         $data = $this->adminService->getData();
-        $this->view('admin/users',$data);
+        $this->view('admin/users',['user' => $users, 'data' => $data]);
     }
     public function sortUsers() {
         $users = $this->adminService->sortUsers();

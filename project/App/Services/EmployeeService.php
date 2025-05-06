@@ -70,8 +70,8 @@ class EmployeeService
     {
         $statistics = $this->employeeRepository->getStatistics($employeeId);
         $err = [
-            'montant' => $statistics['total_sales_amount'],
-            'quantity' => $statistics['total_quantity_sold']
+            'montant' => $statistics['total_sales_amount'] ? $statistics['total_sales_amount'] : 0,
+            'quantity' => $statistics['total_quantity_sold'] ? $statistics['total_quantity_sold'] : 0
         ];
 
         $objectifsData = $this->employeeRepository->getObjectifsList($employeeId);

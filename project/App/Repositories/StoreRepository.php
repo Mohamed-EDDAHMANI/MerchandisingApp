@@ -70,6 +70,11 @@ class StoreRepository extends Repository
     public function deletePointDeVente($id)
     {
         try {
+            $sql = "DELETE FROM merchandising_data WHERE store_id = :store_id LIMIT 1";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':store_id', $id);
+            $stmt->execute();
+
             $sql = "DELETE FROM stores WHERE store_id = :store_id LIMIT 1";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':store_id', $id);

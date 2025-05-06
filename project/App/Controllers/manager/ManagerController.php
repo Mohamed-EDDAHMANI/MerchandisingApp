@@ -26,9 +26,6 @@ class ManagerController extends BaseController {
         $employees = $this->managerService->getEmployees($user->getId());
         $objectifs = $this->managerService->getObjectifs($managerId);
         $statistecs = $this->managerService->getStatistics($user);
-        // var_dump($statistecs);
-        // exit;
-        // $productTopSales = $this->sortProdeuctsBySales($products);
         $data = ['categories' => $categories, 'products' => $products['products'], 'suppliers' => $suppliers, 'orders' => $orders,
          'employees' => $employees, 'objectifs' => $objectifs, 'user' => $user, 'statistecs' => $statistecs, 'productsTopSales' => $products['sortProducts'], 'store' => $store ];
 
